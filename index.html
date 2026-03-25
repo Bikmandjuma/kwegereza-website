@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kwegereza Islam Umuryango</title>
+
+<!-- ✅ Google Verification (ONLY ONE) -->
+<meta name="google-site-verification" content="-3bd1guTJGK-Q55RfaB11DixFvuT_PJrz2FHHYHGPUA" />
+
+<!-- ✅ SEO -->
+<meta name="description" content="Kwegereza Islam Umuryango - Urubuga rutanga inyigisho za Islam zishingiye kuri Qur'an na Sunnah mu buryo bworoshye kandi bwumvikana kuri bose.">
+<meta name="keywords" content="Islam Rwanda, Qur'an, Sunnah, Hadith, Fiqh, Tawhid, amasomo ya Islam, Kwegereza Islam Umuryango">
+<meta name="author" content="Kwegereza Islam Umuryango">
+<meta name="robots" content="index, follow">
+
+<!-- ✅ Open Graph -->
+<meta property="og:title" content="Kwegereza Islam Umuryango">
+<meta property="og:description" content="Inyigisho za Islam zishingiye kuri Qur'an na Sunnah mu buryo bworoshye.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kwegereza.com/">
+<meta property="og:image" content="https://kwegereza.com/KWEGEREZA LOGO7.png">
+
+<!-- ✅ Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kwegereza Islam Umuryango">
+<meta name="twitter:description" content="Urubuga rw'inyigisho za Islam mu buryo bworoshye.">
+<meta name="twitter:image" content="https://kwegereza.com/KWEGEREZA LOGO7.png">
+
+<!-- ✅ Canonical -->
+<link rel="canonical" href="https://kwegereza.com/">
+
+<!-- ✅ Favicon -->
+<link rel="icon" href="KWEGEREZA LOGO7.png" type="image/png">
+
+<!-- ✅ CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --green: #0b6b43;
+            --green-dark: #07452b;
+            --brown: #2f2418;
+            --gold: #c59a3d;
+            --gold-light: #e8c870;
+            --cream: #f7f3eb;
+            --white: #ffffff;
+            --text: #4b3828;
+            --soft: #fffaf2;
+            --shadow: 0 8px 24px rgba(0,0,0,0.10);
+            --radius: 18px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--brown);
+            line-height: 1.6;
+            background-image:
+                radial-gradient(circle at 25px 25px, rgba(11, 107, 67, 0.07) 2px, transparent 2px),
+                radial-gradient(circle at 75px 75px, rgba(197, 154, 61, 0.07) 2px, transparent 2px),
+                linear-gradient(45deg, rgba(11, 107, 67, 0.02) 25%, transparent 25%, transparent 75%, rgba(11, 107, 67, 0.02) 75%),
+                linear-gradient(-45deg, rgba(197, 154, 61, 0.02) 25%, transparent 25%, transparent 75%, rgba(197, 154, 61, 0.02) 75%);
+            background-size: 100px 100px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .top-contact {
+            background: var(--soft);
+            border-bottom: 2px solid var(--gold);
+            text-align: center;
+            padding: 14px 18px;
+        }
+
+        .top-contact .email {
+            color: var(--green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .top-contact .phones {
+            color: var(--green);
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 1.8;
+        }
+
+        .header {
+            background: linear-gradient(to right, var(--green), var(--brown));
+            color: white;
+            padding: 12px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 4px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 50%;
+            background: white;
+            padding: 4px;
+            border: 2px solid var(--gold);
+        }
+
+        .logo-text h2 {
+            font-size: 20px;
+            color: white;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: #f5deb3;
+        }
+
+        .menu {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .menu a {
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            color: var(--gold-light);
+        }
+
+        .hero {
+            background:
+                linear-gradient(rgba(11, 107, 67, 0.82), rgba(47, 36, 24, 0.82)),
+                url("KWEGEREZA LOGO7.png") center/cover no-repeat;
+            min-height: 82vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px 20px;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 950px;
+            background-color: rgba(255, 248, 240, 0.10);
+            padding: 40px 30px;
+            border-radius: 22px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            backdrop-filter: blur(4px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-arabic {
+            font-size: 30px;
+            color: #f5deb3;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .hero-content h1 {
+            font-size: 54px;
+            margin-bottom: 14px;
+            color: #fff8dc;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 21px;
+            margin-bottom: 24px;
+            color: #f9f3df;
+        }
+
+        .hero-buttons a {
+            display: inline-block;
+            margin: 10px;
+            padding: 13px 24px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-main {
+            background-color: var(--gold);
+            color: var(--brown);
+        }
+
+        .btn-main:hover {
+            background-color: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-second {
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-second:hover {
+            background: white;
+            color: var(--brown);
+        }
+
+        .section {
+            padding: 80px 20px;
+        }
+
+        .section-alt {
+            background: var(--soft);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 42px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            color: var(--text);
+            font-size: 19px;
+        }
+
+        .about-box {
+            max-width: 1140px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .about-text {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 6px solid var(--green);
+        }
+
+        .about-text h3 {
+            font-size: 30px;
+            margin-bottom: 12px;
+            color: var(--brown);
+        }
+
+        .about-text p {
+            font-size: 17px;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 22px;
+            border: 4px solid var(--gold);
+            background: white;
+            padding: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .cards,
+        .social-grid,
+        .gallery-grid,
+        .books-grid,
+        .playlist-grid,
+        .video-grid {
+            max-width: 1140px;
+            margin: auto;
+            display: grid;
+            gap: 24px;
+        }
+
+        .cards {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .card,
+        .book-card,
+        .playlist-card,
+        .gallery-card,
+        .social-card-box {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+        }
+
+        .card:hover,
+        .book-card:hover,
+        .playlist-card:hover,
+        .gallery-card:hover,
+        .social-card-box:hover {
+            transform: translateY(-6px);
+        }
+
+        .card {
+            text-align: center;
+            border-top: 5px solid var(--green);
+        }
+
+        .card h3,
+        .book-card h3,
+        .playlist-card h3,
+        .gallery-card h3 {
+            color: var(--brown);
+            margin-bottom: 10px;
+        }
+
+        .card p,
+        .book-card p,
+        .playlist-card p,
+        .gallery-card p {
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .video-grid {
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        }
+
+        .video-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--green);
+        }
+
+        .video-card iframe {
+            width: 100%;
+            height: 240px;
+            border: 0;
+            display: block;
+        }
+
+        .video-text {
+            padding: 18px 20px 24px;
+        }
+
+        .video-text h3 {
+            color: var(--brown);
+            margin-bottom: 8px;
+        }
+
+        .video-text p {
+            color: var(--text);
+        }
+
+        .playlist-grid {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .playlist-card {
+            border-left: 6px solid var(--green);
+        }
+
+        .playlist-card a,
+        .book-card a,
+        .social-card-box a {
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: bold;
+            color: var(--green);
+        }
+
+        .books-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .book-card {
+            border-top: 5px solid var(--gold);
+        }
+
+        .book-badge {
+            display: inline-block;
+            background: var(--green);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .book-actions {
+            margin-top: 14px;
+        }
+
+        .book-actions a {
+            display: inline-block;
+            margin-right: 10px;
+            margin-top: 8px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: var(--soft);
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 14px;
+            border: 2px solid var(--gold);
+        }
+
+        .social-grid {
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        }
+
+        .social-card-box {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .social-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 18px 20px;
+            color: white;
+        }
+
+        .social-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .social-left i {
+            font-size: 24px;
+        }
+
+        .social-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .social-count {
+            background: rgba(255,255,255,0.18);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .telegram .social-card { background: #229ED9; }
+        .youtube .social-card { background: #FF0000; }
+        .facebook .social-card { background: #1877F2; }
+        .whatsapp .social-card { background: #25D366; }
+        .twitter .social-card { background: #111111; }
+
+        .contact-box {
+            max-width: 1140px;
+            margin: auto;
+            background: white;
+            padding: 36px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 2px solid var(--gold);
+            text-align: center;
+        }
+
+        .contact-email {
+            color: var(--green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 14px;
+            word-break: break-word;
+        }
+
+        .contact-phones {
+            color: var(--green);
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1.8;
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--brown), var(--green));
+            color: white;
+            text-align: center;
+            padding: 28px 16px;
+            margin-top: 30px;
+            border-top: 4px solid var(--gold);
+        }
+
+        .footer p {
+            margin: 6px 0;
+        }
+
+        @media (max-width: 900px) {
+            .about-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                justify-content: center;
+            }
+
+            .menu {
+                justify-content: center;
+            }
+
+            .hero-content h1 {
+                font-size: 34px;
+            }
+
+            .hero-arabic {
+                font-size: 22px;
+            }
+
+            .hero-content p {
+                font-size: 17px;
+            }
+
+            .top-contact .email,
+            .contact-email {
+                font-size: 22px;
+            }
+
+            .top-contact .phones,
+            .contact-phones {
+                font-size: 16px;
+            }
+
+            .video-card iframe {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-contact">
+        <div class="email">umuryangok@gmail.com</div>
+        <div class="phones">
+            TEL: (+250) 723061482 / (+966) 571136840 / (+255) 689561505 / 678100128 / (+971) 551486394 / (+250) 790338841
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="logo-box">
+            <img src="KWEGEREZA LOGO7.png" alt="Logo ya Kwegereza Islam Umuryango">
+            <div class="logo-text">
+                <h2>K.I.U</h2>
+                <p>Kwegereza Islam Umuryango</p>
+            </div>
+        </div>
+
+        <div class="menu">
+            <a href="#ahabanza">Ahabanza</a>
+            <a href="#abo-turi-bo">Abo turi bo</a>
+            <a href="#amasomo">Amasomo</a>
+            <a href="#videos">Videos</a>
+            <a href="#playlists">Playlists</a>
+            <a href="#ibitabo">Ibitabo</a>
+            <a href="#gallery">Amafoto</a>
+            <a href="#twandikire">Twandikire</a>
+        </div>
+    </div>
+
+    <section class="hero" id="ahabanza">
+        <div class="hero-content">
+            <div class="hero-arabic">تقريب السنة بين يدي الأمة</div>
+            <h1>KWEGEREZA ISLAM UMURYANGO</h1>
+            <p>
+                Ikaze ku rubuga rwacu rwigisha ubumenyi butunganye bw’idini ya Islamu bushingiye kuri Qur'an na Sunnah, mu buryo bworoshye, bwiza kandi bunoze.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#videos" class="btn-main">Reba Videos</a>
+                <a href="#ibitabo" class="btn-second">Soma Ibitabo</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="abo-turi-bo">
+        <div class="section-title">
+            <h2>Abo turi bo</h2>
+            <p>Menya intego n’umurongo wa Kwegereza Islam Umuryango</p>
+        </div>
+
+        <div class="about-box">
+            <div class="about-text">
+                <h3>Murakaza neza ku rubuga rwacu</h3>
+                <p><strong>Turi:</strong> تقريب السنة بين يدي الأمة</p>
+                <p><strong>KWEGEREZA ISLAM UMURYANGO</strong></p>
+                <p>
+                    Turi urubuga rushingiye kuri Qur'an na Sunnah rugamije kwegeraza umuryango ubumenyi bwa Islamu,
+                    twigisha amasomo meza  y'izewe kandi yubaka mu buryo bworoshye kandi bwumvikana kuri bose.
+                </p>
+                <p>
+                    Twishyize hamwe kugira ngo twegereze umuryango wa Islamu amasomo yubakiye kuri Qur'an na Sunnah,
+                    duhereye ku bana, urubyiruko n’abakuru, kugira ngo bunguke ubumenyi ku idini,
+                    ku muco mwiza no ku buzima bufite intego nziza.
+                </p>
+            </div>
+
+            <div class="about-image">
+                <img src="KWEGEREZA LOGO7.png" alt="Logo ya K.I.U">
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="amasomo">
+        <div class="section-title">
+            <h2>Amasomo yacu</h2>
+            <p>Dore zimwe mu nyigisho ushobora gusanga kuri website yacu</p>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Qur’an</h3>
+                <p>Kwigisha gusoma no gusobanukirwa Qur'an mu buryo bworoheje.</p>
+            </div>
+
+            <div class="card">
+                <h3>Hadith</h3>
+                <p>Kumenya amagambo, inzira n’imyitwarire y'Intumwa y'Imana mu buzima bwa buri munsi.</p>
+            </div>
+
+            <div class="card">
+                <h3>Aqida / Tawuhid</h3>
+                <p>Kwigisha ukwemera nyakuri n’imizi y’imyemerere ya Islamu.</p>
+            </div>
+
+            <div class="card">
+                <h3>Fiqh</h3>
+                <p>Kwigisha amategeko y’ibanze y’idini mu masengesho no mu mibereho.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="videos">
+        <div class="section-title">
+            <h2>Videos z’ingenzi</h2>
+            <p>Reba videos zacu nyamukuru zigaragara neza</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <iframe src="https://www.youtube.com/embed/bfKipPtMtcw" title="Kwegereza Islamu Umuryango ni iki?" allowfullscreen></iframe>
+                <div class="video-text">
+                    <h3>Kwegereza Islamu Umuryango ni iki?</h3>
+                    <p>Iyi video isobanura neza uwo muri bo n’intego yacu.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <iframe src="https://www.youtube.com/embed/gMc1CIah07E" title="Uburyo wakwiyandikisha mu mashuri yacu" allowfullscreen></iframe>
+                <div class="video-text">
+                    <h3>Uburyo wakwiyandikisha mu mashuri ryacu</h3>
+                    <p>Iyi video ifasha ushaka kwinjira no kwiga mu mashuri ryacu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="playlists">
+        <div class="section-title">
+            <h2>Urutonde rw’inyigisho</h2>
+            <p>Hitamo urutonde rwi'inyigisho ushaka kwiga mu buryo bworoshye</p>
+        </div>
+
+        <div class="playlist-grid">
+            <div class="playlist-card">
+                <h3>Inyigisho 1</h3>
+                <p>Urutonde rwa mbere rw’inyigisho.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4oq-ufT9VC0n3Wrh8mnHK1k&si=JcFDtfigu2ybUnLl" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Inyigisho 2</h3>
+                <p>Urutonde rwa kabiri rw’inyigisho.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4oVgCNgbvsLGHiv9SmWB82u&si=XmkcpYRkpN-hNg1K" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Inyigisho 3</h3>
+                <p>Urutonde rwa gatatu rw’inyigisho.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4q5fnz_d3fFUsn2rLff8bBN&si=2r5Xn8u-APwM4Je4" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Inyigisho 4</h3>
+                <p>Urutonde rwa kane rw’inyigisho.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4oG-d4iLPgL9l3UAm_BqZWv&si=p_C23uHmzFen1F-v" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Ibibazo n’ibisubizo</h3>
+                <p>Urutonde rw’amasomo y’ibibazo n’ibisubizo.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4pvZ5zFimf4cGd2fdHMy6zR&si=cRDEIAwyKiDF0K-n" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Amasomo ya Fiqh</h3>
+                <p>Inyigisho zijyanye na Fiqh.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4p1IIP090TgB1FcoEKcLqMi&si=YMDhrc3daUTjf4XQ" target="_blank">Fungura Fiqh</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Amasomo ya Hadith</h3>
+                <p>Inyigisho zijyanye na Hadith.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4rqAzTlJJtor3iS13MbZzrx&si=B_1UBvFAAO718JmW" target="_blank">Fungura Hadith</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3> Menya Imana yawe</h3>
+                <p>Inyigisho z’ibanze za Tawuhid.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4ow0NGMpLsy7cc4PkCCRI1T&si=CJU9pUmlvDgxy_2J" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Tawuhid 1</h3>
+                <p>Urundi rutonde rw’inyigisho za Aqida.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4pE6OE_3Uvc4ImuiydYjNmj&si=g99qoB1VyXOAn6KB" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Tawuhid 2</h3>
+                <p>Urwa gatatu rw’amasomo ya Aqida.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4p6rSzgDGcCnAYTmkMw_-ha&si=orRngE-KJ8mm2y_G" target="_blank">Fungura playlist</a>
+            </div>
+
+            <div class="playlist-card">
+                <h3>Qur’an</h3>
+                <p>Inyigisho za Qur'an n’amasomo ajyanye nayo.</p>
+                <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4rVUXEbkY3yNhKuULYdt_x5&si=kWImASbTN2v0NcBQ" target="_blank">Fungura Qur'an</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="ibitabo">
+        <div class="section-title">
+            <h2>Ibitabo byacu</h2>
+            <p>Soma cyangwa ufungure ibitabo byanyu bya PDF</p>
+        </div>
+
+        <div class="books-grid">
+            <div class="book-card">
+                <span class="book-badge">Igitabo 1</span>
+                <h3>ESE BIREMEWE GUSIBA KUWA GATANDATU</h3>
+                <p>Igitabo cya mbere cya PDF cyashyizwe kuri website yanyu.</p>
+                <div class="book-actions">
+                    <a href="igitabo1.pdf" target="_blank">Fungura PDF</a>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <span class="book-badge">Igitabo 2</span>
+                <h3>UBUREMERE BWAJE MU KWIGANA IMIGENZO Y’ABAHAKANYE</h3>
+                <p>Igitabo cya kabiri cya PDF cyashyizwe kuri website yanyu.</p>
+                <div class="book-actions">
+                    <a href="igitabo2.pdf" target="_blank">Fungura PDF</a>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <span class="book-badge">Igitabo 3</span>
+                <h3>IGIHIMBANO CYO KWIZIHIZA UMUNSI W’IVUKA RY’INTUMWA Y’IMANA</h3>
+                <p>Igitabo cya gatatu cya PDF cyashyizwe kuri website yanyu.</p>
+                <div class="book-actions">
+                    <a href="igitabo3.pdf" target="_blank">Fungura PDF</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="gallery">
+        <div class="section-title">
+            <h2>Amafoto y’inyigisho</h2>
+            <p>Reba amafoto y’inyigisho </p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-card">
+                <img src="isomo1.jpg" alt="Ifoto y'isomo 1">
+                <h3>Inyigisho ya mbere</h3>
+                <p>Ifoto y’isomo cyangwa igikorwa cya mbere.</p>
+            </div>
+
+            <div class="gallery-card">
+                <img src="isomo2.jpg" alt="Ifoto y'isomo 2">
+                <h3>Inyigisho ya kabiri</h3>
+                <p>Ifoto y’isomo cyangwa igikorwa cya kabiri.</p>
+            </div>
+
+            <div class="gallery-card">
+                <img src="isomo3.jpg" alt="Ifoto y'isomo 3">
+                <h3>Inyigisho ya gatatu</h3>
+                <p>Ifoto y’isomo cyangwa igikorwa cya gatatu.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="social">
+        <div class="section-title">
+            <h2>Dukurikire ku mbuga nkoranyambaga</h2>
+            <p>Izi ni imbuga zacu zose ziri ku murongo umwe kandi zoroshye gusura</p>
+        </div>
+
+        <div class="social-grid">
+            <div class="social-card-box telegram">
+                <a class="social-card" href="https://t.me/kwegereza" target="_blank">
+                    <div class="social-left">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span class="social-name">Telegram</span>
+                    </div>
+                    <span class="social-count">@kwegereza</span>
+                </a>
+            </div>
+
+            <div class="social-card-box youtube">
+                <a class="social-card" href="https://youtube.com/@kwegereza?si=r9kSVOep6mfLec-Q" target="_blank">
+                    <div class="social-left">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span class="social-name">YouTube</span>
+                    </div>
+                    <span class="social-count">@kwegereza</span>
+                </a>
+            </div>
+
+            <div class="social-card-box facebook">
+                <a class="social-card" href="https://www.facebook.com/groups/171182813976386/?ref=share" target="_blank">
+                    <div class="social-left">
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <span class="social-name">Facebook</span>
+                    </div>
+                    <span class="social-count">Group</span>
+                </a>
+            </div>
+
+            <div class="social-card-box whatsapp">
+                <a class="social-card" href="https://chat.whatsapp.com/G87ZLng06dJJA4rqV7DQsS" target="_blank">
+                    <div class="social-left">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span class="social-name">WhatsApp</span>
+                    </div>
+                    <span class="social-count">Join</span>
+                </a>
+            </div>
+
+            <div class="social-card-box twitter">
+                <a class="social-card" href="https://x.com/kwegereza?s=21" target="_blank">
+                    <div class="social-left">
+                        <i class="fa-brands fa-x-twitter"></i>
+                        <span class="social-name">X</span>
+                    </div>
+                    <span class="social-count">@kwegereza</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="twandikire">
+        <div class="section-title">
+            <h2>Twandikire</h2>
+            <p>Ifatanye natwe ubaza ibibazo, ndetse unatanga ibitekerezo. </p>
+        </div>
+
+        <div class="contact-box">
+            <div class="contact-email">umuryangok@gmail.com</div>
+            <div class="contact-phones">
+                TEL: (+250) 723061482 
+            </div>
+        </div>
+    </section>
+
+    <div class="footer">
+        <p><strong>KWEGEREZA ISLAM UMURYANGO</strong></p>
+        <p>تقريب السنة بين يدي الأمة</p>
+        <p>Twubake umuryango ushingiye kuri Qur'an na Sunnah, hamwe no kugerageza gushyira mu bikorwa ibyo twize, turangwa n'ukwemera Imana n’imyitwarire myiza.</p>
+        <p>&copy; 2026 K.I.U - Uburenganzira bwose burabitswe.</p>
+    </div>
+
+</body>
+</html>                                                                                           byose bishyiremo ugendeye kuri ibyo ubimpe icyarimwe
