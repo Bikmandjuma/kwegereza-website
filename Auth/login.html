@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kwegereza Islam Umuryango – E-Learning</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="../assets/style.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="left">
+    <span><i class="fa fa-phone"></i> (+250) 723061482</span>
+    <span><i class="fa fa-envelope"></i> info@kwegeraza.org</span>
+    <!-- <span><i class="fa fa-globe"></i> Rwanda</span> -->
+  </div>
+
+  <!-- <div class="right"> -->
+    <!-- <span style="cursor:pointer;margin-left: 10px;"><i class="fa fa-search"></i></span> -->
+    <!-- <a href="#" class="btn-account"><i class="fas fa-user"></i> Konte</a> -->
+  <!-- </div> -->
+
+    <span id="searchBtn" style="cursor:pointer;margin-left: 10px;">
+      <i class="fa fa-search"></i>
+    </span>
+
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-inner">
+    <div class="logo-box">
+      <img src="../images/logo.png" alt="K.I.U Logo"
+           onerror="this.style.background='#0B3D2E';this.src='';this.alt='KIU'">
+      <div class="logo-text">
+        <h2>K.I.U</h2>
+        <p>Kwegereza Islam Umuryango</p>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../index.html#ahabanza" class="active"><i class="fas fa-home"></i> Ahabanza</a>
+      <a href="../index.html#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo turi bo</a>
+      <a href="../index.html#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
+      <a href="../index.html#videos"><i class="fas fa-play-circle"></i> Videos</a>
+      <a href="../index.html#audio"><i class="fas fa-headphones"></i> Audio</a>
+      <a href="../index.html#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
+      <a href="../index.html#twandikire"><i class="fas fa-book"></i> Twandikire</a>
+    </nav>
+
+    <div class="nav-right">
+      <!-- <a href="#twandikire" class="btn-donate"><i class="fas fa-bell"></i></a> -->
+      <div class="hamburger" id="menuBtn"><i class="fas fa-bars"></i></div>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ahabanza"><i class="fas fa-home"></i> Ahabanza</a>
+    <a href="../index.html#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo turi bo</a>
+    <a href="../index.html#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
+    <a href="../index.html#videos"><i class="fas fa-play-circle"></i> Videos</a>
+    <a href="../index.html#audio"><i class="fas fa-headphones"></i> Audio</a>
+    <a href="../index.html#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
+    <a href="../index.html#twandikire"><i class="fas fa-book"></i> Twandikire</a>
+  </div>
+</div>
+
+<!-- LOGIN SECTION -->
+<section class="section" id="login">
+  <div class="container" style="max-width:400px;">
+    <div style="background:white;padding:36px;border-radius:var(--radius);box-shadow:var(--shadow);border-top:5px solid var(--gold);">
+      <h2 style="text-align:center;font-family:'Playfair Display',serif;color:var(--green-dark);margin-bottom:20px;">Injira mu rubuga</h2>
+      
+      <form>
+        <div style="margin-bottom:16px;">
+          <label for="email" style="display:block;font-weight:700;margin-bottom:6px;">Imeyili</label>
+          <input type="email" id="email" placeholder="Andika imeyili yawe" 
+                 style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid #ccc;outline:none;font-size:14px;">
+        </div>
+        
+        <div style="margin-bottom:16px;">
+          <label for="password" style="display:block;font-weight:700;margin-bottom:6px;">Umubare banga</label>
+          <input type="password" id="password" placeholder="Andika umubare banga wawe"
+                 style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid #ccc;outline:none;font-size:14px;">
+        </div>
+        
+        <button type="submit" style="width:100%;padding:14px 0;background:var(--gold);color:var(--green-dark);
+                                      border:none;border-radius:999px;font-weight:700;font-size:16px;cursor:pointer;transition:.2s;">
+          Fungura
+        </button>
+
+         <div style="display:flex;justify-content:center;align-items:center;margin-bottom:20px;margin-top: 20px; font-size:13px;">
+          <!-- <label><input type="checkbox"> Uranyibuka</label> -->
+          <a href="forgot-password.html" style="color:var(--green);font-weight:700;">Wibagiwe umubare-banga?</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH MODAL -->
+<div id="searchModal" class="search-modal">
+  <div class="search-box">
+    <span class="close-search" id="closeSearch">&times;</span>
+    
+    <h3>Shakisha</h3>
+    
+    <input type="text" placeholder="Andika icyo ushaka..." id="searchInput">
+    
+    <button onclick="performSearch()">Shaka</button>
+  </div>
+</div>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>
