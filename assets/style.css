@@ -295,6 +295,7 @@ a { text-decoration: none; color: inherit; }
   border-radius: 999px;
   margin-bottom: 10px;
 }
+
 .section-title h2 {
   font-family:'Playfair Display',serif;
   font-size: 40px;
@@ -667,6 +668,10 @@ footer a:hover { color:white; }
 
   .System-status{
     margin-top: 20px;
+  }
+
+  .section-title h2{
+    font-size: 20px;
   }
 }
 @media (max-width:600px) {
