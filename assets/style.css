@@ -69,6 +69,37 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   gap: 16px;
 }
+
+.logo-card{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  /*background: linear-gradient(135deg, #0B3D2E, #0B6D20);*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #C9A227;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* LOGO IMAGE */
+.logo-card img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  z-index: 2;
+}
+
+/* FALLBACK TEXT (if image fails) */
+.logo-fallback{
+  position: absolute;
+  text-align: center;
+  color: rgba(255,255,255,0.9);
+}
+
 .logo-box { display:flex; align-items:center; gap:10px; }
 .logo-box img {
   width: 54px; height: 54px;
