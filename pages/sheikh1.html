@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sheikh Page</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f0f0f;
+  color: white;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  background: #0b3d2e;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #1f6f54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.stats span {
+  background: rgba(255,255,255,0.1);
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  padding: 10px;
+  background: #1a1a1a;
+}
+
+.tab {
+  margin-right: 10px;
+  padding: 8px 15px;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #0b3d2e;
+}
+
+/* FILTERS */
+.filters {
+  padding: 10px;
+}
+
+.filter {
+  margin: 5px;
+  padding: 6px 12px;
+  border-radius: 15px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
+
+.filter.active {
+  background: #0b3d2e;
+}
+
+/* CARDS */
+.list {
+  padding: 10px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  background: #1e1e1e;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  background: #2e2e2e;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.info h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.info p {
+  margin: 0;
+  font-size: 12px;
+  color: #aaa;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="avatar">MI</div>
+
+  <div>
+    <h2 id="sheikhTitle">Sheikh Munyaneza Ismail Abuu Omar</h2>
+    <p>Umwarimu w'Aqida na Tawhid - KIU</p>
+
+    <div class="stats">
+      <span>24 inyigisho</span>
+      <span>12 videos</span>
+      <span>8 audio</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOP TABS -->
+<div class="tabs">
+  <button class="tab active" data-type="all">Byose</button>
+  <button class="tab" data-type="video">Videos</button>
+  <button class="tab" data-type="audio">Audio</button>
+</div>
+
+<!-- CATEGORY FILTER -->
+<div class="filters">
+  <button class="filter active" data-cat="all">Byose</button>
+  <button class="filter" data-cat="fiqh">Fiqh</button>
+  <button class="filter" data-cat="tawhid">Tawhid</button>
+  <button class="filter" data-cat="hadith">Hadith</button>
+  <button class="filter" data-cat="quran">Qur'an</button>
+</div>
+
+<!-- CONTENT -->
+<div class="list" id="list">
+
+  <div class="card" data-type="video" data-cat="tawhid">
+    <div class="icon">▶</div>
+    <div class="info">
+      <h4>Tawhid y’ibanze – isomo rya 1</h4>
+      <p>tawhid • 42 min • 1.2k</p>
+    </div>
+  </div>
+
+  <div class="card" data-type="video" data-cat="tawhid">
+    <div class="icon">▶</div>
+    <div class="info">
+      <h4>Ubumere bw’Aqida mu buzima</h4>
+      <p>tawhid • 38 min • 980</p>
+    </div>
+  </div>
+
+  <div class="card" data-type="audio" data-cat="tawhid">
+    <div class="icon">♪</div>
+    <div class="info">
+      <h4>Shirk n’uburyo bwo kwirinda</h4>
+      <p>tawhid • 55 min • 740</p>
+    </div>
+  </div>
+
+  <div class="card" data-type="video" data-cat="fiqh">
+    <div class="icon">▶</div>
+    <div class="info">
+      <h4>Amasengesho n’ibiyahura</h4>
+      <p>fiqh • 47 min • 1k</p>
+    </div>
+  </div>
+
+  <div class="card" data-type="audio" data-cat="fiqh">
+    <div class="icon">♪</div>
+    <div class="info">
+      <h4>Siyamu ya Ramadan</h4>
+      <p>fiqh • 33 min • 860</p>
+    </div>
+  </div>
+
+</div>
+<script>
+  const tabs = document.querySelectorAll(".tab");
+const filters = document.querySelectorAll(".filter");
+const cards = document.querySelectorAll(".card");
+
+let currentType = "all";
+let currentCat = "all";
+
+/* TAB FILTER */
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelector(".tab.active").classList.remove("active");
+    tab.classList.add("active");
+
+    currentType = tab.dataset.type;
+    filterItems();
+  });
+});
+
+/* CATEGORY FILTER */
+filters.forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelector(".filter.active").classList.remove("active");
+    btn.classList.add("active");
+
+    currentCat = btn.dataset.cat;
+    filterItems();
+  });
+});
+
+/* FILTER FUNCTION */
+function filterItems() {
+  cards.forEach(card => {
+    const type = card.dataset.type;
+    const cat = card.dataset.cat;
+
+    const matchType = (currentType === "all" || currentType === type);
+    const matchCat = (currentCat === "all" || currentCat === cat);
+
+    if (matchType && matchCat) {
+      card.style.display = "flex";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const savedName = localStorage.getItem("sheikh_name");
+
+  if (savedName) {
+    document.getElementById("sheikhTitle").innerText = savedName;
+  }
+
+});
+</script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -15,7 +15,7 @@
 <div class="topbar">
   <div class="left">
     <span><i class="fa fa-phone"></i> (+250) 723061482</span>
-    <span><i class="fa fa-envelope"></i> info@kwegeraza.org</span>
+    <span><i class="fa fa-envelope"></i>  umuryangok@gmail.com</span>
     <!-- <span><i class="fa fa-globe"></i> Rwandcba</span> -->
   </div>
   <div class="right">
@@ -23,6 +23,11 @@
     <a href="auth/login.html" 
        class="btn-account hidden md:inline-flex items-center gap-2">
        <i class="fas fa-user"></i> Account
+    </a>
+
+    <a href="#twandikire" 
+       class="btn-account hidden md:inline-flex items-center gap-2">
+       <i class="fas fa-phone"></i> Twandikire
     </a>
   </div>
 </div>
@@ -41,31 +46,87 @@
 
     <nav class="nav-links">
       <a href="#ahabanza" class="active"><i class="fas fa-home"></i> Ahabanza</a>
-      <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo turibo</a>
-      <a href="#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
+      <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo-turibo</a>
+      <!-- <a href="#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
       <a href="#videos"><i class="fas fa-play-circle"></i> Videos</a>
       <a href="#audio"><i class="fas fa-headphones"></i> Audio</a>
-      <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
-      <a href="#twandikire"><i class="fas fa-book"></i> Twandikire</a>
+      <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a> -->
+      <!-- DROPDOWN: Aba-Sheikh -->
+      <div class="dropdown">
+        <a href="#">
+          <i class="fas fa-user"></i> Aba-Sheikh <i class="fas fa-caret-down"></i>
+        </a>
+
+        <!-- <div class="dropdown-menu">
+          <a href="pages/sheikh1.html" id="Sheikh1" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">Sheikh MUNYANEZA ISMAIL ABUU OMAR</a>
+          <a href="pages/sheikh1.html" id="Sheikh2" data-name="Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN">Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</a>
+          <a href="pages/sheikh1.html" id="Sheikh3" data-name="Sheikh NDAHAYO KHALID ABUU MUADH">Sheikh NDAHAYO KHALID ABUU MUADH</a>
+        </div> -->
+        <div class="dropdown-menu">
+          <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">
+            Sheikh MUNYANEZA ISMAIL ABUU OMAR
+          </a>
+
+          <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN">
+            Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN
+          </a>
+
+          <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh NDAHAYO KHALID ABUU MUADH">
+            Sheikh NDAHAYO KHALID ABUU MUADH
+          </a>
+        </div>
+      </div>
+
+      <a href="#inyandiko">
+        <i class="fas fa-pen"></i> Inyandiko z'abamenyi
+      </a>
+
+      <a href="#amatangazo">
+        <i class="fas fa-bullhorn"></i> Amatangazo
+      </a>
+
+      <a href="#ibitabo">
+        <i class="fas fa-book"></i> Ibitabo
+      </a>
+
+      <!-- <a href="#twandikire"><i class="fas fa-book"></i> Twandikire</a> -->
     </nav>
 
-    <div class="nav-right">
-      <!-- <span style="cursor:pointer;margin-right: 10px;"><i class="fa fa-search"></i></span> -->
-      <span id="searchBtn" class="flex" style="font-weight: bold; cursor:pointer;margin-right: 10px;color:var(--green); cursor:pointer;">
+    <div class="nav-right flex">
+  
+      <!-- Chat Notification -->
+      <span id="chatBtn" class="chat-icon">
+        <i class="fa fa-microphone"></i>
+        <!-- <p>📚</p> -->
+      </span>
+
+      <span id="searchBtn" class="flex" style="font-weight: bold; margin-right: 10px; color:var(--green); cursor:pointer;opacity: 0.7;">
         <p>Search</p>&nbsp;<i class="fa fa-search"></i>
       </span>
-      <div class="hamburger" id="menuBtn"><i class="fas fa-bars"></i></div>
+
+      <div class="hamburger" id="menuBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+
     </div>
   </div>
 
   <div class="mobile-menu" id="mobileMenu">
     <a href="#ahabanza"><i class="fas fa-home"></i> Ahabanza</a>
-    <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo turibo</a>
-    <a href="#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
-    <a href="#videos"><i class="fas fa-play-circle"></i> Videos</a>
-    <a href="#audio"><i class="fas fa-headphones"></i> Audio</a>
-    <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
-    <a href="#twandikire"><i class="fas fa-book"></i> Twandikire</a>
+    <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo-turibo</a>
+    <div class="mobile-dropdown">
+        <p onclick="toggleSheikh()" style="margin-left: -1%;">👳 Aba-Sheikh</p>
+        <div id="sheikhList" style="display:none;">
+          <a href="#sheikh1">Sheikh MUNYANEZA ISMAIL ABUU OMAR</a>
+          <a href="#sheikh2">Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</a>
+          <a href="#sheikh3">Sheikh NDAHAYO KHALID ABUU MUADH</a>
+        </div>
+      </div>
+
+      <a href="#inyandiko"><i class="fas fa-pencil"></i> Inyandiko z'abamenyi</a>
+      <a href="#amatangazo"><i class="fas fa-bullhorn"></i> Amatangazo</a>
+      <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
+    <a href="#twandikire"><i class="fas fa-phone"></i> Twandikire</a>
     <a href="auth/login.html" class="btn-donate hidden sm:hidden"><i class="fas fa-user"></i>Account</a>
   </div>
 </div>
@@ -97,7 +158,7 @@
     <p>Ikaze ku rubuga rwacu rwigisha ubumenyi bw'idini ya Islamu bushingiye kuri Qur'an na Sunnah, mu buryo bworoshye, bwiza kandi bunoze.</p>
     <div class="hero-btns">
       <a href="#amasomo" class="btn-primary"><i class="fas fa-graduation-cap"></i> Tangira Kwiga</a>
-      <a href="#social" class="btn-outline"><i class="fas fa-users"></i> Join Community</a>
+      <a href="#social" class="btn-outline"><i class="fas fa-users"></i> Twiyungeho (Join us)</a>
     </div>
     <div class="System-status">
       <div class="System-status-card">
@@ -122,11 +183,36 @@
 
 </div>
 
+<!-- Modal -->
+<div id="classModal" class="modal">
+  <div class="modal-content">
+
+    <span class="closeBtn">&times;</span>
+
+    <h2>📚 Mwinjire twige</h2>
+
+    <p>
+      Isomo turibwige uyumunsi ni Hadith , turi bugezweho na <b>Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</b>
+    </p>
+
+    <ul>
+     <!--  <li>✔ Live interactive sessions</li>
+      <li>✔ Flexible schedule</li>
+      <li>✔ Affordable pricing</li> -->
+      <!-- <li>✔ Certificates after completion</li> -->
+    </ul>
+
+    <button class="join-btn">Mukanya Saa 21:30 PM2</button>
+    <!-- <button class="join-btn">Join now</button> -->
+
+  </div>
+</div>
+
 <!-- ABOUT -->
 <section class="section" id="abo-turi-bo" style="padding-top:60px;">
   <div class="container max-w-4xl mx-auto  px-4">
     <div class="section-title text-center mb-8">
-      <div class="tag">Abo turibo</div>
+      <div class="tag">Abo-turibo</div>
       <!-- <h2 class="text-2xl font-bold">Menya Kwegereza Islam Umuryango</h2> -->
       <h2>Menya Kwegereza Islam Umuryango</h2>
 
@@ -509,7 +595,7 @@
     <div>
       <h4>Aho tugana</h4>
       <a href="#ahabanza"><i class="fas fa-home"></i> Ahabanza</a>
-      <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo turibo</a>
+      <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo-turibo</a>
       <a href="#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
       <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
     </div>
@@ -543,7 +629,10 @@ const data = [
   "Videos za Amasomo",
   "Ibitabo by'Islam",
   "Audio Lectures",
-  "Twandikire"
+  "Twandikire",
+  "Sheikh MUNYANEZA ISMAIL ABUU OMAR",
+  "Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN",
+  "Sheikh NDAHAYO KHALID ABUU MUADH",
 ];
 
 // Open modal
@@ -598,9 +687,54 @@ searchResults.addEventListener("click", (e) => {
     searchResults.innerHTML = "";
   }
 });
+
+const chatBtn = document.getElementById("chatBtn");
+const modal = document.getElementById("classModal");
+const closeBtn = document.querySelector(".closeBtn");
+
+chatBtn.onclick = () => {
+  modal.style.display = "flex";
+};
+
+closeBtn.onclick = () => {
+  modal.style.display = "none";
+};
+
+window.onclick = (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+const dropdown = document.querySelector(".dropdown > a");
+const menu = document.querySelector(".dropdown-menu");
+
+dropdown.addEventListener("click", (e) => {
+  e.preventDefault();
+  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+});
+
+function toggleSheikh() {
+  const list = document.getElementById("sheikhList");
+  list.style.display = (list.style.display === "block") ? "none" : "block";
+}
+
+// SELECT ALL SHEIKH LINKS
+const sheikhLinks = document.querySelectorAll(".sheikh-link");
+
+// LOOP THROUGH THEM
+sheikhLinks.forEach(link => {
+  link.addEventListener("click", function () {
+
+    const name = this.getAttribute("data-name");
+
+    // SAVE TO LOCAL STORAGE
+    localStorage.setItem("sheikh_name", name);
+
+  });
+});
+
 </script>
-
-
 <!-- <script src="assets/script.js"></script> -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="../assets/script.js"></script>
