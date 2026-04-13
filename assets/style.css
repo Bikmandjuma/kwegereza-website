@@ -734,6 +734,11 @@ footer a:hover { color:white; }
   display: flex;
 }
 
+#searchBtn i{
+  position: relative;
+  margin-top: 5px;
+}
+
 .search-box {
   background: #fff;
   padding: 30px;
