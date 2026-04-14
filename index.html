@@ -47,21 +47,11 @@
     <nav class="nav-links">
       <a href="#ahabanza" class="active"><i class="fas fa-home"></i> Ahabanza</a>
       <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo-turibo</a>
-      <!-- <a href="#amasomo"><i class="fas fa-graduation-cap"></i> Amasomo</a>
-      <a href="#videos"><i class="fas fa-play-circle"></i> Videos</a>
-      <a href="#audio"><i class="fas fa-headphones"></i> Audio</a>
-      <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a> -->
-      <!-- DROPDOWN: Aba-Sheikh -->
       <div class="dropdown">
         <a href="#">
           <i class="fas fa-user"></i> Aba-Sheikh <i class="fas fa-caret-down"></i>
         </a>
 
-        <!-- <div class="dropdown-menu">
-          <a href="pages/sheikh1.html" id="Sheikh1" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">Sheikh MUNYANEZA ISMAIL ABUU OMAR</a>
-          <a href="pages/sheikh1.html" id="Sheikh2" data-name="Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN">Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</a>
-          <a href="pages/sheikh1.html" id="Sheikh3" data-name="Sheikh NDAHAYO KHALID ABUU MUADH">Sheikh NDAHAYO KHALID ABUU MUADH</a>
-        </div> -->
         <div class="dropdown-menu">
           <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">
             Sheikh MUNYANEZA ISMAIL ABUU OMAR
@@ -77,19 +67,18 @@
         </div>
       </div>
 
-      <a href="#inyandiko">
+      <a href="pages/inyandiko-zabamenyi.html">
         <i class="fas fa-pen"></i> Inyandiko z'abamenyi
       </a>
 
-      <a href="#amatangazo">
+      <a href="pages/amatangazo.html">
         <i class="fas fa-bullhorn"></i> Amatangazo
       </a>
 
-      <a href="#ibitabo">
+      <a href="pages/ibitabo.html">
         <i class="fas fa-book"></i> Ibitabo
       </a>
 
-      <!-- <a href="#twandikire"><i class="fas fa-book"></i> Twandikire</a> -->
     </nav>
 
     <div class="nav-right flex">
@@ -117,15 +106,15 @@
     <div class="mobile-dropdown">
         <p onclick="toggleSheikh()" style="margin-left: -1%;">👳 Aba-Sheikh</p>
         <div id="sheikhList" style="display:none;">
-          <a href="#sheikh1">Sheikh MUNYANEZA ISMAIL ABUU OMAR</a>
-          <a href="#sheikh2">Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</a>
-          <a href="#sheikh3">Sheikh NDAHAYO KHALID ABUU MUADH</a>
+          <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">Sheikh MUNYANEZA ISMAIL ABUU OMAR</a>
+          <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN">Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</a>
+          <a href="pages/sheikh1.html" class="sheikh-link" data-name="Sheikh NDAHAYO KHALID ABUU MUADH">Sheikh NDAHAYO KHALID ABUU MUADH</a>
         </div>
       </div>
 
-      <a href="#inyandiko"><i class="fas fa-pencil"></i> Inyandiko z'abamenyi</a>
-      <a href="#amatangazo"><i class="fas fa-bullhorn"></i> Amatangazo</a>
-      <a href="#ibitabo"><i class="fas fa-book"></i> Ibitabo</a>
+      <a href="pages/inyandiko-zabamenyi.html"><i class="fas fa-pencil"></i> Inyandiko z'abamenyi</a>
+      <a href="pages/amatangazo.html"><i class="fas fa-bullhorn"></i> Amatangazo</a>
+      <a href="pages/ibitabo.html"><i class="fas fa-book"></i> Ibitabo</a>
     <a href="#twandikire"><i class="fas fa-phone"></i> Twandikire</a>
     <a href="auth/login.html" class="btn-donate hidden sm:hidden"><i class="fas fa-user"></i>Account</a>
   </div>
@@ -289,7 +278,7 @@
           <p>Audio z'amasoma</p>
         </div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="window.location.href='pages/ibitabo.html'">
         <div class="feature-top"><i class="fas fa-file-pdf"></i></div>
         <div class="feature-body">
           <h4>Ibitabo</h4>
@@ -347,210 +336,6 @@
   </div>
 </section>
 
-<!-- VIDEOS -->
-<section class="section section-alt" id="videos">
-  <div class="container">
-    <div class="section-title">
-      <div class="tag">Videos</div>
-      <h2>Videos z'ingenzi</h2>
-      <p>Reba videos zacu nyamukuru</p>
-    </div>
-    <div class="videos-grid">
-      <div class="video-card">
-        <iframe src="https://www.youtube.com/embed/bfKipPtMtcw" title="Kwegereza Islamu Umuryango ni iki?" allowfullscreen></iframe>
-        <div class="video-body">
-          <h3>Kwegereza Islamu Umuryango ni iki?</h3>
-          <p>Iyi video isobanura neza uwo muri bo n'intego yacu.</p>
-        </div>
-      </div>
-      <div class="video-card">
-        <iframe src="https://www.youtube.com/embed/gMc1CIah07E" title="Uburyo wakwiyandikisha mu mashuri yacu" allowfullscreen></iframe>
-        <div class="video-body">
-          <h3>Uburyo wakwiyandikisha mu mashuri yacu</h3>
-          <p>Iyi video ifasha ushaka kwinjira no kwiga mu mashuri yacu.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PLAYLISTS -->
-<section class="section" id="playlists">
-  <div class="container">
-    <div class="section-title">
-      <div class="tag">Playlists</div>
-      <h2>Urutonde rw'inyigisho</h2>
-      <p>Hitamo urutonde rw'inyigisho ushaka kwiga</p>
-    </div>
-    <div class="playlists-grid">
-      <div class="playlist-card">
-        <h3>Inyigisho 1</h3>
-        <p>Urutonde rwa mbere rw'inyigisho.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4oq-ufT9VC0n3Wrh8mnHK1k" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Inyigisho 2</h3>
-        <p>Urutonde rwa kabiri rw'inyigisho.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4oVgCNgbvsLGHiv9SmWB82u" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Inyigisho 3</h3>
-        <p>Urutonde rwa gatatu rw'inyigisho.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4q5fnz_d3fFUsn2rLff8bBN" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Inyigisho 4</h3>
-        <p>Urutonde rwa kane rw'inyigisho.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4oG-d4iLPgL9l3UAm_BqZWv" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Ibibazo n'ibisubizo</h3>
-        <p>Urutonde rw'amasomo y'ibibazo n'ibisubizo.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4pvZ5zFimf4cGd2fdHMy6zR" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Amasomo ya Fiqh</h3>
-        <p>Inyigisho zijyanye na Fiqh.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4p1IIP090TgB1FcoEKcLqMi" target="_blank"><i class="fab fa-youtube"></i> Fungura Fiqh <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Amasomo ya Hadith</h3>
-        <p>Inyigisho zijyanye na Hadith.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4rqAzTlJJtor3iS13MbZzrx" target="_blank"><i class="fab fa-youtube"></i> Fungura Hadith <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Menya Imana yawe</h3>
-        <p>Inyigisho z'ibanze za Tawuhid.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4ow0NGMpLsy7cc4PkCCRI1T" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Tawuhid 1</h3>
-        <p>Urundi rutonde rw'inyigisho za Aqida.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4pE6OE_3Uvc4ImuiydYjNmj" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Tawuhid 2</h3>
-        <p>Urwa gatatu rw'amasomo ya Aqida.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4p6rSzgDGcCnAYTmkMw_-ha" target="_blank"><i class="fab fa-youtube"></i> Fungura playlist <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="playlist-card">
-        <h3>Qur'an</h3>
-        <p>Inyigisho za Qur'an n'amasomo ajyanye nayo.</p>
-        <a href="https://youtube.com/playlist?list=PLiLYUQNUTj4rVUXEbkY3yNhKuULYdt_x5" target="_blank"><i class="fab fa-youtube"></i> Fungura Qur'an <i class="fas fa-arrow-right"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AUDIO LECTURES -->
-<section class="section section-alt" id="audio">
-  <div class="container">
-    <div class="section-title">
-      <div class="tag">Audio</div>
-      <h2>Audio Lectures</h2>
-      <p>Umva inyigisho zacu mu buryo bworoshye</p>
-    </div>
-    <div class="audio-grid">
-      <div class="audio-card">
-        <div class="audio-title">
-          <div class="audio-icon"><i class="fas fa-microphone"></i></div>
-          <div>
-            <h3>Isomo rya Tawuhid</h3>
-            <span class="audio-badge">Tawuhid</span>
-          </div>
-        </div>
-        <p>Umva inyigisho z'ibanze za Tawuhid zishimangira ukwemera nyakuri.</p>
-        <audio controls>
-          <source src="#" type="audio/mpeg">
-          Porogiramu yawe ntiyumva audio. Fungura muri browser nshya.
-        </audio>
-      </div>
-      <div class="audio-card">
-        <div class="audio-title">
-          <div class="audio-icon"><i class="fas fa-headphones"></i></div>
-          <div>
-            <h3>Isomo rya Fiqh</h3>
-            <span class="audio-badge">Fiqh</span>
-          </div>
-        </div>
-        <p>Amategeko y'ibanze ajyanye no gusenga no mu mibereho.</p>
-        <audio controls>
-          <source src="#" type="audio/mpeg">
-          Porogiramu yawe ntiyumva audio.
-        </audio>
-      </div>
-      <div class="audio-card">
-        <div class="audio-title">
-          <div class="audio-icon"><i class="fas fa-book"></i></div>
-          <div>
-            <h3>Isomo rya Hadith</h3>
-            <span class="audio-badge">Hadith</span>
-          </div>
-        </div>
-        <p>Amagambo n'inzira y'Intumwa y'Imana mu buzima bwa buri munsi.</p>
-        <audio controls>
-          <source src="#" type="audio/mpeg">
-          Porogiramu yawe ntiyumva audio.
-        </audio>
-      </div>
-      <div class="audio-card">
-        <div class="audio-title">
-          <div class="audio-icon"><i class="fas fa-quran"></i></div>
-          <div>
-            <h3>Tilawa ya Qur'an</h3>
-            <span class="audio-badge">Qur'an</span>
-          </div>
-        </div>
-        <p>Umva Qur'an isomwa mu buryo bwiza kandi buturika mu mutima.</p>
-        <audio controls>
-          <source src="#" type="audio/mpeg">
-          Porogiramu yawe ntiyumva audio.
-        </audio>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PDF BOOKS -->
-<section class="section" id="ibitabo">
-  <div class="container">
-    <div class="section-title">
-      <div class="tag">Ibitabo</div>
-      <h2>Ibitabo byacu</h2>
-      <p>Soma cyangwa ufungure ibitabo bya PDF</p>
-    </div>
-    <div class="books-grid">
-      <div class="book-card">
-        <span class="book-badge">Igitabo 1</span>
-        <h3>ESE BIREMEWE GUSIBA KUWA GATANDATU</h3>
-        <p>Igitabo cya mbere cya PDF cyasobanura neza ibi bibazo mu Islamu.</p>
-        <div class="book-actions">
-          <a href="igitabo1.pdf" target="_blank" class="btn-book"><i class="fas fa-eye"></i> Soma PDF</a>
-          <a href="igitabo1.pdf" download class="btn-book"><i class="fas fa-download"></i> Dawnilodinga</a>
-        </div>
-      </div>
-      <div class="book-card">
-        <span class="book-badge">Igitabo 2</span>
-        <h3>UBUREMERE BWAJE MU KWIGANA IMIGENZO Y'ABAHAKANYE</h3>
-        <p>Igitabo cya kabiri cyasobanura ingaruka zo kwigana imigenzo y'abahakanye.</p>
-        <div class="book-actions">
-          <a href="igitabo2.pdf" target="_blank" class="btn-book"><i class="fas fa-eye"></i> Soma PDF</a>
-          <a href="igitabo2.pdf" download class="btn-book"><i class="fas fa-download"></i> Dawnilodinga</a>
-        </div>
-      </div>
-      <div class="book-card">
-        <span class="book-badge">Igitabo 3</span>
-        <h3>IGIHIMBANO CYO KWIZIHIZA UMUNSI W'IVUKA RY'INTUMWA Y'IMANA</h3>
-        <p>Igitabo cya gatatu kijyanye n'iyi ngingo y'idini ya Islamu.</p>
-        <div class="book-actions">
-          <a href="igitabo3.pdf" target="_blank" class="btn-book"><i class="fas fa-eye"></i> Soma PDF</a>
-          <a href="igitabo3.pdf" download class="btn-book"><i class="fas fa-download"></i> Dawnilodinga</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- JOIN COMMUNITY BANNER -->
 <section class="section" id="join">
   <div class="container">
@@ -589,7 +374,7 @@
     <div>
       <h4>Twandikire</h4>
       <p><i class="fa fa-phone"></i> (+250) 723061482</p>
-      <p><i class="fa fa-envelope"></i> info@kwegeraza.org</p>
+      <p><i class="fa fa-envelope"></i> umuryangok@gmail.com</p>
       <p><i class="fa fa-location-dot"></i> Rwanda</p>
     </div>
     <div>

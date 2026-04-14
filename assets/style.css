@@ -904,7 +904,8 @@ footer a:hover { color:white; }
 
 #searchBtn i{
   position: relative;
-  margin-top: 5px;
+  margin-top: 8px;
+  font-size: 12px;
 }
 
 .search-box {
