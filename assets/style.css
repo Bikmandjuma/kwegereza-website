@@ -481,7 +481,7 @@ a { text-decoration: none; color: inherit; }
 /* ── SECTION BASE ─────────────────────── */
 .section { padding: 80px 20px;margin-top:-50px; }
 .section-alt { background: var(--soft); }
-.section-title { text-align:center; margin-bottom: 50px; }
+.section-title { text-align:center; margin-bottom: 20px; }
 .section-title .tag {
   display:inline-block;
   background: var(--green);
@@ -497,7 +497,7 @@ a { text-decoration: none; color: inherit; }
 
 .section-title h2 {
   font-family:'Playfair Display',serif;
-  font-size: 40px;
+  font-size: 30px;
   color: var(--green-dark);
   margin-bottom: 8px;
 }
