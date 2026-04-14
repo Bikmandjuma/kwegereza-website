@@ -137,7 +137,7 @@
     </div>
 
     <nav class="nav-links">
-      <a href="#ahabanza" class="activex"><i class="fas fa-home"></i> Ahabanza</a>
+      <a href="#ahabanza"><i class="fas fa-home"></i> Ahabanza</a>
       <a href="#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo-turibo</a>
       <div class="dropdown">
         <a href="#">
@@ -208,7 +208,7 @@
 
   <div class="title">
     <h1>Inyandiko z’Abamenyi</h1>
-    <p>Abamenyi b’ingenzi mu Islamu n’inyigisho zabo</p>
+    <p>Abamenyi b’ingenzi muri Islamu n’inyigisho zabo</p>
   </div>
 
   <div class="search-boxx">
@@ -339,6 +339,37 @@
 
 
 <script>
+
+
+const dropdown = document.querySelector(".dropdown > a");
+const menu = document.querySelector(".dropdown-menu");
+
+dropdown.addEventListener("click", (e) => {
+  e.preventDefault();
+  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+});
+
+function toggleSheikh() {
+  const list = document.getElementById("sheikhList");
+  list.style.display = (list.style.display === "block") ? "none" : "block";
+}
+
+// SELECT ALL SHEIKH LINKS
+const sheikhLinks = document.querySelectorAll(".sheikh-link");
+
+// LOOP THROUGH THEM
+sheikhLinks.forEach(link => {
+  link.addEventListener("click", function () {
+
+    const name = this.getAttribute("data-name");
+
+    // SAVE TO LOCAL STORAGE
+    localStorage.setItem("sheikh_name", name);
+
+  });
+});
+
+
 let currentPage = 1;
 const perPage = 4;
 
@@ -390,6 +421,8 @@ function changePage(dir){
 applyFilters();
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="../assets/script.js"></script>
+
 
 </body>
 </html>
