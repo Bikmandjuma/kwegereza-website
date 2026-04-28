@@ -114,25 +114,6 @@
 
 </div>
 
-<!-- SEARCH MODAL -->
-<div id="searchModal" class="fixed inset-0 hidden items-center justify-center bg-black/60 z-50">
-  <div class="bg-white w-[90%] max-w-md p-6 rounded-xl relative">
-    
-    <span id="closeSearch" class="absolute top-3 right-4 text-xl cursor-pointer">&times;</span>
-    <h3 class="text-lg font-bold text-center mb-4">Shakisha</h3>
-
-    <!-- Input + search icon -->
-    <div class="flex items-center border rounded-full overflow-hidden mb-3">
-      <input type="text" id="searchInput" placeholder="Andika icyo ushaka..."
-             class="flex-1 px-4 py-2 outline-none">
-      <i class="fa fa-search px-4 text-gray-500"></i>
-    </div>
-
-    <!-- Suggestions / Results -->
-    <div id="searchResults" class="text-sm text-gray-700 max-h-60 overflow-y-auto"></div>
-  </div>
-</div>
-
 <!-- Modal -->
 <div id="classModal" class="modal">
   <div class="modal-content">
