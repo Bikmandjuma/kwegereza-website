@@ -1,6 +1,10 @@
 @extends('Auth.cover')
 @section('content')
 
+@php
+    $hideFooter = true;
+@endphp
+
 <section class="section" id="login">
 
     @if(session('success'))

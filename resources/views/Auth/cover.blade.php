@@ -134,6 +134,7 @@
   @yield('content')
 
 <!-- FOOTER -->
+@if(!isset($hideFooter) || !$hideFooter)
 <div class="footer-gold"></div>
 <footer>
   <div class="footer-inner">
@@ -163,7 +164,7 @@
     <p style="margin-top:6px;">&copy; 2026 K.I.U </p>
   </div>
 </footer>
-
+@endif
 
 <script>
 const chatBtn = document.getElementById("chatBtn");

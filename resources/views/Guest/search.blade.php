@@ -2,8 +2,24 @@
 
 @section('content')
 
+@php
+    $hideFooter = true;
+@endphp
+
+<style>
+    #search_card{
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 20vh; /* 👈 always 20% from top */
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+</style>
+
 <!-- SEARCH SECTION (VISIBLE DIRECTLY, CENTERED) -->
-<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4" style="position: relative; margin-top: -5%;">
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4" style="position: relative;" id="search_card">
 
     <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-xl">
 
