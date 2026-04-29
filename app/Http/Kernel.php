@@ -38,6 +38,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UpdateLastActive::class,
+            \App\Http\Middleware\TrackGuest::class,
+
 
         ],
 

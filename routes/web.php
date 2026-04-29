@@ -104,3 +104,4 @@ Route::get('/shakisha', [GuestController::class, 'search'])->name('guest.search'
 Route::get('/inyigisho-zabasheikh', [GuestController::class, 'teacher_darsa'])->name('guest.teacher-darsa');
 
 Route::get('/live-visits', [GuestController::class, 'liveVisits'])->name('guest.live.visits');
+Route::get('/guest/ping', [GuestController::class, 'ping']);

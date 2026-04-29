@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Visit;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cookie;
+use App\Models\GuestVisit;
 
-class GuestController extends Controller
-{
+class GuestController extends Controller{
     // public function home(){
 
     //     $today = now()->toDateString();
@@ -74,9 +74,12 @@ class GuestController extends Controller
         // total visits
         $totalVisit = Visit::sum('count');
 
+        $onlineUsers = GuestVisit::where('last_visit_at', '>=', now()->subMinutes(5))->count();
+
         return view('Guest.ahabanza', [
             'todayVisit' => number_format($todayVisit),
             'totalVisit' => number_format($totalVisit),
+            'onlineUsers' => $onlineUsers,
         ]);
     }
 
@@ -158,11 +161,20 @@ class GuestController extends Controller
 
         $totalVisit = Visit::sum('count');
 
+        $online = \App\Models\GuestVisit::where(
+            'last_visit_at',
+            '>=',
+            now()->subMinutes(5)   // 👈 THIS is your “online window”
+        )->count();
+
         return response()->json([
             'today' => $this->shortNumber($todayVisit),
             'total' => $this->shortNumber($totalVisit),
+            'online' => $online,
+
         ]);
     }
+
 
     /* SHORT FORMAT: K / M / B */
     private function shortNumber($num)
@@ -182,4 +194,23 @@ class GuestController extends Controller
         return $num;
     }
     
+
+    public function ping(Request $request){
+        $guestId = $request->cookie('guest_visit_id');
+
+        if (!$guestId) return response()->noContent();
+
+        \App\Models\GuestVisit::updateOrCreate(
+            ['guest_id' => $guestId],
+            [
+                'ip' => $request->ip(),
+                'user_agent' => substr($request->userAgent(), 0, 255),
+                'last_visit_at' => now(),
+            ]
+        );
+
+        return response()->json(['ok' => true]);
+    }
+
 }
+
