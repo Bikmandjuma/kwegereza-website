@@ -5,23 +5,67 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Visit;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cookie;
 
 class GuestController extends Controller
 {
-    public function home(){
+    // public function home(){
 
+    //     $today = now()->toDateString();
+
+    //     // increment visit
+    //     $visit = Visit::where('date', $today)->first();
+
+    //     if (!$visit) {
+    //         Visit::create([
+    //             'date' => $today,
+    //             'count' => 1
+    //         ]);
+    //     } else {
+    //         $visit->increment('count');
+    //     }
+
+    //     // today's visits
+    //     $todayVisit = Visit::where('date', $today)->value('count') ?? 0;
+
+    //     // total visits
+    //     $totalVisit = Visit::sum('count');
+
+    //     return view('Guest.ahabanza', [
+    //         'todayVisit' => number_format($todayVisit),
+    //         'totalVisit' => number_format($totalVisit),
+    //     ]);
+    // }
+
+    public function home(){
         $today = now()->toDateString();
 
-        // increment visit
-        $visit = Visit::where('date', $today)->first();
+        // get or create guest id
+        $guestId = request()->cookie('guest_visit_id');
 
-        if (!$visit) {
-            Visit::create([
-                'date' => $today,
-                'count' => 1
-            ]);
-        } else {
+        if (!$guestId) {
+            $guestId = Str::uuid()->toString();
+
+            // save cookie for 30 days
+            Cookie::queue('guest_visit_id', $guestId, 60 * 24 * 30);
+        }
+
+        // unique key per guest per day
+        $cacheKey = 'visit_' . $guestId . '_' . $today;
+
+        // only count if 10 minutes passed
+        if (!cache()->has($cacheKey)) {
+
+            $visit = Visit::firstOrCreate(
+                ['date' => $today],
+                ['count' => 0]
+            );
+
             $visit->increment('count');
+
+            // block this guest for 10 minutes
+            cache()->put($cacheKey, true, 600); // 600 sec = 10 min
         }
 
         // today's visits

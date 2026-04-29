@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadVisits();
 
-    setInterval(loadVisits, 5000);
+    setInterval(loadVisits, 1000);
 
 });
 
