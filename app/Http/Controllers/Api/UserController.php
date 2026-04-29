@@ -576,24 +576,6 @@ class UserController extends Controller
         return $number;
     }
 
-    public function incrementVisitCount()
-    {
-        $today = now()->toDateString();
-
-        $visit = Visit::where('date', $today)->first();
-
-        if (!$visit) {
-            Visit::create([
-                'count' => 1,
-                'date' => $today,
-            ]);
-        } else {
-            $visit->increment('count');
-        }
-
-        return response()->json(['message' => 'Visit count incremented']);
-    }
-
     public function modify_password(Request $request){
 
         try {

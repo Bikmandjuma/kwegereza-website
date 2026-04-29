@@ -42,18 +42,20 @@ function loadVisits()
     <div class="System-status">
       <div class="System-status-card">
         <h4>⭐ &nbsp;Site Overview</h4>
-        <hr>
-        <div class="trans">System-users : 0</div>
+        
+        <div style="padding: 5px;">--------------------------</div>
+        
+        <!-- <div class="trans">System-users : 0</div> -->
         <!-- <div class="trans">Today's visit : {{ $todayVisit }}</div>
         <div class="trans">All-visits : {{ $totalVisit }}</div> -->
         <div class="trans">
           Today's visit :
-          <span id="todayVisit">{{ $todayVisit }}</span>
+          <span id="todayVisit" style="color: forestgreen;font-family: sans-serif;font-weight: bold;"><strong>{{ $todayVisit }}</strong> </span>
         </div>
 
-        <div class="trans">
-          All-visits :
-          <span id="totalVisit">{{ $totalVisit }}</span>
+        <div class="trans" style="padding-top:5px">
+          All&nbsp;-&nbsp;visits :
+          <span id="totalVisit" style="color: forestgreen;font-family: sans-serif;font-weight: bold;"><strong>{{ $totalVisit }}</strong> </span>
         </div>
 
       </div>

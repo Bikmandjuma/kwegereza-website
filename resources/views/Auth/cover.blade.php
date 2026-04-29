@@ -104,7 +104,7 @@
 
 
 <!-- DAILY AYAH + HADITH -->
-<div class="daily-strip container" style="padding-top:40px;">
+<!-- <div class="daily-strip container" style="padding-top:40px;">
   <div class="daily-card">
     <h4><i class="fas fa-users"></i>,<i class="fas fa-eye"></i> &nbsp;System status</h4>
     <div class="trans">System-users : 0</div>
@@ -112,7 +112,7 @@
     <div class="trans">All-visits : 0</div>    
   </div>
 
-</div>
+</div> -->
 
 <!-- Modal -->
 <div id="classModal" class="modal">
