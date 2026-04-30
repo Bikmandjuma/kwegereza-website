@@ -37,7 +37,7 @@
                     </label>
 
                     <input
-                        type="email"
+                        type="text"
                         id="email"
                         name="username"
                         value="{{ old('username') }}"

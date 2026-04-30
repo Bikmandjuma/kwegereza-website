@@ -41,7 +41,7 @@
           x-ref="loading"
           class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-primary-darker"
         >
-          Jospher
+          K.I.U
         </div>
 
         <!-- Sidebar -->
@@ -271,7 +271,7 @@
                 href="index.html"
                 class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
               >
-                Jospher
+                K.I.U
               </a>
 
               <!-- Mobile sub menu button -->
@@ -890,11 +890,11 @@
           <footer
             class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker sticky bottom-0 z-50"
           >
-            <div>Jospher &copy; 2023</div>
+            <div>K.I.U &copy; 2026</div>
             <div>
               Made by
               <a href="https://github.com/Bikmandjuma" target="_blank" class="text-blue-500 hover:underline"
-                >Savvy coder</a
+                >Bikman Abuu twalhat</a
               >
             </div>
           </footer>
