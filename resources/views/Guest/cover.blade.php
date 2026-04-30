@@ -71,8 +71,17 @@
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="left">
-    <span><i class="fa fa-phone"></i> (+250) 723061482</span>
-    <span><i class="fa fa-envelope"></i>  umuryangok@gmail.com</span>
+    <!-- <span><i class="fa fa-phone"></i> (+250) 723061482</span>
+    <span><i class="fa fa-envelope"></i>  umuryangok@gmail.com</span> -->
+    <span>
+        <i class="fa fa-phone"></i>
+        <a href="tel:+250723061482">(+250) 723061482</a>
+    </span>
+
+    <span>
+        <i class="fa fa-envelope"></i>
+        <a href="mailto:umuryangok@gmail.com">umuryangok@gmail.com</a>
+    </span>
     <!-- <span><i class="fa fa-globe"></i> Rwandcba</span> -->
   </div>
   <div class="right">
@@ -197,8 +206,17 @@
   <div class="footer-inner">
     <div>
       <h4>Twandikire</h4>
-      <p><i class="fa fa-phone"></i> (+250) 723061482</p>
-      <p><i class="fa fa-envelope"></i> umuryangok@gmail.com</p>
+      <!-- <p><i class="fa fa-phone"></i> (+250) 723061482</p>
+      <p><i class="fa fa-envelope"></i> umuryangok@gmail.com</p> -->
+      <p>
+          <i class="fa fa-phone"></i>
+          <a href="tel:+250723061482">(+250) 723061482</a>
+      </p>
+
+      <p>
+          <i class="fa fa-envelope"></i>
+          <a href="mailto:umuryangok@gmail.com">umuryangok@gmail.com</a>
+      </p>
       <p><i class="fa fa-location-dot"></i> Rwanda</p>
     </div>
     <div>
