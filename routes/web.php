@@ -95,7 +95,10 @@ Route::get('/forgot-password', [WebAuthController::class, 'forgot_password'])->n
 Route::post('submit-forgot-password',[WebAuthController::class, 'submit_forgot_password'])->name('guest.submit-forgot-password');
 
 
-Route::get('/', [GuestController::class, 'home'])->name('guest.home');
+// Route::get('/', [GuestController::class, 'home'])->name('guest.home');
+Route::get('/', [GuestController::class, 'home'])
+    ->middleware('track.visit')
+    ->name('guest.home');
 Route::get('/ibitabo', [GuestController::class, 'books'])->name('guest.books');
 Route::get('/abasheikh', [GuestController::class, 'teachers'])->name('guest.teachers');
 Route::get('/amatangazo', [GuestController::class, 'news'])->name('guest.news');

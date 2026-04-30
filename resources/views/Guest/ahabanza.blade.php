@@ -1,13 +1,13 @@
 @extends('Guest.cover')
 @section('content')
-<script>
+<!-- <script>
 document.addEventListener("DOMContentLoaded", function () {
 
     loadVisits();
     startPing();
 
     // update stats every 60 seconds ONLY
-    setInterval(loadVisits, 60000);
+    setInterval(loadVisits, 10000);
 });
 
 function loadVisits() {
@@ -42,8 +42,54 @@ function startPing() {
 
     setInterval(ping, 30000); // every 30 seconds
 }
-</script>
+</script> -->
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    loadVisits();     // first load
+    startPing();      // keep alive
+
+    // 👇 FAST UI UPDATE (ONLINE FEEL)
+    setInterval(loadVisits, 1000); // 1 second UI refresh
+});
+
+// ----------------------
+// LOAD STATS
+// ----------------------
+function loadVisits() {
+    fetch("{{ route('guest.live.visits') }}", {
+        cache: "no-store"
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        document.getElementById("todayVisit").innerText = data.today;
+        document.getElementById("totalVisit").innerText = data.total;
+        document.getElementById("onlineUsers").innerText = data.online;
+
+    })
+    .catch(err => console.log(err));
+}
+
+// ----------------------
+// PING SYSTEM (IMPORTANT)
+// ----------------------
+function startPing() {
+
+    function ping() {
+        fetch("/guest/ping", {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store"
+        });
+    }
+
+    ping(); // immediate
+
+    setInterval(ping, 30000); // 30 seconds (CORRECT)
+}
+</script>
 
 <!-- HERO -->
 <section class="hero" id="ahabanza">

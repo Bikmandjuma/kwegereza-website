@@ -8,79 +8,35 @@ use App\Models\Visit;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\GuestVisit;
+use Illuminate\Support\Facades\Cache;
+
 
 class GuestController extends Controller{
-    // public function home(){
 
-    //     $today = now()->toDateString();
-
-    //     // increment visit
-    //     $visit = Visit::where('date', $today)->first();
-
-    //     if (!$visit) {
-    //         Visit::create([
-    //             'date' => $today,
-    //             'count' => 1
-    //         ]);
-    //     } else {
-    //         $visit->increment('count');
-    //     }
-
-    //     // today's visits
-    //     $todayVisit = Visit::where('date', $today)->value('count') ?? 0;
-
-    //     // total visits
-    //     $totalVisit = Visit::sum('count');
-
-    //     return view('Guest.ahabanza', [
-    //         'todayVisit' => number_format($todayVisit),
-    //         'totalVisit' => number_format($totalVisit),
-    //     ]);
-    // }
-
-    public function home(){
-        $today = now()->toDateString();
-
-        // get or create guest id
-        $guestId = request()->cookie('guest_visit_id');
+    public function home(Request $request)
+    {
+        $guestId = $request->cookie('guest_visit_id');
 
         if (!$guestId) {
             $guestId = Str::uuid()->toString();
-
-            // save cookie for 30 days
             Cookie::queue('guest_visit_id', $guestId, 60 * 24 * 30);
         }
 
-        // unique key per guest per day
-        $cacheKey = 'visit_' . $guestId . '_' . $today;
+        // ONLY AFTER cookie exists
+        $this->trackVisit($request, $guestId);
 
-        // only count if 10 minutes passed
-        if (!cache()->has($cacheKey)) {
+        $today = now()->toDateString();
 
-            $visit = Visit::firstOrCreate(
-                ['date' => $today],
-                ['count' => 0]
-            );
-
-            $visit->increment('count');
-
-            // block this guest for 10 minutes
-            cache()->put($cacheKey, true, 600); // 600 sec = 10 min
-        }
-
-        // today's visits
         $todayVisit = Visit::where('date', $today)->value('count') ?? 0;
-
-        // total visits
         $totalVisit = Visit::sum('count');
 
         $onlineUsers = GuestVisit::where('last_visit_at', '>=', now()->subMinutes(5))->count();
 
-        return view('Guest.ahabanza', [
-            'todayVisit' => number_format($todayVisit),
-            'totalVisit' => number_format($totalVisit),
-            'onlineUsers' => $onlineUsers,
-        ]);
+        return view('Guest.ahabanza', compact(
+            'todayVisit',
+            'totalVisit',
+            'onlineUsers'
+        ));
     }
 
     public function books(){
@@ -107,74 +63,64 @@ class GuestController extends Controller{
         return view('Guest.inyigisho_zabarimu');
     }
 
-    // public function liveVisits()
-    // {
-    //     $today = now()->toDateString();
+    public function trackVisit(Request $request, $guestId)
+    {
+        $today = now()->toDateString();
 
-    //     $todayVisit = Visit::where('date', $today)->value('count') ?? 0;
+        $key = "visit_{$guestId}_{$today}";
 
-    //     $totalVisit = Visit::sum('count');
+        if (cache()->has($key)) {
+            return;
+        }
 
-    //     return response()->json([
-    //         'today' => number_format($todayVisit, 0, '.', ','),
-    //         'total' => number_format($totalVisit, 0, '.', ','),
-    //     ]);
-    // }
+        $visit = Visit::firstOrCreate(
+            ['date' => $today],
+            ['count' => 0]
+        );
 
-    // public function liveVisits()
-    // {
-    //     $today = now()->toDateString();
+        $visit->increment('count');
 
-    //     $todayVisit = Visit::where('date', $today)->value('count') ?? 0;
+        cache()->put($key, true, 600);
+    }
 
-    //     $totalVisit = Visit::sum('count')+1000;
+    public function ping(Request $request)
+    {
+        $guestId = $request->cookie('guest_visit_id');
 
-    //     return response()->json([
-    //         'today' => number_format($todayVisit, 0, '.', ',') . ' = ' . $this->shortNumber($todayVisit),
-    //         'total' => number_format($totalVisit, 0, '.', ',') . ' = ' . $this->shortNumber($totalVisit),
-    //     ]);
-    // }
+        if (!$guestId) return response()->noContent();
 
-    // /* SHORT FORMAT FUNCTION */
-    // private function shortNumber($num)
-    // {
-    //     if ($num >= 1000000000) {
-    //         return round($num / 1000000000, 1) . 'B';
-    //     }
+        GuestVisit::updateOrCreate(
+            ['guest_id' => $guestId],
+            [
+                'ip' => $request->ip(),
+                'user_agent' => substr($request->userAgent(), 0, 255),
+                'last_visit_at' => now(),
+            ]
+        );
 
-    //     if ($num >= 1000000) {
-    //         return round($num / 1000000, 1) . 'M';
-    //     }
-
-    //     if ($num >= 1000) {
-    //         return round($num / 1000, 1) . 'K';
-    //     }
-
-    //     return $num;
-    // }
+        return response()->json(['ok' => true]);
+    }
 
     public function liveVisits()
     {
         $today = now()->toDateString();
 
-        $todayVisit = Visit::where('date', $today)->value('count') ?? 0;
+        $visit = Visit::where('date', $today)->first();
+
+        $todayCount = $visit ? $visit->count : 0;
 
         $totalVisit = Visit::sum('count');
 
-        $online = \App\Models\GuestVisit::where(
-            'last_visit_at',
-            '>=',
-            now()->subMinutes(5)   // 👈 THIS is your “online window”
-        )->count();
+        $online = Cache::remember('online_users_count', 5, function () {
+            return GuestVisit::where('last_visit_at', '>=', now()->subMinutes(5))->count();
+        });
 
         return response()->json([
-            'today' => $this->shortNumber($todayVisit),
+            'today' => $this->shortNumber($todayCount),
             'total' => $this->shortNumber($totalVisit),
             'online' => $online,
-
         ]);
     }
-
 
     /* SHORT FORMAT: K / M / B */
     private function shortNumber($num)
@@ -194,23 +140,6 @@ class GuestController extends Controller{
         return $num;
     }
     
-
-    public function ping(Request $request){
-        $guestId = $request->cookie('guest_visit_id');
-
-        if (!$guestId) return response()->noContent();
-
-        \App\Models\GuestVisit::updateOrCreate(
-            ['guest_id' => $guestId],
-            [
-                'ip' => $request->ip(),
-                'user_agent' => substr($request->userAgent(), 0, 255),
-                'last_visit_at' => now(),
-            ]
-        );
-
-        return response()->json(['ok' => true]);
-    }
 
 }
 

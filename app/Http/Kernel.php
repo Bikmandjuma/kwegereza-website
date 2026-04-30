@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UpdateLastActive::class,
             \App\Http\Middleware\TrackGuest::class,
-
+            'track.visit' => \App\Http\Middleware\TrackVisit::class,
 
         ],
 
