@@ -1,298 +1,371 @@
 @extends('Guest.cover')
 @section('content')
 
-
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-.page{padding:24px 0;background:var(--color-background-tertiary)}
-.section-label{font-size:12px;font-weight:500;color:#0b3d2e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-/*input[type=text]{width:100%;padding:11px 16px;border-radius:999px;box-shadow:0 1px blue rgba(0, 0, 0, 1.0); font-size:14px}*/
 
-input[type=text]{
-  width:100%;
-  padding:12px 18px;
-  border-radius:999px;
-  border:1px solid #ddd;
-  outline:none;
-  font-size:14px;
-  background:#fff;
-  box-shadow:0 4px 14px rgba(0,0,0,0.07);
-  transition:all .2s ease;
+/* PAGE BACKGROUND */
+.page{
+  padding:30px 0;
+  background:#f6f8f7;
 }
 
-input[type=text]:focus{
-  border-color:#0B6D20;
-  box-shadow:0 0 0 4px rgba(11,109,32,0.12);
-}
-
-.filter-btn{border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);padding:7px 16px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-secondary);transition:all .15s}
-.filter-btn:hover{background:var(--color-background-secondary)}
-.filter-btn.active{background:#0b3d2e;color:#fff;border-color:#0b3d2e}
-.teacher-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.teacher-card{background-color:white;box-shadow: 0 4px 18px rgba(0,0,0,0.07);border-radius:5%;padding:18px;display:flex;flex-direction:column;gap:12px;transition:border-color .15s;cursor:pointer}
-.teacher-card:hover{border-color:#0b3d2e}
-.teacher-card.hide{display:none}
-.avatar{width:52px;height:52px;border-radius:50%;background:#0B6D20;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;flex-shrink:0}
-.spec-badge{display:inline-block;background:#E1F5EE;color:#0b3d2e;border-radius:999px;font-size:11px;font-weight:500;padding:3px 10px;width:fit-content}
-.stat-row{display:flex;gap:8px;flex-wrap:wrap}
-.stat{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:999px;padding:4px 10px}
-.btn-view{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:7px 14px;border-radius:999px;text-decoration:none;background:#0B6D20;color:#fff;border:none;cursor:pointer;transition:opacity .15s;width:fit-content}
-.btn-view:hover{opacity:.85}
-.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:24px}
-.pager button{background:#0B6D20;color:#fff;border:none;border-radius:999px;padding:7px 18px;font-size:13px;font-weight:500;cursor:pointer;transition:opacity .15s}
-.pager button:hover{opacity:.8}
-.no-result{text-align:center;padding:40px 0;font-size:14px;color:var(--color-text-tertiary);display:none}
-.pager{
-  background:#fff;
-  padding:6px 10px;
-  border-radius:999px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  width:fit-content;
-  margin:20px auto 0;
-}
-@media (max-width: 768px){
-
-  .page{
-    padding:16px 0;
-  }
-
-  .page > div{
-    max-width:100% !important;
-    padding:0 12px !important;
-  }
-
-  h2{
-    font-size:18px !important;
-  }
-
-  input[type=text]{
-    padding:10px 14px;
-    font-size:13px;
-  }
-
-  /* FILTER BUTTONS SCROLL */
-  .page div[style*="flex-wrap"]{
-    flex-wrap:nowrap !important;
-    overflow-x:auto;
-    padding-bottom:5px;
-  }
-
-  .filter-btn{
-    flex-shrink:0;
-    font-size:12px;
-    padding:6px 12px;
-  }
-
-  /* GRID → 1 COLUMN */
-  .teacher-grid{
-    grid-template-columns:1fr;
-    gap:10px;
-  }
-
-  .teacher-card{
-    padding:14px;
-    border-radius:12px;
-  }
-
-  .avatar{
-    width:44px;
-    height:44px;
-    font-size:14px;
-  }
-
-  .stat{
-    font-size:11px;
-    padding:3px 8px;
-  }
-
-  .btn-view{
-    font-size:11px;
-    padding:6px 12px;
-  }
-
-  /*.pager{
-    flex-direction:column;
-    gap:8px;
-  }
-
-  .pager button{
-    width:100%;
-  }*/
-
-  .pager{
-    flex-direction: row;        /* ✅ keep in one row */
-    justify-content: center;    /* ✅ center everything */
-    gap:6px;
-    flex-wrap: nowrap;          /* ❗ prevent breaking into 2 lines */
-  }
-
-  .pager button{
-    width:auto;                 /* ❌ remove full width */
-    padding:6px 12px;
-    font-size:12px;
-  }
-
-  .pager span{
-    font-size:12px;
-    white-space: nowrap;        /* ✅ keep text in one line */
-  }
-  
-}
-
+/* CONTAINER */
 .container{
   max-width:1100px;
   margin:0 auto;
   padding:0 16px;
 }
+
+/* HEADER */
+.section-label{
+  font-size:12px;
+  font-weight:600;
+  color:#0b3d2e;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+h2{
+  font-size:20px;
+  font-weight:800;
+  color:#0b3d2e;
+  margin:6px 0;
+}
+
+p{
+  font-size:13px;
+  color:#666;
+}
+
+/* SEARCH */
+input[type=text]{
+  width:100%;
+  padding:12px 16px;
+  border-radius:999px;
+  border:1px solid #ddd;
+  outline:none;
+  background:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  margin:15px 0;
+}
+
+/* FILTERS */
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.filter-btn{
+  border:none;
+  background:#fff;
+  padding:7px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  color:#444;
+  box-shadow:0 2px 8px #eee;
+  transition:0.2s;
+}
+
+.filter-btn:hover{
+  transform:scale(1.05);
+}
+
+.filter-btn.active{
+  background:#0b6d20;
+  color:#fff;
+}
+
+/* GRID */
+.teacher-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
+}
+
+/* CARD */
+.teacher-card{
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 4px 15px #eee;
+  transition:0.3s;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.teacher-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 6px 18px #e5e5e5;
+}
+
+/* AVATAR */
+.avatar{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#0b6d20;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+}
+
+/* NAME */
+.teacher-name{
+  font-size:15px;
+  font-weight:700;
+  color:#0b3d2e;
+}
+
+/* BADGE */
+.spec-badge{
+  display:inline-block;
+  background:#e9f7ef;
+  color:#0b3d2e;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600;
+  padding:4px 10px;
+}
+
+/* STATS */
+.stat-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.stat{
+  font-size:11px;
+  color:#666;
+  background:#f3f3f3;
+  padding:4px 10px;
+  border-radius:999px;
+}
+
+/* BUTTON */
+.btn-view{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#0b6d20;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  text-decoration:none;
+  font-weight:600;
+  width:fit-content;
+}
+
+.btn-view:hover{
+  opacity:0.9;
+}
+
+/* PAGINATION */
+.pager{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-top:25px;
+  background:#fff;
+  padding:8px 12px;
+  border-radius:999px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  width:fit-content;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.pager button{
+  background:#0b6d20;
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:6px 14px;
+  cursor:pointer;
+}
+
+/* EMPTY */
+.no-result{
+  text-align:center;
+  padding:30px 0;
+  color:#888;
+  display:none;
+}
+
+/* HIDE */
+.hide{ display:none !important; }
+
 </style>
 
 <div class="page">
-<!-- <div style="max-width:1100px;width:100%;margin:0 auto;padding:0 16px;display:flex;flex-direction:column;gap:16px"> -->
   <div class="container">
 
-  <div>
     <div class="section-label">Amasomo</div>
-    <h2 style="font-size:20px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Abarimu bacu</h2>
-    <p style="font-size:13px;color:var(--color-text-secondary)">Hitamo umwarimu kugira ngo urebe amasomo ye</p>
-  </div>
+    <h2>Abarimu bacu</h2>
+    <p>Hitamo umwarimu urebe amasomo ye</p>
 
-  <input type="text" id="searchInput" placeholder="Shakisha umwarimu...">
+    <!-- SEARCH -->
+    <input type="text" id="searchInput" placeholder="Shakisha umwarimu...">
 
-  <div style="display:flex;flex-wrap:wrap;gap:8px;margin: 10px 0px 10px 0px;">
-    <button class="filter-btn active" data-spec="all">Bose</button>
-    <button class="filter-btn" data-spec="tawhid">Tawhid</button>
-    <button class="filter-btn" data-spec="fiqh">Fiqh</button>
-    <button class="filter-btn" data-spec="hadith">Hadith</button>
-    <button class="filter-btn" data-spec="arabic">Arabic</button>
-  </div>
-
-  <div class="teacher-grid" id="teacherGrid">
-
-    <div class="teacher-card" data-spec="tawhid fiqh" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="avatar">MI</div>
-        <div>
-          <h3 style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px">Sheikh MUNYANEZA ISMAIL ABUU OMAR</h3>
-          <span class="spec-badge">Tawhid · Fiqh</span>
-        </div>
-      </div>
-      <div class="stat-row">
-        <span class="stat">5 Inyigisho</span>
-        <span class="stat">3 Videos</span>
-        <span class="stat">2 Audio</span>
-      </div>
-      <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh MUNYANEZA ISMAIL ABUU OMAR">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#fff" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="#fff"/></svg>
-        Reba amasomo
-      </a>
+    <!-- FILTERS -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-spec="all">Bose</button>
+      <button class="filter-btn" data-spec="tawhid">Tawhid</button>
+      <button class="filter-btn" data-spec="fiqh">Fiqh</button>
+      <button class="filter-btn" data-spec="hadith">Hadith</button>
+      <button class="filter-btn" data-spec="arabic">Arabic</button>
     </div>
 
-    <div class="teacher-card" data-spec="hadith fiqh" data-name="Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="avatar">IA</div>
-        <div>
-          <h3 style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px">Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN</h3>
-          <span class="spec-badge">Hadith · Fiqh</span>
+    <!-- GRID -->
+    <div class="teacher-grid" id="teacherGrid">
+
+      <div class="teacher-card" data-spec="tawhid fiqh" data-name="sheikh munyaneza ismail">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="avatar">MI</div>
+          <div>
+            <div class="teacher-name">Sheikh MUNYANEZA ISMAIL</div>
+            <span class="spec-badge">Tawhid · Fiqh</span>
+          </div>
         </div>
+
+        <div class="stat-row">
+          <span class="stat">5 Inyigisho</span>
+          <span class="stat">3 Video</span>
+          <span class="stat">2 Audio</span>
+        </div>
+
+        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh MUNYANEZA ISMAIL">
+          Reba amasomo
+        </a>
       </div>
-      <div class="stat-row">
-        <span class="stat">8 Inyigisho</span>
-        <span class="stat">5 Videos</span>
-        <span class="stat">3 Audio</span>
+
+      <div class="teacher-card" data-spec="hadith fiqh" data-name="sheikh aboubakar">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="avatar">AB</div>
+          <div>
+            <div class="teacher-name">Sheikh ABOUBAKAR</div>
+            <span class="spec-badge">Hadith · Fiqh</span>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat">8 Inyigisho</span>
+          <span class="stat">5 Video</span>
+          <span class="stat">3 Audio</span>
+        </div>
+
+        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh ABOUBAKAR">
+          Reba amasomo
+        </a>
       </div>
-      <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#fff" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="#fff"/></svg>
-        Reba amasomo
-      </a>
+
+      <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="avatar">NK</div>
+          <div>
+            <div class="teacher-name">Sheikh NDAHAYO KHALID</div>
+            <span class="spec-badge">Tawhid · Arabic</span>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat">6 Inyigisho</span>
+          <span class="stat">4 Video</span>
+          <span class="stat">2 Audio</span>
+        </div>
+
+        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh NDAHAYO KHALID">
+          Reba amasomo
+        </a>
+      </div>
+
     </div>
 
-    <div class="teacher-card" data-spec="tawhid arabic" data-name="Sheikh NDAHAYO KHALID ABUU MUADH">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="avatar">NK</div>
-        <div>
-          <h3 style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px">Sheikh NDAHAYO KHALID ABUU MUADH</h3>
-          <span class="spec-badge">Tawhid · Arabic</span>
-        </div>
-      </div>
-      <div class="stat-row">
-        <span class="stat">6 Inyigisho</span>
-        <span class="stat">4 Videos</span>
-        <span class="stat">2 Audio</span>
-      </div>
-      <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh NDAHAYO KHALID ABUU MUADH">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#fff" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="#fff"/></svg>
-        Reba amasomo
-      </a>
+    <!-- EMPTY -->
+    <div class="no-result" id="noResult">
+      Nta mwarimu ubonetse 😕
     </div>
-   </div>
 
+    <!-- PAGINATION -->
+    <div class="pager">
+      <button onclick="changePage(-1)">Prev</button>
+      <span id="pageNum">1</span>
+      <button onclick="changePage(1)">Next</button>
+    </div>
 
-  <div class="no-result" id="noResult">Nta mwarimu ubonetse</div>
-
-  <div class="pager">
-    <button onclick="changePage(-1)">← Prev</button>
-    <span style="font-size:14px;font-weight:500;color:var(--color-text-secondary)">Urupapuro <strong id="pageNum">1</strong></span>
-    <button onclick="changePage(1)">Next →</button>
   </div>
-
-</div>
 </div>
 
 <script>
-let currentPage=1;
-const perPage=2;
-const cards=document.querySelectorAll(".teacher-card");
-const searchInput=document.getElementById("searchInput");
-const noResult=document.getElementById("noResult");
-let currentSpec="all";
 
+let currentPage = 1;
+const perPage = 2;
+
+const cards = document.querySelectorAll(".teacher-card");
+const searchInput = document.getElementById("searchInput");
+const noResult = document.getElementById("noResult");
+let currentSpec = "all";
+
+/* FILTER */
 function getFiltered(){
-  const kw=searchInput.value.toLowerCase();
-  return[...cards].filter(c=>{
-    const matchSpec=currentSpec==="all"||c.dataset.spec.includes(currentSpec);
-    const matchSearch=c.dataset.name.includes(kw)||c.innerText.toLowerCase().includes(kw);
-    return matchSpec&&matchSearch;
+  const kw = searchInput.value.toLowerCase();
+
+  return [...cards].filter(c=>{
+    const matchSpec = currentSpec === "all" || c.dataset.spec.includes(currentSpec);
+    const matchSearch = c.dataset.name.includes(kw);
+    return matchSpec && matchSearch;
   });
 }
 
-function applyFilters(){
-  const filtered=getFiltered();
-  const start=(currentPage-1)*perPage;
-  const end=start+perPage;
-  cards.forEach(c=>c.classList.add("hide"));
-  filtered.slice(start,end).forEach(c=>c.classList.remove("hide"));
-  document.getElementById("pageNum").innerText=currentPage;
-  noResult.style.display=filtered.length?"none":"block";
+/* RENDER */
+function render(){
+  const filtered = getFiltered();
+
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+
+  cards.forEach(c => c.classList.add("hide"));
+  filtered.slice(start,end).forEach(c => c.classList.remove("hide"));
+
+  noResult.style.display = filtered.length ? "none" : "block";
+  document.getElementById("pageNum").innerText = currentPage;
 }
 
+/* FILTER BUTTONS */
 document.querySelectorAll(".filter-btn").forEach(btn=>{
   btn.addEventListener("click",function(){
-    document.querySelector(".filter-btn.active")?.classList.remove("active");
+    document.querySelector(".filter-btn.active").classList.remove("active");
     this.classList.add("active");
-    currentSpec=this.dataset.spec;
-    currentPage=1;
-    applyFilters();
+    currentSpec = this.dataset.spec;
+    currentPage = 1;
+    render();
   });
 });
 
-searchInput.addEventListener("input",()=>{currentPage=1;applyFilters();});
+/* SEARCH */
+searchInput.addEventListener("input",()=>{
+  currentPage = 1;
+  render();
+});
 
+/* PAGINATION */
 function changePage(dir){
-  const max=Math.ceil(getFiltered().length/perPage)||1;
-  currentPage=Math.min(Math.max(currentPage+dir,1),max);
-  applyFilters();
+  const max = Math.ceil(getFiltered().length / perPage) || 1;
+  currentPage = Math.min(Math.max(currentPage + dir, 1), max);
+  render();
 }
 
-applyFilters();
-
-document.querySelectorAll(".btn-view").forEach(link => {
-    link.addEventListener("click", function () {
-        localStorage.setItem(
-            "sheikh_name",
-            this.getAttribute("data-name")
-        );
-    });
-});
+/* INIT */
+render();
 
 </script>
 

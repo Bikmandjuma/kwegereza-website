@@ -3,54 +3,34 @@
 
 <style>
 
-/* CONTENT */
+/* PAGE BACKGROUND (same as books) */
+.section{
+  padding:30px 0;
+  background:#f6f8f7;
+}
+
+/* CONTAINER */
 .container{
   max-width:1100px;
   margin:auto;
-  padding:40px 20px;
+  padding:0 15px;
 }
 
-.title{
+/* TITLE */
+.section-title{
   text-align:center;
-  margin-bottom:30px;
-}
-.title h1{
-  color:#0b3d2e;
-  font-weight: bold;
-  font-family: sans-serif;
-  font-size: 20px;
+  margin-bottom:20px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
+.section-title h2{
+  font-size:22px;
+  color:#0b3d2e;
+  font-weight:800;
 }
 
-.card{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.05);
-  transition:0.3s;
-}
-.card:hover{
-  transform:translateY(-5px);
-}
-.card h3{
-  color:#0b3d2e;
-  margin-bottom:10px;
-}
-.card p{
+.section-title p{
+  color:#666;
   font-size:14px;
-  color:#555;
-}
-.card a{
-  display:inline-block;
-  margin-top:10px;
-  color:#0b6d20;
-  font-weight:700;
-  text-decoration:none;
 }
 
 /* SEARCH */
@@ -62,15 +42,75 @@
 
 .search-boxx input{
   width:100%;
-  max-width:400px;
-  padding:10px 15px;
+  max-width:420px;
+  padding:12px 16px;
   border-radius:30px;
   border:1px solid #ddd;
   outline:none;
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
-.hide{ display:none !important; }
+/* GRID (same as books) */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
 
+/* CARD (MATCH BOOK STYLE) */
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 4px 15px #eee;
+  transition:0.3s;
+  position:relative;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 6px 18px #e5e5e5;
+}
+
+/* BADGE (NEW STYLE) */
+.badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:#0b6d20;
+  color:white;
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:20px;
+}
+
+/* TEXT */
+.card h3{
+  margin-top:10px;
+  font-size:16px;
+  color:#0b3d2e;
+  font-weight:700;
+}
+
+.card p{
+  font-size:13px;
+  color:#666;
+  margin-top:8px;
+}
+
+/* LINK BUTTON */
+.card a{
+  display:inline-block;
+  margin-top:10px;
+  color:#0b6d20;
+  font-weight:700;
+  text-decoration:none;
+  font-size:13px;
+}
+
+/* PAGINATION */
 .pagination{
   display:flex;
   justify-content:center;
@@ -80,9 +120,9 @@
 }
 
 .pagination button{
-  padding:6px 12px;
+  padding:8px 14px;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   background:#0b6d20;
   color:white;
   cursor:pointer;
@@ -91,82 +131,101 @@
 .pagination span{
   font-weight:bold;
 }
+
+/* HIDE */
+.hide{ display:none !important; }
+
+/* EMPTY */
+.empty{
+  text-align:center;
+  margin-top:20px;
+  color:#888;
+  display:none;
+}
+
 </style>
+<br>
+<section class="section">
 
-
-<!-- CONTENT -->
 <div class="container">
 
-  <div class="title">
-    <h1>Inyandiko z’Abamenyi</h1>
+  <!-- TITLE -->
+  <div class="section-title">
+    <h2>Inyandiko z’Abamenyi</h2>
     <p>Abamenyi b’ingenzi muri Islamu n’inyigisho zabo</p>
   </div>
 
+  <!-- SEARCH -->
   <div class="search-boxx">
-    <input type="text" id="searchMain" placeholder="Shakisha inyandiko z'abamenyi ......">
+    <input type="text" id="searchMain" placeholder="Shakisha inyandiko...">
   </div>
 
-
+  <!-- GRID -->
   <div class="grid">
 
     <div class="card">
+      <span class="badge">Imam</span>
       <h3>Imam Shafi’i</h3>
-      <p>
-        Imam wamenyekanye cyane mu fiqh ya Shafi’i, ufite inyigisho zikomeye ku mategeko ya Islam.
-      </p>
+      <p>Imam wamenyekanye cyane mu fiqh ya Shafi’i.</p>
       <a href="#">Soma inyandiko</a>
     </div>
 
     <div class="card">
+      <span class="badge">Imam</span>
       <h3>Imam Malik ibn Anas</h3>
-      <p>
-        Umushinze madhhab ya Maliki, azwi ku bumenyi bwe mu Hadith no mu mategeko.
-      </p>
+      <p>Umushinze madhhab ya Maliki mu Hadith.</p>
       <a href="#">Soma inyandiko</a>
     </div>
 
     <div class="card">
+      <span class="badge">Imam</span>
       <h3>Imam Ahmad ibn Hanbal</h3>
-      <p>
-        Umuyobozi wa madhhab ya Hanbali, uzwi ku kwishingikiriza cyane kuri Hadith.
-      </p>
+      <p>Uzwi ku kwishingikiriza kuri Hadith.</p>
       <a href="#">Soma inyandiko</a>
     </div>
 
     <div class="card">
+      <span class="badge">Sheikh</span>
       <h3>Sheikh Ibn Baaz</h3>
-      <p>
-        Sheikh w’ibihe bya vuba, uzwi cyane ku fatwa n’inyigisho za Tawhid.
-      </p>
+      <p>Sheikh uzwi ku fatwa n’inyigisho za Tawhid.</p>
       <a href="#">Soma inyandiko</a>
     </div>
 
     <div class="card">
+      <span class="badge">Scholar</span>
       <h3>Ibn al-Qayyim</h3>
-      <p>
-        Umunyeshuri wa Ibn Taymiyyah, uzwi ku bitabo byimbitse ku Iman na Fiqh.
-      </p>
+      <p>Umunyeshuri wa Ibn Taymiyyah.</p>
       <a href="#">Soma inyandiko</a>
     </div>
 
   </div>
 
+  <!-- EMPTY -->
+  <div class="empty" id="emptyState">
+    Nta nyandiko ibonetse 😕
+  </div>
+
+  <!-- PAGINATION -->
   <div class="pagination">
     <button onclick="changePage(-1)">Prev</button>
     <span id="pageNum">1</span>
     <button onclick="changePage(1)">Next</button>
   </div>
+
 </div>
 
-<script>
+</section>
 
-const cards = document.querySelectorAll(".card");
-const searchInput = document.getElementById("searchMain");
+<script>
 
 let currentPage = 1;
 const perPage = 4;
 
-function getFilteredCards() {
+const cards = document.querySelectorAll(".card");
+const searchInput = document.getElementById("searchMain");
+const emptyState = document.getElementById("emptyState");
+
+function getFiltered(){
   let search = searchInput.value.toLowerCase();
 
   return [...cards].filter(card =>
@@ -174,45 +233,44 @@ function getFilteredCards() {
   );
 }
 
-function applyFilters() {
-  let filtered = getFilteredCards();
+function render(){
+  let filtered = getFiltered();
 
   let maxPage = Math.ceil(filtered.length / perPage) || 1;
 
-  if (currentPage > maxPage) currentPage = maxPage;
-  if (currentPage < 1) currentPage = 1;
+  if(currentPage > maxPage) currentPage = maxPage;
+  if(currentPage < 1) currentPage = 1;
 
   let start = (currentPage - 1) * perPage;
   let end = start + perPage;
 
-  // hide all
   cards.forEach(c => c.classList.add("hide"));
 
-  // show only filtered + paginated
-  filtered.slice(start, end).forEach(c => {
-    c.classList.remove("hide");
-  });
+  filtered.slice(start, end).forEach(c => c.classList.remove("hide"));
 
-  // update page number
+  emptyState.style.display = filtered.length === 0 ? "block" : "none";
+
   document.getElementById("pageNum").innerText = currentPage;
-
-  // disable buttons if needed
-  document.querySelector(".pagination button:first-child").disabled = currentPage === 1;
-  document.querySelector(".pagination button:last-child").disabled = currentPage === maxPage;
 }
 
-searchInput.addEventListener("input", () => {
+searchInput.addEventListener("input", ()=>{
   currentPage = 1;
-  applyFilters();
+  render();
 });
 
-function changePage(dir) {
+function changePage(dir){
+  let filtered = getFiltered();
+  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+
   currentPage += dir;
-  applyFilters();
+
+  if(currentPage < 1) currentPage = 1;
+  if(currentPage > maxPage) currentPage = maxPage;
+
+  render();
 }
 
-// initial load
-applyFilters();
+render();
 
 </script>
 

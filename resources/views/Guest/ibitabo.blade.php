@@ -252,7 +252,7 @@
     <br>
     <h3>TAWHID</h3>
     <p>Ubusobanuro bwa Tawhid n'ibiyirwanya mu buzima bwa Muslim.</p>
-    <div class="book-actions">
+    <div class="book-actions" style="align-content: center;align-items: center;">
       <a href="igitabo5.pdf" target="_blank" class="btn-book">
         <i class="fas fa-eye"></i> soma igitabo
       </a>
