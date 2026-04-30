@@ -1,4 +1,3 @@
-<!-- @extends('Auth.cover') -->
 @extends('Guest.cover')
 @section('content')
 
