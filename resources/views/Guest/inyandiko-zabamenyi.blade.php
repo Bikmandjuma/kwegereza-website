@@ -160,42 +160,13 @@
 
 <script>
 
-
-const dropdown = document.querySelector(".dropdown > a");
-const menu = document.querySelector(".dropdown-menu");
-
-dropdown.addEventListener("click", (e) => {
-  e.preventDefault();
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-});
-
-function toggleSheikh() {
-  const list = document.getElementById("sheikhList");
-  list.style.display = (list.style.display === "block") ? "none" : "block";
-}
-
-// SELECT ALL SHEIKH LINKS
-const sheikhLinks = document.querySelectorAll(".sheikh-link");
-
-// LOOP THROUGH THEM
-sheikhLinks.forEach(link => {
-  link.addEventListener("click", function () {
-
-    const name = this.getAttribute("data-name");
-
-    // SAVE TO LOCAL STORAGE
-    localStorage.setItem("sheikh_name", name);
-
-  });
-});
+const cards = document.querySelectorAll(".card");
+const searchInput = document.getElementById("searchMain");
 
 let currentPage = 1;
 const perPage = 4;
 
-const cards = document.querySelectorAll(".card");
-const searchInput = document.getElementById("searchMain");
-
-function getFilteredCards(){
+function getFilteredCards() {
   let search = searchInput.value.toLowerCase();
 
   return [...cards].filter(card =>
@@ -203,20 +174,31 @@ function getFilteredCards(){
   );
 }
 
-function applyFilters(){
+function applyFilters() {
   let filtered = getFilteredCards();
+
+  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+
+  if (currentPage > maxPage) currentPage = maxPage;
+  if (currentPage < 1) currentPage = 1;
 
   let start = (currentPage - 1) * perPage;
   let end = start + perPage;
 
+  // hide all
   cards.forEach(c => c.classList.add("hide"));
 
+  // show only filtered + paginated
   filtered.slice(start, end).forEach(c => {
     c.classList.remove("hide");
   });
 
   // update page number
   document.getElementById("pageNum").innerText = currentPage;
+
+  // disable buttons if needed
+  document.querySelector(".pagination button:first-child").disabled = currentPage === 1;
+  document.querySelector(".pagination button:last-child").disabled = currentPage === maxPage;
 }
 
 searchInput.addEventListener("input", () => {
@@ -224,20 +206,14 @@ searchInput.addEventListener("input", () => {
   applyFilters();
 });
 
-function changePage(dir){
-  let filtered = getFilteredCards();
-  let maxPage = Math.ceil(filtered.length / perPage);
-
+function changePage(dir) {
   currentPage += dir;
-
-  if(currentPage < 1) currentPage = 1;
-  if(currentPage > maxPage) currentPage = maxPage;
-
   applyFilters();
 }
 
-// INITIAL LOAD
+// initial load
 applyFilters();
+
 </script>
 
 @endsection

@@ -1,18 +1,8 @@
 @extends('Guest.cover')
 @section('content')
 
-<!DOCTYPE html>
-<html lang="rw">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kwegereza Islam Umuryango – E-Learning</title>
-<!-- <meta http-equiv="refresh" content="3"> -->
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="../assets/style.css">
 <style>
-  
+
 /* CONTAINER */
 .container{
   max-width:1100px;
@@ -20,12 +10,21 @@
   padding:30px 20px;
 }
 
-.title{
+/* TITLE */
+.section-title{
   text-align:center;
+  margin-bottom:10px;
 }
 
-.title h1{
+.section-title h2{
   color:#0b3d2e;
+  font-size:22px;
+  font-weight:800;
+}
+
+.section-title p{
+  color:#666;
+  font-size:14px;
 }
 
 /* SEARCH */
@@ -46,21 +45,26 @@
 
 /* TABS */
 .tabs{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:15px 0;
+  background:#f6f8f7;
+  padding:10px;
+  border-radius:999px;
+  width:fit-content;
+  margin:15px auto;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
 .tab{
-  padding:8px 16px;
+  border:none;
+  padding:8px 14px;
   border-radius:999px;
-  border:1px solid #0b6d20;
-  background:white;
-  color:#0b6d20;
   cursor:pointer;
   font-weight:600;
+  transition:0.3s;
+  background:white;
+}
+
+.tab:hover{
+  transform:scale(1.05);
 }
 
 .tab.active{
@@ -75,19 +79,28 @@
   gap:20px;
 }
 
-/* CARD */
+/* CARD (FIXED) */
 .card{
-  background:white;
+  background:yellowgreen;
   padding:18px;
   border-radius:14px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.05);
+  box-shadow:0 4px 15px #eee;
   transition:0.3s;
+  animation:fadeIn 0.3s ease;
 }
 
 .card:hover{
   transform:translateY(-5px);
+  box-shadow:0 6px 18px #e5e5e5;
 }
 
+/* ANIMATION */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* BADGES */
 .badge{
   display:inline-block;
   padding:4px 10px;
@@ -96,25 +109,26 @@
   font-weight:700;
 }
 
-.done{ background:#eee; color:#0b6d20; }
-.upcoming{ background:#eee; color:#b26a00; }
-.live{ background:#eee; color:#b30000; }
+.done{ background:white; color:#0b6d20;box-shadow:0 2px 10px rgba(0,0,0,0.2); }
+.upcoming{ background:white; color:#b26a00; box-shadow:0 2px 10px rgba(0,0,0,0.2);}
+.live{ background:white; color:#b30000; box-shadow:0 2px 10px rgba(0,0,0,0.2);}
 
-h3{ margin:10px 0 6px; color:#0b3d2e; }
+h3{
+  margin:10px 0 6px;
+  color:#0b3d2e;
+}
 
-p{ font-size:14px; color:#555; }
+p{
+  font-size:14px;
+  color:#555;
+}
 
-.date{ font-size:12px; color:#777; margin-top:8px; }
-
-.btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:8px 14px;
-  border-radius:20px;
-  background:#0b6d20;
-  color:white;
-  text-decoration:none;
-  font-size:13px;
+/* EMPTY STATE */
+.empty{
+  text-align:center;
+  color:#888;
+  margin-top:20px;
+  display:none;
 }
 
 /* PAGINATION */
@@ -140,8 +154,8 @@ p{ font-size:14px; color:#555; }
 }
 
 .hide{ display:none !important; }
-</style>
 
+</style>
 
 <div class="container">
 
@@ -164,13 +178,41 @@ p{ font-size:14px; color:#555; }
   </div>
 
   <!-- GRID -->
-  <div class="grid" id="grid">
+  <div class="grid">
 
-    <div class="card live"><span class="badge live">LIVE</span><h3>Hadith</h3><p>Sheikh ABOUBAKAR</p></div>
-    <div class="card upcoming"><span class="badge upcoming"> RISIGAYE</span><h3>Tawhid</h3><p>Aqida lesson</p></div>
-    <div class="card upcoming"><span class="badge upcoming"> RISIGAYE</span><h3>Fiqh Salah</h3><p>Isengesho</p></div>
-    <div class="card done"><span class="badge done">ryararangiye</span><h3>Qur’an</h3><p>By Sheikh Ndahayo Halid</p></div>
-    <div class="card done"><span class="badge done">ryararangiye</span><h3>Shafi’i</h3><p>Fiqh class</p></div>
+    <div class="card live">
+      <span class="badge live">LIVE</span>
+      <h3>Hadith</h3>
+      <p>Sheikh ABOUBAKAR</p>
+    </div>
+
+    <div class="card upcoming">
+      <span class="badge upcoming">RISIGAYE</span>
+      <h3>Tawhid</h3>
+      <p>Aqida lesson</p>
+    </div>
+
+    <div class="card upcoming">
+      <span class="badge upcoming">RISIGAYE</span>
+      <h3>Fiqh Salah</h3>
+      <p>Isengesho</p>
+    </div>
+
+    <div class="card done">
+      <span class="badge done">RYARARANGIYE</span>
+      <h3>Qur’an</h3>
+      <p>By Sheikh Ndahayo Halid</p>
+    </div>
+
+    <div class="card done">
+      <span class="badge done">RYARARANGIYE</span>
+      <h3>Shafi’i</h3>
+      <p>Fiqh class</p>
+    </div>
+
+    <div class="empty" id="emptyState">
+      Nta somo ribonetse 😕
+    </div>
 
   </div>
 
@@ -182,95 +224,75 @@ p{ font-size:14px; color:#555; }
   </div>
 
 </div>
+
 <script>
-
-const dropdown = document.querySelector(".dropdown > a");
-const menu = document.querySelector(".dropdown-menu");
-
-dropdown.addEventListener("click", (e) => {
-  e.preventDefault();
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-});
-
-function toggleSheikh() {
-  const list = document.getElementById("sheikhList");
-  list.style.display = (list.style.display === "block") ? "none" : "block";
-}
-
-// SELECT ALL SHEIKH LINKS
-const sheikhLinks = document.querySelectorAll(".sheikh-link");
-
-// LOOP THROUGH THEM
-sheikhLinks.forEach(link => {
-  link.addEventListener("click", function () {
-
-    const name = this.getAttribute("data-name");
-
-    // SAVE TO LOCAL STORAGE
-    localStorage.setItem("sheikh_name", name);
-
-  });
-});
 
 let currentTab = "all";
 let currentPage = 1;
-const perPage = 4;
+const perPage = 3;
 
 const cards = document.querySelectorAll(".card");
 const searchInput = document.getElementById("searchInput");
+const emptyState = document.getElementById("emptyState");
 
-function applyFilters(){
+function getFiltered(){
   let search = searchInput.value.toLowerCase();
 
-  let filtered = [...cards].filter(card=>{
+  return [...cards].filter(card=>{
     let matchTab = currentTab === "all" || card.classList.contains(currentTab);
     let matchSearch = card.innerText.toLowerCase().includes(search);
     return matchTab && matchSearch;
   });
+}
 
-  // pagination
-  let start = (currentPage-1)*perPage;
+function render(){
+  let filtered = getFiltered();
+
+  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+
+  if(currentPage > maxPage) currentPage = maxPage;
+  if(currentPage < 1) currentPage = 1;
+
+  let start = (currentPage - 1) * perPage;
   let end = start + perPage;
 
-  cards.forEach(c=>c.classList.add("hide"));
+  cards.forEach(c => c.classList.add("hide"));
 
-  filtered.slice(start,end).forEach(c=>c.classList.remove("hide"));
+  filtered.slice(start, end).forEach(c => c.classList.remove("hide"));
+
+  emptyState.style.display = filtered.length === 0 ? "block" : "none";
+
+  document.getElementById("pageNum").innerText = currentPage;
 }
 
 function setTab(tab, e){
   currentTab = tab;
   currentPage = 1;
 
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   e.target.classList.add("active");
 
-  applyFilters();
+  render();
 }
 
 searchInput.addEventListener("input", ()=>{
   currentPage = 1;
-  applyFilters();
+  render();
 });
 
 function changePage(dir){
-  let visible = [...cards].filter(card=>{
-    let matchTab = currentTab === "all" || card.classList.contains(currentTab);
-    let matchSearch = card.innerText.toLowerCase().includes(searchInput.value.toLowerCase());
-    return matchTab && matchSearch;
-  });
-
-  let maxPage = Math.ceil(visible.length / perPage);
+  let filtered = getFiltered();
+  let maxPage = Math.ceil(filtered.length / perPage) || 1;
 
   currentPage += dir;
+
   if(currentPage < 1) currentPage = 1;
   if(currentPage > maxPage) currentPage = maxPage;
 
-  document.getElementById("pageNum").innerText = currentPage;
-
-  applyFilters();
+  render();
 }
 
-applyFilters();
+render();
 
 </script>
 
