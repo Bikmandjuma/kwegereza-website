@@ -39,7 +39,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UpdateLastActive::class,
             \App\Http\Middleware\TrackGuest::class,
-            'track.visit' => \App\Http\Middleware\TrackVisit::class,
 
         ],
 
@@ -90,5 +89,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'ownerAuth' => \App\Http\Middleware\OwnerMiddleware::class,
         'userAuth' => \App\Http\Middleware\UserMiddleware::class,
+        'track.visit' => \App\Http\Middleware\TrackVisit::class,
     ];
 }
