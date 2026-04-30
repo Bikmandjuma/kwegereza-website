@@ -1,48 +1,5 @@
 @extends('Guest.cover')
 @section('content')
-<!-- <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    loadVisits();
-    startPing();
-
-    // update stats every 60 seconds ONLY
-    setInterval(loadVisits, 10000);
-});
-
-function loadVisits() {
-    fetch("{{ route('guest.live.visits') }}", {
-        cache: "no-store"
-    })
-    .then(res => res.json())
-    .then(data => {
-
-        document.getElementById("todayVisit").innerText = data.today;
-        document.getElementById("totalVisit").innerText = data.total;
-
-        // 👇 ADD THIS (IMPORTANT)
-        document.getElementById("onlineUsers").innerText = data.online;
-
-    })
-    .catch(err => console.log(err));
-}
-
-// heartbeat system
-function startPing() {
-
-    function ping() {
-        fetch("/guest/ping", {
-            method: "GET",
-            credentials: "include",
-            cache: "no-store"
-        });
-    }
-
-    ping(); // immediate
-
-    setInterval(ping, 30000); // every 30 seconds
-}
-</script> -->
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -106,10 +63,7 @@ function startPing() {
         <h4>⭐ &nbsp;Site Overview</h4>
         
         <div style="padding: 5px;">--------------------------</div>
-        
-        <!-- <div class="trans">System-users : 0</div> -->
-        <!-- <div class="trans">Today's visit : {{ $todayVisit }}</div>
-        <div class="trans">All-visits : {{ $totalVisit }}</div> -->
+   
         <div class="trans">
             Online users:
             <span id="onlineUsers" style="color: green;font-weight:bold;">
@@ -121,7 +75,7 @@ function startPing() {
           <span id="todayVisit" style="color: forestgreen;font-family: sans-serif;font-weight: bold;"><strong>{{ $todayVisit }}</strong> </span>
         </div>
 
-        <div class="trans" style="padding-top:5px">
+        <div class="trans">
           All&nbsp;-&nbsp;visits :
           <span id="totalVisit" style="color: forestgreen;font-family: sans-serif;font-weight: bold;"><strong>{{ $totalVisit }}</strong> </span>
         </div>
