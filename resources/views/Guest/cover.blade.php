@@ -54,6 +54,10 @@
 .mobile-menu.active {
   display: block;
 }
+
+#mobileMenu a{
+  margin-top: 15px;
+}
 </style>
 </head>
 <body>
@@ -136,15 +140,16 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="{{route('guest.home')}}#ahabanza" class="{{Request::segment(1) == '' ? 'active' : ''}}"><i class="fas fa-home"></i> Ahabanza</a>
     <a href="{{route('guest.home')}}#abo-turi-bo"><i class="fas fa-info-circle"></i> Abo-turibo</a>
-      <div onclick="window.location.href='{{ route("guest.teachers") }}'" >
-        <p style="margin-left: -1%;font-weight: bold;" class="{{Request::segment(1) == 'abasheikh' ? 'active' : ''}}"><i class="fas fa-users"></i> Abarimu</p>
-      </div>
+      <!-- <div onclick="window.location.href='{{ route("guest.teachers") }}'" > -->
+        <a href="{{ route('guest.teachers') }}" class="{{Request::segment(1) == 'abasheikh' ? 'active' : ''}}"><i class="fas fa-users"></i> Abarimu
+        </a>
+      <!-- </div> -->
 
       <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="{{Request::segment(1) == 'inyandiko-zabamenyi' ? 'active' : ''}}"><i class="fas fa-pencil"></i> Inyandiko z'abamenyi</a>
       <a href="{{ route('guest.news') }}" class="{{Request::segment(1) == 'amatangazo' ? 'active' : ''}}"><i class="fas fa-bullhorn"></i> Amatangazo</a>
       <a href="{{ route('guest.books') }}" class="{{Request::segment(1) == 'ibitabo' ? 'active' : ''}}"><i class="fas fa-book"></i> Ibitabo</a>
     <a href="{{ route('guest.home') }}#twandikire"><i class="fas fa-phone"></i> Twandikire</a>
-    <a href="{{ route('owner.login') }}" class="btn-donate hidden sm:hidden"><i class="fas fa-user"></i>Account</a>
+    <a href="{{ route('owner.login') }}" class="btn-donate hidden sm:hidden" style="max-width: 40%;"><i class="fas fa-user"></i>Account</a>
   </div>
 </div>
 

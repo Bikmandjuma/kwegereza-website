@@ -2,6 +2,7 @@
 @section('content')
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -13,6 +14,13 @@ body{
   background:linear-gradient(135deg,#f8fff9,#eef8ff);
 }
 
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:0 16px;
+}
+
 /* PAGE */
 .page{
   padding:28px 0;
@@ -22,62 +30,62 @@ body{
 .profile-card{
   background:linear-gradient(135deg,#0b3d2e,#0B6D20);
   color:#fff;
-  border-radius:20px;
-  padding:24px;
+  border-radius:18px;
+  padding:22px;
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:16px;
   flex-wrap:wrap;
-  box-shadow:0 15px 35px rgba(11,61,46,.18);
+  box-shadow:0 12px 30px rgba(11,61,46,.18);
 }
 
 .avatar{
-  width:72px;
-  height:72px;
+  width:68px;
+  height:68px;
   border-radius:50%;
   background:rgba(255,255,255,.18);
   border:2px solid rgba(255,255,255,.25);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:22px;
+  font-size:20px;
   font-weight:bold;
 }
 
 .profile-info h2{
-  font-size:20px;
-  margin-bottom:6px;
+  font-size:19px;
+  margin-bottom:5px;
 }
 
 .profile-info p{
-  font-size:14px;
+  font-size:13px;
   opacity:.9;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .badges{
   display:flex;
+  gap:6px;
   flex-wrap:wrap;
-  gap:8px;
 }
 
 .badge{
   background:rgba(255,255,255,.12);
   border:1px solid rgba(255,255,255,.18);
-  padding:6px 12px;
+  padding:5px 10px;
   border-radius:999px;
-  font-size:12px;
+  font-size:11px;
 }
 
 /* SEARCH */
 .search-wrap{
-  margin:18px 0 14px;
+  margin:18px 0 12px;
   position:relative;
 }
 
 .search-wrap svg{
   position:absolute;
-  left:14px;
+  left:12px;
   top:50%;
   transform:translateY(-50%);
   color:#0B6D20;
@@ -85,12 +93,12 @@ body{
 
 #searchInput{
   width:100%;
-  padding:13px 16px 13px 42px;
+  padding:12px 14px 12px 38px;
   border:none;
   border-radius:999px;
   background:#fff;
   font-size:14px;
-  box-shadow:0 8px 20px rgba(0,0,0,.07);
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
   outline:none;
 }
 
@@ -98,24 +106,24 @@ body{
   box-shadow:0 0 0 4px rgba(11,109,32,.12);
 }
 
-/* FILTER */
+/* FILTERS */
 .filters{
   display:flex;
-  gap:10px;
+  gap:8px;
   flex-wrap:wrap;
-  margin-bottom:18px;
+  margin-bottom:14px;
 }
 
 .filter-btn{
   border:none;
-  padding:10px 16px;
+  padding:8px 14px;
   border-radius:999px;
   background:#fff;
   color:#444;
   cursor:pointer;
-  font-size:13px;
+  font-size:12px;
   font-weight:600;
-  box-shadow:0 5px 14px rgba(0,0,0,.05);
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
   transition:.2s;
 }
 
@@ -133,11 +141,11 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
+  margin-bottom:12px;
 }
 
 .count{
-  font-size:14px;
+  font-size:13px;
   color:#555;
   font-weight:600;
 }
@@ -146,106 +154,175 @@ body{
 .lesson-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:15px;
+  gap:14px;
 }
 
 /* CARD */
 .lesson-card{
   background:#fff;
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,.06);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.2);
   transition:.2s;
 }
 
 .lesson-card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-3px);
 }
 
+/* ICON */
 .icon-wrap{
-  width:48px;
-  height:48px;
-  border-radius:14px;
+  width:46px;
+  height:46px;
+  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .icon-video{background:#e7fff0;}
 .icon-audio{background:#fff4df;}
 
+/* TEXT */
 .lesson-card h4{
-  font-size:15px;
+  font-size:14px;
   color:#111;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .lesson-meta{
   display:flex;
   flex-wrap:wrap;
-  gap:6px;
+  gap:5px;
 }
 
 .type-tag{
-  font-size:11px;
-  padding:4px 10px;
+  font-size:10px;
+  padding:3px 8px;
   border-radius:999px;
   font-weight:700;
 }
 
-.tag-video{
-  background:#e7fff0;
-  color:#0B6D20;
-}
-
-.tag-audio{
-  background:#fff4df;
-  color:#ad6a00;
-}
-
-.tag-fiqh{
-  background:#ffe9f1;
-  color:#b13c6b;
-}
-
-.tag-tawhid{
-  background:#ecebff;
-  color:#5146d8;
-}
+.tag-video{background:#e7fff0;color:#0B6D20;}
+.tag-audio{background:#fff4df;color:#ad6a00;}
+.tag-fiqh{background:#ffe9f1;color:#b13c6b;}
+.tag-tawhid{background:#ecebff;color:#5146d8;}
 
 .duration{
-  font-size:12px;
+  font-size:11px;
   color:#777;
-  padding-top:4px;
 }
 
+/* NO RESULT */
 .no-result{
   display:none;
   text-align:center;
-  padding:30px;
+  padding:25px;
   color:#666;
   font-weight:600;
 }
 
+/* PAGER */
+.pager{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+  margin-top:18px;
+}
+
+.pager button{
+  background:#0B6D20;
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:6px 12px;
+  cursor:pointer;
+}
+
+.pager span{
+  font-size:12px;
+  font-weight:600;
+}
+
+/* ================= MOBILE ================= */
 @media(max-width:768px){
+
+  .page{
+    padding:16px 12px; /* 🔥 fixes edge touching */
+  }
+
+  /* PROFILE */
   .profile-card{
+    flex-direction:column;
     text-align:center;
-    justify-content:center;
+    padding:18px;
+  }
+
+  .avatar{
+    width:60px;
+    height:60px;
+    font-size:18px;
+  }
+
+  .profile-info h2{
+    font-size:16px;
+  }
+
+  .profile-info p{
+    font-size:12px;
   }
 
   .badges{
     justify-content:center;
   }
+
+  /* FILTER SCROLL */
+  .filters{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    padding-bottom:6px;
+  }
+
+  .filter-btn{
+    flex-shrink:0;
+  }
+
+  /* LIST STYLE (APP FEEL) */
+  .lesson-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .lesson-card{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .icon-wrap{
+    width:42px;
+    height:42px;
+    flex-shrink:0;
+  }
+
+  .lesson-card h4{
+    font-size:13px;
+  }
+
 }
 </style>
 <br>
 <!-- <div class="page" > -->
-<div class="page" style="max-width:80%;margin:0 auto;padding:0 16px;display:flex;flex-direction:column;gap:16px">
+<!-- <div class="page" style="max-width:80%;margin:0 auto;padding:0 16px;display:flex;flex-direction:column;gap:16px"> -->
 
+<div class="page container">
 
 <div class="profile-card">
-  <div class="avatar">MI</div>
+  <!-- <div class="avatar">MI</div> -->
 
   <div class="profile-info">
     <h2 id="sheikhTitle">Sheikh Munyaneza Ismail Abuu Omar</h2>
@@ -281,15 +358,15 @@ body{
 
 <div class="lesson-grid">
 
-<div class="lesson-card lesson-item" data-type="video tawhid">
-<div class="icon-wrap icon-video">▶</div>
-<h4>Tawhid y'ibanze</h4>
-<div class="lesson-meta">
-<span class="type-tag tag-video">Video</span>
-<span class="type-tag tag-tawhid">Tawhid</span>
-<span class="duration">42 min</span>
-</div>
-</div>
+  <div class="lesson-card lesson-item" data-type="video tawhid">
+    <div class="icon-wrap icon-video">▶</div>
+      <h4>Tawhid y'ibanze</h4>
+      <div class="lesson-meta">
+      <span class="type-tag tag-video">Video</span>
+      <span class="type-tag tag-tawhid">Tawhid</span>
+      <span class="duration">42 min</span>
+    </div>
+  </div>
 
 <div class="lesson-card lesson-item" data-type="audio tawhid">
 <div class="icon-wrap icon-audio">♪</div>
@@ -333,12 +410,16 @@ body{
 
 </div>
 
+<div class="pager">
+  <button onclick="changePage(-1)">←</button>
+  <span>Page <strong id="pageNum">1</strong></span>
+  <button onclick="changePage(1)">→</button>
+</div>
 <div class="no-result" id="noResult">Nta somo ribonetse</div>
 
 </div>
 
 <br>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -350,62 +431,80 @@ document.addEventListener("DOMContentLoaded", function () {
   const sheikhTitle = document.getElementById("sheikhTitle");
 
   let current = "all";
+  let currentPage = 1;
+  const perPage = 4;
 
-  // FILTER FUNCTION
-  function applyFilter() {
+  // ✅ GET FILTERED ITEMS
+  function getFiltered(){
     const keyword = search.value.toLowerCase().trim();
-    let found = 0;
 
-    items.forEach(item => {
+    return [...items].filter(item => {
       const types = item.dataset.type.toLowerCase();
       const text = item.innerText.toLowerCase();
 
-      const matchType =
-        current === "all" || types.includes(current);
+      const matchType = current === "all" || types.includes(current);
+      const matchSearch = keyword === "" || text.includes(keyword);
 
-      const matchSearch =
-        keyword === "" || text.includes(keyword);
-
-      if (matchType && matchSearch) {
-        item.style.display = "block";
-        found++;
-      } else {
-        item.style.display = "none";
-      }
+      return matchType && matchSearch;
     });
-
-    countLabel.innerText = found + " amasomo";
-    noResult.style.display = found > 0 ? "none" : "block";
   }
 
-  // FILTER BUTTONS
+  // ✅ MAIN RENDER FUNCTION (FILTER + PAGINATION)
+  function render(){
+    const filtered = getFiltered();
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
+
+    // hide all
+    items.forEach(item => item.style.display = "none");
+
+    // show only current page
+    filtered.slice(start, end).forEach(item => {
+      item.style.display = "block";
+    });
+
+    // update UI
+    countLabel.innerText = filtered.length + " amasomo";
+    noResult.style.display = filtered.length ? "none" : "block";
+    document.getElementById("pageNum").innerText = currentPage;
+  }
+
+  // ✅ FILTER BUTTONS
   filters.forEach(btn => {
     btn.addEventListener("click", function () {
-
-      document
-        .querySelector(".filter-btn.active")
-        ?.classList.remove("active");
-
+      document.querySelector(".filter-btn.active")?.classList.remove("active");
       this.classList.add("active");
 
       current = this.dataset.type.toLowerCase();
+      currentPage = 1;
 
-      applyFilter();
+      render();
     });
   });
 
-  // SEARCH INPUT
-  search.addEventListener("keyup", applyFilter);
-  search.addEventListener("input", applyFilter);
+  // ✅ SEARCH
+  search.addEventListener("input", function(){
+    currentPage = 1;
+    render();
+  });
 
-  // LOCAL STORAGE NAME
+  // ✅ PAGINATION (MAKE GLOBAL)
+  window.changePage = function(dir){
+    const max = Math.ceil(getFiltered().length / perPage) || 1;
+
+    currentPage = Math.min(Math.max(currentPage + dir, 1), max);
+    render();
+  };
+
+  // ✅ LOAD NAME FROM LOCAL STORAGE
   const savedName = localStorage.getItem("sheikh_name");
   if (savedName && sheikhTitle) {
     sheikhTitle.innerText = savedName;
   }
 
   // INIT
-  applyFilter();
+  render();
 
 });
 </script>

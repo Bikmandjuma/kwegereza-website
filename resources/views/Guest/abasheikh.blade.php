@@ -42,10 +42,113 @@ input[type=text]:focus{
 .pager button{background:#0B6D20;color:#fff;border:none;border-radius:999px;padding:7px 18px;font-size:13px;font-weight:500;cursor:pointer;transition:opacity .15s}
 .pager button:hover{opacity:.8}
 .no-result{text-align:center;padding:40px 0;font-size:14px;color:var(--color-text-tertiary);display:none}
+.pager{
+  background:#fff;
+  padding:6px 10px;
+  border-radius:999px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  width:fit-content;
+  margin:20px auto 0;
+}
+@media (max-width: 768px){
+
+  .page{
+    padding:16px 0;
+  }
+
+  .page > div{
+    max-width:100% !important;
+    padding:0 12px !important;
+  }
+
+  h2{
+    font-size:18px !important;
+  }
+
+  input[type=text]{
+    padding:10px 14px;
+    font-size:13px;
+  }
+
+  /* FILTER BUTTONS SCROLL */
+  .page div[style*="flex-wrap"]{
+    flex-wrap:nowrap !important;
+    overflow-x:auto;
+    padding-bottom:5px;
+  }
+
+  .filter-btn{
+    flex-shrink:0;
+    font-size:12px;
+    padding:6px 12px;
+  }
+
+  /* GRID → 1 COLUMN */
+  .teacher-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .teacher-card{
+    padding:14px;
+    border-radius:12px;
+  }
+
+  .avatar{
+    width:44px;
+    height:44px;
+    font-size:14px;
+  }
+
+  .stat{
+    font-size:11px;
+    padding:3px 8px;
+  }
+
+  .btn-view{
+    font-size:11px;
+    padding:6px 12px;
+  }
+
+  /*.pager{
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .pager button{
+    width:100%;
+  }*/
+
+  .pager{
+    flex-direction: row;        /* ✅ keep in one row */
+    justify-content: center;    /* ✅ center everything */
+    gap:6px;
+    flex-wrap: nowrap;          /* ❗ prevent breaking into 2 lines */
+  }
+
+  .pager button{
+    width:auto;                 /* ❌ remove full width */
+    padding:6px 12px;
+    font-size:12px;
+  }
+
+  .pager span{
+    font-size:12px;
+    white-space: nowrap;        /* ✅ keep text in one line */
+  }
+  
+}
+
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 16px;
+}
 </style>
 
 <div class="page">
-<div style="max-width:80%;margin:0 auto;padding:0 16px;display:flex;flex-direction:column;gap:16px">
+<!-- <div style="max-width:1100px;width:100%;margin:0 auto;padding:0 16px;display:flex;flex-direction:column;gap:16px"> -->
+  <div class="container">
 
   <div>
     <div class="section-label">Amasomo</div>
@@ -55,7 +158,7 @@ input[type=text]:focus{
 
   <input type="text" id="searchInput" placeholder="Shakisha umwarimu...">
 
-  <div style="display:flex;flex-wrap:wrap;gap:8px">
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin: 10px 0px 10px 0px;">
     <button class="filter-btn active" data-spec="all">Bose</button>
     <button class="filter-btn" data-spec="tawhid">Tawhid</button>
     <button class="filter-btn" data-spec="fiqh">Fiqh</button>
@@ -137,7 +240,7 @@ input[type=text]:focus{
 
 <script>
 let currentPage=1;
-const perPage=4;
+const perPage=2;
 const cards=document.querySelectorAll(".teacher-card");
 const searchInput=document.getElementById("searchInput");
 const noResult=document.getElementById("noResult");
