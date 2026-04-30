@@ -46,6 +46,14 @@
   color:#fff;
   cursor:pointer;
 }
+
+.mobile-menu {
+  display: none;
+}
+
+.mobile-menu.active {
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -210,8 +218,10 @@
       const chatBtn  = document.getElementById("chatBtn");
       const modal    = document.getElementById("classModal");
       const closeBtn = document.querySelector(".closeBtn");
-      const mobileMenu = document.getElementById("mobileMenu");
       const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const icon = menuBtn.querySelector("i");
+
 
       // open modal
       if(chatBtn && modal){
@@ -234,17 +244,58 @@
           }
       });
 
-      // ✅ CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
-      document.addEventListener("click", function (e) {
-          if (
-              mobileMenu &&
-              menuBtn &&
-              !mobileMenu.contains(e.target) &&
-              !menuBtn.contains(e.target)
-          ) {
-              mobileMenu.style.display = "none";
-          }
-      });
+
+    // ✅ TOGGLE MENU
+    menuBtn.addEventListener("click", function (e) {
+        e.stopPropagation(); // ⭐ VERY IMPORTANT
+
+        if (mobileMenu.style.display === "block") {
+            mobileMenu.style.display = "none";
+        } else {
+            mobileMenu.style.display = "block";
+        }
+    });
+
+    // ✅ PREVENT CLOSING WHEN CLICKING INSIDE MENU
+    mobileMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
+
+    // ✅ CLOSE WHEN CLICKING OUTSIDE
+    document.addEventListener("click", function () {
+        mobileMenu.style.display = "none";
+    });
+
+    // ✅ TOGGLE MENU
+    menuBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+
+        mobileMenu.classList.toggle("active");
+
+        // ✅ change icon
+        if (mobileMenu.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times"); // X
+        } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        }
+    });
+
+    // ✅ prevent closing when clicking inside menu
+    mobileMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
+
+    // ✅ close when clicking outside
+    document.addEventListener("click", function () {
+        mobileMenu.classList.remove("active");
+
+        // reset icon
+        icon.classList.remove("fa-times");
+        icon.classList.add("fa-bars");
+    });
+      
 
   });
 </script>

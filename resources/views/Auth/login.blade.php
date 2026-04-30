@@ -1,4 +1,5 @@
-@extends('Auth.cover')
+<!-- @extends('Auth.cover') -->
+@extends('Guest.cover')
 @section('content')
 
 @php

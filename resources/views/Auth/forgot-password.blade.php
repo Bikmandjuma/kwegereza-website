@@ -1,5 +1,5 @@
-@extends('Auth.cover')
-
+<!-- @extends('Auth.cover') -->
+@extends('Guest.cover')
 @section('content')
 
 @php
@@ -13,7 +13,7 @@
         <script>
             toastr.success("{{ session('success') }}", "Success");
         </script>
-    @endif
+    @endifsss
 
     @if(session('error'))
         <script>
