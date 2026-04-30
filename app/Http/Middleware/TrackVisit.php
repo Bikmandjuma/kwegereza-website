@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Visit;
+use Illuminate\Support\Str;
+
 
 class TrackVisit
 {
