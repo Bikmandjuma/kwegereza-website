@@ -205,34 +205,48 @@
 @endif
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
-    const chatBtn  = document.getElementById("chatBtn");
-    const modal    = document.getElementById("classModal");
-    const closeBtn = document.querySelector(".closeBtn");
+      const chatBtn  = document.getElementById("chatBtn");
+      const modal    = document.getElementById("classModal");
+      const closeBtn = document.querySelector(".closeBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const menuBtn = document.getElementById("menuBtn");
 
-    // open modal
-    if(chatBtn && modal){
-        chatBtn.addEventListener("click", function () {
-            modal.style.display = "flex";
-        });
-    }
+      // open modal
+      if(chatBtn && modal){
+          chatBtn.addEventListener("click", function () {
+              modal.style.display = "flex";
+          });
+      }
 
-    // close button
-    if(closeBtn){
-        closeBtn.addEventListener("click", function () {
-            modal.style.display = "none";
-        });
-    }
+      // close modal
+      if(closeBtn){
+          closeBtn.addEventListener("click", function () {
+              modal.style.display = "none";
+          });
+      }
 
-    // click outside
-    window.addEventListener("click", function (e) {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
+      // close modal when clicking outside
+      window.addEventListener("click", function (e) {
+          if (e.target === modal) {
+              modal.style.display = "none";
+          }
+      });
 
-});
+      // ✅ CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
+      document.addEventListener("click", function (e) {
+          if (
+              mobileMenu &&
+              menuBtn &&
+              !mobileMenu.contains(e.target) &&
+              !menuBtn.contains(e.target)
+          ) {
+              mobileMenu.style.display = "none";
+          }
+      });
+
+  });
 </script>
 <!-- <script src="assets/script.js"></script> -->
 <script src="https://cdn.tailwindcss.com"></script>

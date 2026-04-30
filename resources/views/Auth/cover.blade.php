@@ -170,6 +170,10 @@
 const chatBtn = document.getElementById("chatBtn");
 const modal = document.getElementById("classModal");
 const closeBtn = document.querySelector(".closeBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+const dropdown = document.querySelector(".dropdown > a");
+const menu = document.querySelector(".dropdown-menu");
+
 
 chatBtn.onclick = () => {
   modal.style.display = "flex";
@@ -185,8 +189,17 @@ window.onclick = (e) => {
   }
 };
 
-const dropdown = document.querySelector(".dropdown > a");
-const menu = document.querySelector(".dropdown-menu");
+// ✅ CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
+document.addEventListener("click", function (e) {
+    if (
+        mobileMenu &&
+        menuBtn &&
+        !mobileMenu.contains(e.target) &&
+        !menuBtn.contains(e.target)
+    ) {
+        mobileMenu.style.display = "none";
+    }
+});
 
 dropdown.addEventListener("click", (e) => {
   e.preventDefault();
