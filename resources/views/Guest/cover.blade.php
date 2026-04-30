@@ -58,6 +58,12 @@
 #mobileMenu a{
   margin-top: 15px;
 }
+
+
+.logo-box img:hover{
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -87,7 +93,7 @@
 <div class="navbar">
   <div class="nav-inner">
     <div class="logo-box">
-      <img src="{{ URL::to('/') }}/Guest/images/logo.png" alt="K.I.U Logo"
+      <img src="{{ URL::to('/') }}/Guest/images/logo.png" onclick="window.location.href='{{ route("guest.home") }}#ahabanza'" alt="K.I.U Logo"
            onerror="this.style.background='#0B3D2E';this.src='';this.alt='KIU'">
       <div class="logo-text">
         <h2>K.I.U</h2>
