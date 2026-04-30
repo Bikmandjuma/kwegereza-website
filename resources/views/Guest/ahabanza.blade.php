@@ -49,7 +49,7 @@ function startPing() {
 </script>
 
 <!-- HERO -->
-<section class="hero" id="ahabanza" style="background-color:#f6f8f7;">
+<section class="hero" id="ahabanza">
   <div class="hero-content">
     <div class="hero-arabic">تقريب السنة بين يدي الأمة</div>
     <h1>KWEGEREZA ISLAM<br><span>UMURYANGO</span></h1>

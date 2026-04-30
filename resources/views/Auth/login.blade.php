@@ -5,6 +5,15 @@
     $hideFooter = true;
 @endphp
 
+<style>
+    @media(max-width:780px){
+        #login{
+            margin-top: 10%;
+        }    
+    }
+    
+</style>
+
 <section class="section" id="login">
 
     @if(session('success'))
