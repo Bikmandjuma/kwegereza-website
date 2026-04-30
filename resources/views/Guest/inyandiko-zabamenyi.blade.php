@@ -189,7 +189,6 @@ sheikhLinks.forEach(link => {
   });
 });
 
-
 let currentPage = 1;
 const perPage = 4;
 
