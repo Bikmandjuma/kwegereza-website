@@ -1,6 +1,13 @@
 @extends('Guest.cover')
 @section('content')
-
+<style>
+    @media(max-width:780px){
+        .container{
+            margin-top: 10%;
+        }    
+    }
+    
+</style>
 @php
 
     $hideFooter = true;
