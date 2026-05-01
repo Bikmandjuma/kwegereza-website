@@ -12,7 +12,7 @@
         <script>
             toastr.success("{{ session('success') }}", "Success");
         </script>
-    @endifsss
+    @endif
 
     @if(session('error'))
         <script>
