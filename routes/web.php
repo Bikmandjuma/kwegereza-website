@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\GuestController;
 use Illuminate\Support\Facades\Http;
 
+
 Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],function(){
     
     Route::get('/dashboard', [AdminController::class, 'home'])->name('owner.dashboard');

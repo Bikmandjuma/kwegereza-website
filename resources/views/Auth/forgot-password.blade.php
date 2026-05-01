@@ -21,11 +21,11 @@
         </script>
     @endif
 
-    @if(session('error'))
+   <!--  @if(session('error'))
         <script>
             toastr.error("{{ session('error') }}", "Error");
         </script>
-    @endif
+    @endif -->
 
     <div class="container" style="max-width:400px;">
 
@@ -36,6 +36,7 @@
             </h2>
 
             <form action="{{ route('guest.submit-forgot-password') }}" method="POST">
+
                 @csrf
 
                 <!-- EMAIL -->
@@ -53,6 +54,11 @@
                         style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid #ccc;outline:none;font-size:14px;"
                     >
 
+                   <!--  @error('email')
+                        <small style="color:red;display:block;margin-top:6px;">
+                            {{ $message }}
+                        </small>
+                    @enderror -->
                     @error('email')
                         <small style="color:red;display:block;margin-top:6px;">
                             {{ $message }}

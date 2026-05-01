@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\Owner;
 use App\Models\User;
+use App\Models\ResetCodePassword;
+use App\Services\SendGridService;
 
 class WebAuthController extends Controller
 {
@@ -49,72 +51,121 @@ class WebAuthController extends Controller
 
     }
 
-    public function submit_forgot_password(Request $request){
-        try {
-            // Validate email input
-            $request->validate([
-                'email' => 'required|email',
-            ], [
-                'email.required' => 'Nta imeyili wanditse !',
-                'email.email' => 'Andika imeyili yanyayo !',
-            ]);
+    // public function submit_forgot_password(Request $request){
+    //     try {
+    //         // Validate email input
+    //         $request->validate([
+    //             'email' => 'required|email',
+    //         ], [
+    //             'email.required' => 'Nta imeyili wanditse !',
+    //             'email.email' => 'Andika imeyili yanyayo !',
+    //         ]);
 
+    //         $email = $request->input('email');
+
+    //         // Check if email exists in Admins or Users table
+    //         $existsInAdmins = Owner::where('email', $email)->exists();
+    //         $existsInUsers = User::where('email', $email)->exists();
+
+    //         if (!$existsInAdmins && !$existsInUsers) {
+    //             return back()->with([
+    //                 'status' => 'error',
+    //                 'message' => 'Imeyili ntibonetse mububiko !',
+    //             ], 404); // Not Found
+    //         }
+
+    //         // Delete all previous reset codes for this email
+    //         ResetCodePassword::where('email', $email)->delete();
+
+    //         // Generate a new reset code
+    //         $data = [
+    //             'email' => $email,
+    //             'code'  => mt_rand(100000, 999999),
+    //         ];
+
+    //         // Create a new reset code record
+    //         $reset_data = ResetCodePassword::create($data);
+
+    //         // Render Blade template to HTML
+    //         $html = view('emails.send-code-reset-password', ['code' => $reset_data->code])->render();
+
+    //         // Send reset code via SendGrid
+    //         SendGridService::send(
+    //             $reset_data->email,
+    //             'Reset password',
+    //             $html
+    //         );
+
+    //         return back()->with([
+    //             'status' => 'success',
+    //             'reset_code' => 'kode yoherejwe kuri imeyili.',
+    //         ]); // OK
+
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         // Handle validation exceptions
+    //         return back()->with([
+    //             'status'  => 'error',
+    //             'message' => 'Validation errors occurred.',
+    //             'errors'  => $e->errors(),
+    //         ]); // Unprocessable Entity
+    //     } catch (\Exception $e) {
+    //         // Log the error for debugging
+    //         \Log::error('Forgot password failed: ' . $e->getMessage());
+
+    //         // Handle any other exceptions
+    //         return back()->with([
+    //             'status'  => 'error',
+    //             'message' => 'An error occurred while processing your request. ' . $e->getMessage(),
+    //         ]); // Internal Server Error
+    //     }
+    // }
+
+    public function submit_forgot_password(Request $request){
+        // ✅ VALIDATION OUTSIDE TRY
+        $request->validate([
+            'email' => 'required|email',
+        ], [
+            'email.required' => 'Shyiramo imeyili!',
+            'email.email' => 'Andika imeyili ifite format nziza!',
+        ]);
+
+        try {
             $email = $request->input('email');
 
-            // Check if email exists in Admins or Users table
             $existsInAdmins = Owner::where('email', $email)->exists();
             $existsInUsers = User::where('email', $email)->exists();
 
             if (!$existsInAdmins && !$existsInUsers) {
-                return back()->with([
-                    'status' => 'error',
-                    'message' => 'Imeyili ntibonetse mububiko !',
-                ], 404); // Not Found
+                return redirect()->back()
+                    ->withErrors(['email' => 'Iyi imeyili ntiba muri sisitemu yacu.'])
+                    ->withInput();
             }
 
-            // Delete all previous reset codes for this email
             ResetCodePassword::where('email', $email)->delete();
 
-            // Generate a new reset code
             $data = [
                 'email' => $email,
                 'code'  => mt_rand(100000, 999999),
             ];
 
-            // Create a new reset code record
             $reset_data = ResetCodePassword::create($data);
 
-            // Render Blade template to HTML
-            $html = view('emails.send-code-reset-password', ['code' => $reset_data->code])->render();
+            $html = view('emails.send-code-reset-password', [
+                'code' => $reset_data->code
+            ])->render();
 
-            // Send reset code via SendGrid
             SendGridService::send(
                 $reset_data->email,
                 'Reset password',
                 $html
             );
 
-            return back()->with([
-                'status' => 'success',
-                'reset_code' => 'kode yoherejwe kuri imeyili.',
-            ]); // OK
+            return back()->with('success', 'Reset code sent successfully!');
 
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Handle validation exceptions
-            return back()->with([
-                'status'  => 'error',
-                'message' => 'Validation errors occurred.',
-                'errors'  => $e->errors(),
-            ]); // Unprocessable Entity
         } catch (\Exception $e) {
-            // Log the error for debugging
             \Log::error('Forgot password failed: ' . $e->getMessage());
 
-            // Handle any other exceptions
-            return back()->with([
-                'status'  => 'error',
-                'message' => 'An error occurred while processing your request. ' . $e->getMessage(),
-            ]); // Internal Server Error
+            return back()->with('error', 'Hari ikibazo cyabayeho. Ongera ugerageze.');
         }
     }
 
