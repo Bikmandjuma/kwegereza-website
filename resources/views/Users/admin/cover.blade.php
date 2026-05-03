@@ -379,7 +379,7 @@
                 href="index.html"
                 class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
               >
-                K.I.U , <span style="font-size: 10px;">{{ Auth()->guard('owner')->user()->title }}</span>
+                K.I.U , <span style="font-size: 10px;">{{ Auth()->guard('owner')->user()->title }} account</span>
                 
               </a>
 
