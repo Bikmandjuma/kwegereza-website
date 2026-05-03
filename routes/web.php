@@ -109,3 +109,23 @@ Route::get('/inyigisho-zabasheikh', [GuestController::class, 'teacher_darsa'])->
 
 Route::get('/live-visits', [GuestController::class, 'liveVisits'])->name('guest.live.visits');
 Route::get('/guest/ping', [GuestController::class, 'ping']);
+
+//verify otp
+Route::get('/verify_otp', [WebAuthController::class, 'verify_otp'])
+    ->name('guest.verify.otp');
+Route::post('/submit_verify_otp', [WebAuthController::class, 'SubmitverifyOtp'])->name('guest.submit.verify.otp');
+
+Route::get('/reset-password', [WebAuthController::class, 'reset_password'])
+    ->name('guest.reset.password');
+
+Route::post('/submit-reset-password', [WebAuthController::class, 'submit_reset_password'])
+    ->name('guest.submit.reset.password');
+
+Route::get('/test-mail', function () {
+    \Mail::raw('Hello test email', function ($msg) {
+        $msg->to('bikmangeek@gmail.com')
+            ->subject('Test Email');
+    });
+
+    return 'Mail sent!';
+});

@@ -1,82 +1,65 @@
 @extends('Guest.cover')
 @section('content')
-<style>
-    @media(max-width:780px){
-        .container{
-            margin-top: 10%;
-        }    
-    }
-    
-</style>
+
 @php
-
     $hideFooter = true;
-
 @endphp
-<section class="section" id="login">
 
-    @if(session('success'))
-        <script>
-            toastr.success("{{ session('success') }}", "Success");
-        </script>
-    @endif
+<style>
+@media(max-width:780px){
+    .container{ margin-top: 10%; }
+}
 
-   <!--  @if(session('error'))
-        <script>
-            toastr.error("{{ session('error') }}", "Error");
-        </script>
-    @endif -->
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #fff;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<section class="section">
 
     <div class="container" style="max-width:400px;">
 
-        <div style="background:white;padding:36px;border-radius:var(--radius);box-shadow:var(--shadow);border-top:5px solid var(--gold);">
+        <div style="background:white;padding:36px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.1);">
 
-            <h2 style="text-align:center;font-family:'Playfair Display',serif;color:var(--green-dark);margin-bottom:20px;">
-                Wibagiwe umubare-banga
-            </h2>
+            <h2 style="text-align:center;">Wibagiwe umubare-banga</h2>
 
-            <form action="{{ route('guest.submit-forgot-password') }}" method="POST">
-
+            <form id="forgotForm" action="{{ route('guest.submit-forgot-password') }}" method="POST">
                 @csrf
 
-                <!-- EMAIL -->
                 <div style="margin-bottom:16px;">
-                    <label for="email" style="display:block;font-weight:700;margin-bottom:6px;">
-                        Imeyili
-                    </label>
+                    <label>Imeyili</label>
 
                     <input
                         type="email"
-                        id="email"
                         name="email"
+                        id="email"
                         value="{{ old('email') }}"
                         placeholder="Andika imeyili yawe"
-                        style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid #ccc;outline:none;font-size:14px;"
+                        style="width:100%;padding:12px;border-radius:999px;border:1px solid #ccc;"
                     >
 
-                   <!--  @error('email')
-                        <small style="color:red;display:block;margin-top:6px;">
-                            {{ $message }}
-                        </small>
-                    @enderror -->
                     @error('email')
-                        <small style="color:red;display:block;margin-top:6px;">
-                            {{ $message }}
-                        </small>
+                        <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
 
-                <button type="submit"
-                    style="width:100%;padding:14px 0;background:var(--gold);color:var(--green-dark);
-                    border:none;border-radius:999px;font-weight:700;font-size:16px;cursor:pointer;">
-                    Ohereza emeyili
-                </button>
+                <button id="submitBtn"
+                        type="submit"
+                        style="width:100%;padding:14px;background:#d4af37;color:#000;border:none;border-radius:999px;font-weight:bold;">
 
-                <div style="display:flex;justify-content:center;align-items:center;margin-top:20px;font-size:13px;">
-                    <a href="{{ route('owner.login') }}" style="color:var(--green);font-weight:700;">
-                        <i class="fas fa-arrow-left"></i> Fungura
-                    </a>
-                </div>
+                    <span id="btnText">Ohereza emeyili</span>
+                    <span id="btnSpinner" style="display:none;" class="spinner"></span>
+                </button>
 
             </form>
 
@@ -86,21 +69,64 @@
 
 </section>
 
+{{-- SUCCESS HANDLER --}}
+@if(session('success'))
 <script>
-function togglePassword() {
-    const password = document.getElementById("password");
-    const eyeIcon = document.getElementById("eyeIcon");
+document.addEventListener("DOMContentLoaded", function () {
 
-    if (password.type === "password") {
-        password.type = "text";
-        eyeIcon.classList.remove("fa-eye");
-        eyeIcon.classList.add("fa-eye-slash");
-    } else {
-        password.type = "password";
-        eyeIcon.classList.remove("fa-eye-slash");
-        eyeIcon.classList.add("fa-eye");
+    const email = "{{ session('email') }}";
+    const message = "{{ session('success') }}";
+
+    toastr.success(message);
+
+    // save email
+    if (email) {
+        localStorage.setItem("reset_email", email);
     }
-}
+
+    // show loading redirect
+    const loader = document.createElement("div");
+    loader.innerHTML = `
+        <div style="
+            position:fixed;
+            top:0;left:0;
+            width:100%;height:100%;
+            background:rgba(0,0,0,0.4);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-size:18px;
+            z-index:9999;">
+            Redirecting...
+        </div>
+    `;
+    document.body.appendChild(loader);
+
+    setTimeout(() => {
+        window.location.href = "{{ route('guest.verify.otp',['email' => $email]) }}";
+    }, 2000);
+
+});
+</script>
+@endif
+
+{{-- SUBMIT LOADER --}}
+<script>
+document.getElementById("forgotForm").addEventListener("submit", function () {
+    document.getElementById("btnText").style.display = "none";
+    document.getElementById("btnSpinner").style.display = "inline-block";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const email = "{{ $email ?? '' }}";
+
+    if (email) {
+        localStorage.setItem("reset_email", email);
+    }
+
+});
 </script>
 
 @endsection

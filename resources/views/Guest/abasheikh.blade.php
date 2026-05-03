@@ -149,6 +149,24 @@ input[type=text]{
   border-radius:999px;
 }
 
+/* SEARCH */
+/*.search-boxx{
+  display:flex;
+  justify-content:center;
+  margin:15px 0;
+}
+
+.search-boxx input{
+  width:100%;
+  max-width:420px;
+  padding:12px 16px;
+  border-radius:30px;
+  border:1px solid #ddd;
+  outline:none;
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}*/
+
 /* BUTTON */
 .btn-view{
   display:inline-flex;
@@ -214,7 +232,9 @@ input[type=text]{
     <p>Hitamo umwarimu urebe amasomo ye</p>
 
     <!-- SEARCH -->
-    <input type="text" id="searchInput" placeholder="Shakisha umwarimu...">
+    <div class="search-boxx">
+      <input type="text" id="searchInput" placeholder="Shakisha umwarimu...">
+    </div>
 
     <!-- FILTERS -->
     <div class="filter-bar">
@@ -228,11 +248,11 @@ input[type=text]{
     <!-- GRID -->
     <div class="teacher-grid" id="teacherGrid">
 
-      <div class="teacher-card" data-spec="tawhid fiqh" data-name="sheikh munyaneza ismail">
+      <div class="teacher-card" data-spec="tawhid fiqh" data-name="sheikh munyaneza ismail Abuu omar">
         <div style="display:flex;gap:12px;align-items:center">
           <div class="avatar">MI</div>
           <div>
-            <div class="teacher-name">Sheikh MUNYANEZA ISMAIL</div>
+            <div class="teacher-name">Sheikh MUNYANEZA ISMAIL ABUU OMAR</div>
             <span class="spec-badge">Tawhid · Fiqh</span>
           </div>
         </div>
@@ -248,11 +268,11 @@ input[type=text]{
         </a>
       </div>
 
-      <div class="teacher-card" data-spec="hadith fiqh" data-name="sheikh aboubakar">
+      <div class="teacher-card" data-spec="hadith fiqh" data-name="sheikh aboubakar ABUU ABDOULRAHMAN">
         <div style="display:flex;gap:12px;align-items:center">
           <div class="avatar">AB</div>
           <div>
-            <div class="teacher-name">Sheikh ABOUBAKAR</div>
+            <div class="teacher-name">Sheikh ABOUBAKAR ABUU ABDOULRAHMAN</div>
             <span class="spec-badge">Hadith · Fiqh</span>
           </div>
         </div>
@@ -268,11 +288,11 @@ input[type=text]{
         </a>
       </div>
 
-      <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid">
+      <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid Abuu Muadh">
         <div style="display:flex;gap:12px;align-items:center">
           <div class="avatar">NK</div>
           <div>
-            <div class="teacher-name">Sheikh NDAHAYO KHALID</div>
+            <div class="teacher-name">Sheikh NDAHAYO KHALID ABUU MUADH</div>
             <span class="spec-badge">Tawhid · Arabic</span>
           </div>
         </div>
@@ -287,7 +307,7 @@ input[type=text]{
           Reba amasomo
         </a>
       </div>
-
+      
     </div>
 
     <!-- EMPTY -->
@@ -308,7 +328,7 @@ input[type=text]{
 <script>
 
 let currentPage = 1;
-const perPage = 2;
+const perPage = 3;
 
 const cards = document.querySelectorAll(".teacher-card");
 const searchInput = document.getElementById("searchInput");

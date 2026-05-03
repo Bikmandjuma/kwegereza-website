@@ -228,10 +228,10 @@
     </div>
     <div>
       <h4>Imbuga nkoranya mbaga</h4>
-      <a href="https://t.me/kwegereza" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
-      <a href="https://www.facebook.com/groups/171182813976386/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://t.me/s/Kwegereza" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+      <a href="https://web.facebook.com/Kwegereza/?_rdc=1&_rdr#" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
       <a href="https://chat.whatsapp.com/G87ZLng06dJJA4rqV7DQsS" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-      <a href="https://youtube.com/@kwegereza" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="https://www.youtube.com/@Kwegereza" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
     </div>
   </div>
   <div class="footer-bottom">

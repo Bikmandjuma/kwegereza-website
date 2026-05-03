@@ -147,57 +147,15 @@
                 </div>
 
                 <div x-data="{ isActive: true, open: true}">
-                  <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="{{ route('owner.dashboard') }}"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Inyandiko-zabamenyi' ? 'bg-primary-100 dark:bg-primary' : '' }}"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0 0l-3-3m3 3l3-3"/>
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Add Darsat (inyigisho) </span>
-                    
-                  </a>
-                  
-              </div>
-
-              <div x-data="{ isActive: true, open: true}">
-                  <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="{{ route('owner.dashboard') }}"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Inyandiko-zabamenyi' ? 'bg-primary-100 dark:bg-primary' : '' }}"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 12h6m-6 4h6M9 8h6M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"/>
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Inyandiko z'abamenyi </span>
-                    
-                  </a>
-                  
-              </div>
-
-              <div x-data="{ isActive: true, open: true}">
                 <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                 <a
                   href="{{ route('owner.dashboard') }}"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Amatangazo' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'dashboard' ? 'bg-primary-100 dark:bg-primary' : '' }}"
                   role="button"
                   aria-haspopup="true"
                   :aria-expanded="(open || isActive) ? 'true' : 'false'"
                 >
-                  <!-- <span aria-hidden="true">
+                  <span aria-hidden="true">
                     <svg
                       class="w-5 h-5"
                       xmlns="http://www.w3.org/2000/svg"
@@ -212,51 +170,8 @@
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                       />
                     </svg>
-                  </span> -->
-                  <span aria-hidden="true">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 4H5a2 2 0 00-2 2v11a3 3 0 003 3h11a2 2 0 002-2V4zM7 8h10M7 12h6"/>
-                    </svg>
                   </span>
-                  <span class="ml-2 text-sm"> Amatangazo </span>
-                  
-                </a>
-                
-              </div>
-
-              <div x-data="{ isActive: true, open: true}">
-                <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                <a
-                  href="{{ route('owner.dashboard') }}"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Ibitabo' ? 'bg-primary-100 dark:bg-primary' : '' }}"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <!-- <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                      />
-                    </svg>
-                  </span> -->
-                  <span aria-hidden="true">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 6v13M5 6h7a2 2 0 012 2v11H7a2 2 0 01-2-2V6zm14 0h-7a2 2 0 00-2 2v11h7a2 2 0 002-2V6z"/>
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Ibitabo </span>
+                  <span class="ml-2 text-sm"> Inyandiko z'abamenyi </span>
                   
                 </a>
                 

@@ -154,19 +154,114 @@ class WebAuthController extends Controller
                 'code' => $reset_data->code
             ])->render();
 
-            SendGridService::send(
-                $reset_data->email,
-                'Reset password',
-                $html
-            );
+            \Mail::html($html, function ($message) use ($reset_data) {
+                $message->to($reset_data->email)
+                        ->subject('Reset password');
+            });
 
-            return back()->with('success', 'Reset code sent successfully!');
+            // return back()->with('success', 'Reset code sent successfully!');
+            return redirect()
+                ->route('guest.verify.otp',['email' => encrypt($email)])
+                ->with('success', 'Reset code sent successfully!')
+                ->with('email', $email);
 
         } catch (\Exception $e) {
             \Log::error('Forgot password failed: ' . $e->getMessage());
 
             return back()->with('error', 'Hari ikibazo cyabayeho. Ongera ugerageze.');
         }
+    }
+
+    // public function verify_otp(){
+    //     return view('Auth.verify-otp');
+    // }
+
+    public function verify_otp(Request $request){
+        return view('auth.verify-otp', [
+            'email' => $request->email
+        ]);
+    }
+
+    // public function SubmitverifyOtp(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'code' => 'required'
+    //     ]);
+
+    //     $code = implode('', $request->code); // 6 digits array → string
+
+    //     $record = ResetCodePassword::where('email', $request->email)
+    //         ->where('code', $code)
+    //         ->first();
+
+    //     if (!$record) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'Incorrect code'
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Code verified'
+    //     ]);
+    // }
+
+    public function SubmitverifyOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'code' => 'required'
+        ]);
+
+        $code = $request->code; // ✅ FIXED
+
+        $record = ResetCodePassword::where('email', $request->email)
+            ->where('code', $code)
+            ->first();
+
+        if (!$record) {
+            return back()->with('error', 'Incorrect code');
+        }
+
+        return redirect()->route('guest.reset.password', [
+            'email' => $request->email
+        ]);
+    }
+
+    public function reset_password(Request $request){
+        return view('Auth.reset-password', [
+            'email' => $request->email
+        ]);
+    }
+
+
+    public function submit_reset_password(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        $email = $request->email;
+
+        // check user in both tables
+        $owner = Owner::where('email', $email)->first();
+        $user  = User::where('email', $email)->first();
+
+        $newPassword = Hash::make($request->password);
+
+        if ($owner) {
+            $owner->update(['password' => $newPassword]);
+        }
+
+        if ($user) {
+            $user->update(['password' => $newPassword]);
+        }
+
+        return redirect()->route('owner.login')
+            ->with('success', 'Password changed successfully. You can login now.');
     }
 
     public function logout(Request $request)
