@@ -39,9 +39,9 @@
         <!-- Loading screen -->
         <div
           x-ref="loading"
-          class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-primary-darker"
+          class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold bg-white"
         >
-          K.I.U 
+          <img src="{{ URL::to('/') }}/Guest/images/logo.png" style="width:20%;height: 50%;">
         </div>
 
         <!-- Sidebar -->
@@ -130,14 +130,14 @@
                   <!-- active & hover classes 'text-gray-700 dark:text-light' -->
                   <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
                   <a
-                    href="{{ url('/owner/view_all_users') }}"
+                    href="{{ url('/owner/addUser') }}"
                     role="menuitem"
                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                   >
                     Add new user
                   </a>
                   <a
-                    href="{{route('owner.display_paid_users')}}"
+                    href="{{url('/owner/viewUser')}}"
                     role="menuitem"
                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                   >
@@ -149,7 +149,7 @@
                 <div x-data="{ isActive: true, open: true}">
                   <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                   <a
-                    href="{{ route('owner.dashboard') }}"
+                    href="{{ route('owner.darsat') }}"
                     class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Inyandiko-zabamenyi' ? 'bg-primary-100 dark:bg-primary' : '' }}"
                     role="button"
                     aria-haspopup="true"
@@ -161,7 +161,7 @@
                           d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0 0l-3-3m3 3l3-3"/>
                       </svg>
                     </span>
-                    <span class="ml-2 text-sm"> Add Darsat (inyigisho) </span>
+                    <span class="ml-2 text-sm "> Darsat (inyigisho) </span>
                     
                   </a>
                   
@@ -170,7 +170,7 @@
               <div x-data="{ isActive: true, open: true}">
                   <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                   <a
-                    href="{{ route('owner.dashboard') }}"
+                    href="{{ route('owner.inyandiko_zabamenyi') }}"
                     class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Inyandiko-zabamenyi' ? 'bg-primary-100 dark:bg-primary' : '' }}"
                     role="button"
                     aria-haspopup="true"
@@ -191,7 +191,7 @@
               <div x-data="{ isActive: true, open: true}">
                 <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                 <a
-                  href="{{ route('owner.dashboard') }}"
+                  href="{{ route('owner.amatangazo') }}"
                   class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Amatangazo' ? 'bg-primary-100 dark:bg-primary' : '' }}"
                   role="button"
                   aria-haspopup="true"
@@ -228,7 +228,7 @@
               <div x-data="{ isActive: true, open: true}">
                 <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                 <a
-                  href="{{ route('owner.dashboard') }}"
+                  href="{{ route('owner.ibitabo') }}"
                   class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Ibitabo' ? 'bg-primary-100 dark:bg-primary' : '' }}"
                   role="button"
                   aria-haspopup="true"
@@ -376,10 +376,11 @@
 
               <!-- Brand -->
               <a
-                href="index.html"
-                class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
+                href="{{ route('owner.dashboard') }}"
+                class="inline-block flex text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
+                style="font-family: Times New Roman;"
               >
-                K.I.U , <span style="font-size: 10px;">{{ Auth()->guard('owner')->user()->title }} account</span>
+                <img src="{{ URL::to('/') }}/Guest/images/logo.png" style="width:30px;height:30px;">K.I.U
                 
               </a>
 
@@ -498,7 +499,7 @@
                 </button> -->
 
                 <!-- Settings button -->
-                <!-- <button
+                <button
                   @click="openSettingsPanel"
                   class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
                 >
@@ -524,7 +525,7 @@
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                </button> -->
+                </button>
 
                 <!-- User avatar button -->
                 <div class="relative" x-data="{ open: false }">
@@ -541,63 +542,90 @@
 
                   <!-- User dropdown menu -->
                   <div
-                    x-show="open"
-                    x-ref="userMenu"
-                    x-transition:enter="transition-all transform ease-out"
-                    x-transition:enter-start="translate-y-1/2 opacity-0"
-                    x-transition:enter-end="translate-y-0 opacity-100"
-                    x-transition:leave="transition-all transform ease-in"
-                    x-transition:leave-start="translate-y-0 opacity-100"
-                    x-transition:leave-end="translate-y-1/2 opacity-0"
-                    @click.away="open = false"
-                    @keydown.escape="open = false"
-                    class="absolute right-0 w-48 py-1 bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none"
-                    tabindex="-1"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-label="User menu"
+                      x-show="open"
+                      x-ref="userMenu"
+                      x-transition:enter="transition-all transform ease-out"
+                      x-transition:enter-start="translate-y-1/2 opacity-0"
+                      x-transition:enter-end="translate-y-0 opacity-100"
+                      x-transition:leave="transition-all transform ease-in"
+                      x-transition:leave-start="translate-y-0 opacity-100"
+                      x-transition:leave-end="translate-y-1/2 opacity-0"
+                      @click.away="open = false"
+                      @keydown.escape="open = false"
+                      class="absolute right-0 w-56 py-2 bg-white rounded-xl shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none"
+                      tabindex="-1"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-label="User menu"
+                      style="z-index: 1;"
                   >
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary text-center"
-                    >
-                      {{ Auth()->guard('owner')->user()->lastname }}
-                    </a>
-                    <hr>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Info
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Profile
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Password
-                    </a>
-                    <!-- <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Logout
-                    </a> -->
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                       role="menuitem"
-                       class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
-                       Logout
-                    </a>
+                      
+                      <!-- USER NAME -->
+                      <div class="px-4 py-3 border-b dark:border-gray-700 text-center">
+                          <p class="text-sm font-semibold text-gray-700 dark:text-light">
+                              {{ Auth()->guard('owner')->user()->lastname }}
+                          </p>
+                      </div>
+
+                      <!-- INFO -->
+                      <a
+                          href="#"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                          </svg>
+                          Info 
+                      </a>
+
+                      <!-- PROFILE -->
+                      <a
+                          href="#"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.121 17.804A9 9 0 1118.364 4.56 9 9 0 015.12 17.804z"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          </svg>
+                          Profile
+                      </a>
+
+                      <!-- PASSWORD -->
+                      <a
+                          href="#"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 11c0 .552-.448 1-1 1s-1-.448-1-1 .448-1 1-1 1 .448 1 1zm6-1V7a5 5 0 00-10 0v3M5 10h14v10H5V10z"/>
+                          </svg>
+                          Password
+                      </a>
+
+                      <!-- LOGOUT -->
+                      <a
+                          href="#"
+                          onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-red-600 transition-colors hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V4"/>
+                          </svg>
+                          Logout
+                      </a>
+
                   </div>
                 </div>
               </nav>
@@ -704,7 +732,7 @@
                   </button> -->
 
                   <!-- Settings button -->
-                  <!-- <button
+                  <button
                     @click="openSettingsPanel(); $nextTick(() => { isMobileSubMenuOpen = false })"
                     class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
                   >
@@ -729,7 +757,7 @@
                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                  </button> -->
+                  </button>
                 </div>
 
                 <!-- User avatar button -->
@@ -747,63 +775,93 @@
 
                   <!-- User dropdown menu -->
                   <div
-                    x-show="open"
-                    x-transition:enter="transition-all transform ease-out"
-                    x-transition:enter-start="translate-y-1/2 opacity-0"
-                    x-transition:enter-end="translate-y-0 opacity-100"
-                    x-transition:leave="transition-all transform ease-in"
-                    x-transition:leave-start="translate-y-0 opacity-100"
-                    x-transition:leave-end="translate-y-1/2 opacity-0"
-                    @click.away="open = false"
-                    class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-label="User menu"
+                      x-show="open"
+                      x-ref="userMenu"
+                      x-transition:enter="transition-all transform ease-out"
+                      x-transition:enter-start="translate-y-1/2 opacity-0"
+                      x-transition:enter-end="translate-y-0 opacity-100"
+                      x-transition:leave="transition-all transform ease-in"
+                      x-transition:leave-start="translate-y-0 opacity-100"
+                      x-transition:leave-end="translate-y-1/2 opacity-0"
+                      @click.away="open = false"
+                      @keydown.escape="open = false"
+                      class="absolute right-0 w-56 py-2 bg-white rounded-xl shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none"
+                      tabindex="-1"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-label="User menu"
+                      style="z-index: 1;"
+                      
                   >
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary text-center"
-                    >
-                      {{ Auth()->guard('owner')->user()->firstname }}
-                    </a>
-                    <hr>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Info
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Profile
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Password
-                    </a>
-                    <!-- <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Logout
-                    </a> -->
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                       role="menuitem"
-                       class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
-                       Logout
-                    </a>
+                      
+                      <!-- USER NAME -->
+                      <div class="px-4 py-3 border-b dark:border-gray-700 text-center">
+                          <p class="text-sm font-semibold text-gray-700 dark:text-light">
+                              {{ Auth()->guard('owner')->user()->lastname }}
+                          </p>
+                      </div>
 
+                      <!-- INFO -->
+                      <a
+                          href="#"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                          </svg>
+                          Info
+                      </a>
+
+                      <!-- PROFILE -->
+                      <a
+                          href="#"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.121 17.804A9 9 0 1118.364 4.56 9 9 0 015.12 17.804z"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          </svg>
+                          Profile
+                      </a>
+
+                      <!-- PASSWORD -->
+                      <a
+                          href="#"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 11c0 .552-.448 1-1 1s-1-.448-1-1 .448-1 1-1 1 .448 1 1zm6-1V7a5 5 0 00-10 0v3M5 10h14v10H5V10z"/>
+                          </svg>
+                          Password
+                      </a>
+
+                      <!-- LOGOUT -->
+                      <a
+                          href="#"
+                          onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                          role="menuitem"
+                          class="flex items-center gap-3 px-4 py-3 text-sm text-red-600 transition-colors hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V4"/>
+                          </svg>
+                          Logout
+                      </a>
 
                   </div>
+
                 </div>
               </nav>
             </div>
@@ -995,7 +1053,7 @@
           </main>
 
           <!-- Main footer -->
-          <footer
+          <!-- <footer
             class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker sticky bottom-0 z-50"
           >
             <div>K.I.U &copy; 2026</div>
@@ -1005,7 +1063,7 @@
                 >K.I.U</a
               >
             </div>
-          </footer>
+          </footer> -->
         </div>
 
         <!-- Panels -->

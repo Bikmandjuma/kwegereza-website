@@ -376,6 +376,7 @@ body{
 <span class="type-tag tag-tawhid">Tawhid</span>
 <span class="duration">35 min</span>
 </div>
+<span class="duration-ago">Time ago : now</span>
 </div>
 
 <div class="lesson-card lesson-item" data-type="video fiqh">

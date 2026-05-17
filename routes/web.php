@@ -34,6 +34,18 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
     Route::get('/assign_payment_ToUser/{id}', [AdminController::class, 'assign_payment_ToUser'])->name('owner.assign_payment_ToUser');
 
     Route::post('/submit_payment_ToUser/{id}', [AdminController::class, 'submit_payment_ToUser'])->name('owner.submit_payment_ToUser');
+    route::get('/addUser', [AdminController::class, 'AddUser'])->name('owner.addUser');
+    route::get('/viewUser', [AdminController::class, 'ViewUser'])->name('owner.viewUser');
+    route::get('/darsat', [AdminController::class, 'darsat'])->name('owner.darsat');
+    route::get('/inyandiko_zabamenyi', [AdminController::class, 'inyandiko_zabamenyi'])->name('owner.inyandiko_zabamenyi');
+    route::get('/amatangazo', [AdminController::class, 'amatangazo'])->name('owner.amatangazo');
+    route::get('/Ibitabo', [AdminController::class, 'Ibitabo'])->name('owner.ibitabo');
+
+     Route::resource('users', AdminController::class);
+    route::get('/Edit/{id}', [AdminController::class, 'ownerEditUser'])->name('owner.EditUser');
+    route::get('/show/{id}', [AdminController::class, 'ownershowUser'])->name('owner.showUser');
+
+
 });
 Route::get('/refresh_counts', [AdminController::class, 'refresh_counts'])->name('owner.refresh_counts');
 

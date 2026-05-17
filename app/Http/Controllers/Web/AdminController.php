@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\Owner;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Visit;
@@ -271,5 +272,337 @@ class AdminController extends Controller
         return view('Users.admin.view_all_users_joined_today',compact('users','count_users'));
     }
 
+    public function AddUser(){
+        return view('Users.admin.addUsers');
+    }
+
+    // public function ViewUser(){
+    //     return view('Users.admin.viewUsers');
+    // }
+
+    public function darsat(){
+        return view('Users.admin.darsat');
+    }
+
+    public function inyandiko_zabamenyi(){
+        return view('Users.admin.inyandiko_zabamenyi');
+    }
+
+    public function amatangazo(){
+        return view('Users.admin.amatangazo');
+    }
+
+    public function ibitabo(){
+        return view('Users.admin.ibitabo');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | VIEW USERS
+    |--------------------------------------------------------------------------
+    */
+
+    public function ViewUser(Request $request)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | GET FILTER TITLE
+        |--------------------------------------------------------------------------
+        */
+
+        $title = $request->title;
+
+        /*
+        |--------------------------------------------------------------------------
+        | USERS
+        |--------------------------------------------------------------------------
+        */
+
+        $users = Owner::when($title, function ($query) use ($title) {
+
+                return $query->where('title', $title);
+
+            })
+            ->latest()
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | GET DISTINCT TITLES
+        |--------------------------------------------------------------------------
+        */
+
+        // $titles = Owner::select('title')
+        //                 ->distinct()
+        //                 ->get();
+        $titles = Owner::select('title')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('title')
+                ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | RETURN VIEW
+        |--------------------------------------------------------------------------
+        */
+
+        return view('Users.admin.viewUsers', compact(
+            'users',
+            'titles'
+        ));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE PAGE
+    |--------------------------------------------------------------------------
+    */
+
+    public function create()
+    {
+
+        return view('Users.admin.addUser');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | STORE USER
+    |--------------------------------------------------------------------------
+    */
+
+    public function store(Request $request)
+    {
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDATION
+        |--------------------------------------------------------------------------
+        */
+
+        $request->validate([
+
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'gender'    => 'required',
+            'phone'     => 'required|unique:users',
+            'dob'       => 'required',
+            'email'     => 'required|email|unique:users',
+            'role'      => 'required',
+            'title'     => 'required',
+            'password'  => 'required|min:6',
+            'image'     => 'nullable|image|mimes:jpg,jpeg,png'
+
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | IMAGE
+        |--------------------------------------------------------------------------
+        */
+
+        $imageName = 'user.png';
+
+        if ($request->hasFile('image')) {
+
+            $image = $request->file('image');
+
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+
+            $image->move(public_path('images/users'), $imageName);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE USER
+        |--------------------------------------------------------------------------
+        */
+
+        Owner::create([
+
+            'firstname' => $request->firstname,
+            'lastname'  => $request->lastname,
+            'gender'    => $request->gender,
+            'phone'     => $request->phone,
+            'image'     => $imageName,
+            'dob'       => $request->dob,
+            'email'     => $request->email,
+            'role'      => $request->role,
+            'title'     => $request->title,
+            'password'  => bcrypt($request->password),
+
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | REDIRECT
+        |--------------------------------------------------------------------------
+        */
+
+        return redirect()
+                ->route('owner.addUser')
+                ->with('success', 'User created successfully');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SHOW USER
+    |--------------------------------------------------------------------------
+    */
+
+    // public function show($id)
+    // {
+
+    //     $user = User::findOrFail($id);
+
+    //     return view('Users.admin.viewUsers', compact('user'));
+    // }
+
+    public function ownershowUser($id)
+    {
+        
+        $user = Owner::findOrFail($id);
+        return view('Users.admin.showUser', compact('user'));
+    }
+
+    public function ownerEditUser($id)
+    {
+
+        $user = User::findOrFail($id);
+
+        return view('Users.admin.editUser', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDATION
+        |--------------------------------------------------------------------------
+        */
+
+        $request->validate([
+
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'gender'    => 'required',
+            'phone'     => 'required|unique:users,phone,'.$user->id,
+            'dob'       => 'required',
+            'email'     => 'required|email|unique:users,email,'.$user->id,
+            'role'      => 'required',
+            'title'     => 'required',
+
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | IMAGE UPDATE
+        |--------------------------------------------------------------------------
+        */
+
+        $imageName = $user->image;
+
+        if ($request->hasFile('image')) {
+
+            $image = $request->file('image');
+
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+
+            $image->move(public_path('images/users'), $imageName);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE DATA
+        |--------------------------------------------------------------------------
+        */
+
+        $user->update([
+
+            'firstname' => $request->firstname,
+            'lastname'  => $request->lastname,
+            'gender'    => $request->gender,
+            'phone'     => $request->phone,
+            'image'     => $imageName,
+            'dob'       => $request->dob,
+            'email'     => $request->email,
+            'role'      => $request->role,
+            'title'     => $request->title,
+
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | PASSWORD UPDATE
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->password != null) {
+
+            $user->update([
+
+                'password' => bcrypt($request->password)
+
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | REDIRECT
+        |--------------------------------------------------------------------------
+        */
+
+        return redirect()
+                ->route('users.index')
+                ->with('success', 'User updated successfully');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE USER
+    |--------------------------------------------------------------------------
+    */
+
+    public function destroy($id)
+    {
+
+        $user = User::findOrFail($id);
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE IMAGE
+        |--------------------------------------------------------------------------
+        */
+
+        if ($user->image != 'user.png') {
+
+            $path = public_path('images/users/'.$user->image);
+
+            if (file_exists($path)) {
+
+                unlink($path);
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE USER
+        |--------------------------------------------------------------------------
+        */
+
+        $user->delete();
+
+        /*
+        |--------------------------------------------------------------------------
+        | REDIRECT
+        |--------------------------------------------------------------------------
+        */
+
+        return redirect()
+                ->back()
+                ->with('success', 'User deleted successfully');
+    }
 
 }

@@ -3,14 +3,14 @@
 <!-- Content header -->
 <!-- Main content -->
             <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
-              <h1 class="text-2xl font-semibold">Dashboard</h1>
-              <!-- <a
-                href="https://github.com/Kamona-WD/kwd-dashboard"
-                target="_blank"
+              <h1 class="text-2xl font-semibold text-primary-dark dark:text-light" style="font-family: Times New Roman">{{ Auth()->guard('owner')->user()->title }}'s account</h1>
+              <!-- <span style="font-size: 20px;">{{ Auth()->guard('owner')->user()->title }} panel</span> -->
+              <a
+                href="#"
                 class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
               >
-                View on github
-              </a> -->
+                Dashboard
+              </a>
             </div>
 
             <!-- Content -->
@@ -26,8 +26,14 @@
                       All users
                     </h6>
                     <span class="text-xl font-semibold" id="allUsersCount">{{ $allUsersCount }}</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
+                    <!-- <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 dark:text-primary-light dark:bg-darker rounded-md">
                       100%
+                    </span> -->
+                    <!-- <span class="inline-block px-2 py-px ml-2 text-xs text-green-600 bg-green-100 dark:text-green-200 dark:bg-green-900 rounded-md">
+                        100%
+                    </span> -->
+                    <span class="inline-block px-2 py-1 ml-2 text-xs font-semibold text-green-600 bg-green-100 rounded-md dark:text-white text-primary-dark dark:text-light">
+                        100%
                     </span>
                     <br>
                     <hr class="p-2">
