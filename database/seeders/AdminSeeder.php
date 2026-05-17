@@ -4,12 +4,15 @@ namespace Database\Seeders;
 
 use App\Models\Owner;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
 {
     public function run(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Owner::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Owner::create([
             'firstname' => 'Bikman',
@@ -33,7 +36,7 @@ class AdminSeeder extends Seeder
             'role' => 'AssistantAdmin',
             'title' => 'Admin',
             'image' => 'user.png',
-            'dob' => '2000-15-09',
+            'dob' => '2000-09-15',
             'password' => bcrypt('Rwanda65'),
         ]);
 
