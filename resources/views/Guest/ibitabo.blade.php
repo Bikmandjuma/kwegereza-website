@@ -1,354 +1,978 @@
 @extends('Guest.cover')
 @section('content')
 
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
 <style>
-
-/* PAGE */
-.section{
-  padding:30px 0;
-  background:#f6f8f7;
+:root {
+  --bg: #f0f4f1;
+  --surface: #ffffff;
+  --card: #f7faf8;
+  --border: #dce8e0;
+  --green: #16a34a;
+  --green-dim: #166534;
+  --amber: #f59e0b;
+  --text: #0f2d1c;
+  --muted: #6b8070;
+  --soft: #4a6357;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(11,61,46,.10);
 }
 
-.container{
-  max-width:1100px;
+*, *::before, *::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:var(--bg);
+  font-family:'Outfit',sans-serif;
+  color:var(--text);
+}
+
+.bp-page{
+  padding:28px 0 60px;
+}
+
+.bp-wrap{
+  width:96%;
+  max-width:1600px;
   margin:auto;
-  padding:0 15px;
 }
 
-/* TITLE */
-.section-title{
-  text-align:center;
-  margin-bottom:20px;
+.bp-header{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-bottom:28px;
+  padding-bottom:22px;
+  border-bottom:1px solid var(--border);
 }
 
-.section-title h2{
-  font-size:22px;
-  color:#0b3d2e;
+.bp-header-left h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.5rem,3vw,2.4rem);
   font-weight:800;
 }
 
-.section-title p{
-  color:#666;
-  font-size:14px;
-}
-
-/* SEARCH */
-.search-boxx{
+.bp-author{
   display:flex;
-  justify-content:center;
-  margin:15px 0;
-}
-
-.search-boxx input{
-  width:100%;
-  max-width:420px;
-  padding:12px 16px;
-  border-radius:30px;
-  border:1px solid #ddd;
-  outline:none;
-  background:white;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
-
-/* GRID (AMATANGAZO STYLE) */
-.books-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-  margin-top:20px;
-}
-
-/* CARD (MODERN) */
-.card{
-  background:#fff;
-  border-radius:14px;
-  padding:18px;
-  box-shadow:0 4px 15px #eee;
-  transition:0.3s;
-  position:relative;
-  overflow:hidden;
-}
-
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 6px 18px #e5e5e5;
-}
-
-/* BADGE */
-.book-badge{
-  position:absolute;
-  top:12px;
-  right:12px;
-  background:#0b6d20;
-  color:white;
-  font-size:11px;
-  padding:4px 10px;
-  border-radius:20px;
-  margin-bottom: 5px;
-}
-
-/* TEXT */
-.card h3{
-  margin-top:10px;
-  font-size:16px;
-  color:#0b3d2e;
-  font-weight:700;
-}
-
-.card p{
-  font-size:13px;
-  color:#666;
-  margin-top:8px;
-}
-
-/* BUTTONS */
-.book-actions{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
-}
-
-.btn-book{
-  flex:1;
-  text-align:center;
-  padding:8px 10px;
-  font-size:12px;
-  border-radius:20px;
-  text-decoration:none;
-  font-weight:600;
-  transition:0.3s;
-}
-
-.btn-book:first-child{
-  background:#0b6d20;
-  color:white;
-}
-
-.btn-book:last-child{
-  background:#f1f1f1;
-  color:#0b6d20;
-}
-
-.btn-book:hover{
-  opacity:0.9;
-}
-
-/* PAGINATION */
-.pagination{
-  display:flex;
-  justify-content:center;
   align-items:center;
-  gap:10px;
-  margin-top:25px;
+  gap:8px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:13px;
 }
 
-.pagination button{
-  padding:8px 14px;
+.bp-author-dot{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--green-dim),var(--green));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  color:#fff;
+}
+
+.bp-meta-pills{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.bp-pill{
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--soft);
+  font-size:11px;
+  font-weight:600;
+  padding:4px 12px;
+  border-radius:20px;
+}
+
+.bp-pill.green{
+  background:rgba(34,197,94,.12);
+  border-color:rgba(34,197,94,.3);
+  color:var(--green);
+}
+
+.bp-header-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:12px;
+}
+
+.bp-search{
+  position:relative;
+  width:280px;
+}
+
+.bp-search input{
+  width:100%;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  padding:11px 40px 11px 16px;
+  border-radius:40px;
+  outline:none;
+}
+
+.bp-search i{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted);
+}
+
+.bp-actions{
+  display:flex;
+  gap:10px;
+}
+
+.btn-act{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 20px;
+  border-radius:40px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
   border:none;
-  border-radius:8px;
-  background:#0b6d20;
-  color:white;
+  text-decoration:none;
+}
+
+.btn-act.amber{
+  background:var(--amber);
+  color:#1a1200;
+}
+
+.btn-act.ghost{
+  background:var(--card);
+  color:var(--soft);
+  border:1.5px solid var(--border);
+}
+
+.bp-layout{
+  display:grid;
+  grid-template-columns:195px 1fr 320px;
+  gap:20px;
+}
+
+.bp-sidebar{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 10px;
+  max-height:82vh;
+  overflow-y:auto;
+}
+
+.sb-label{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.1em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.thumb-item{
+  position:relative;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:10px;
+  cursor:pointer;
+  border:2px solid transparent;
+}
+
+.thumb-item.active{
+  border-color:var(--amber);
+}
+
+.thumb-item canvas{
+  width:100%;
+  display:block;
+  background:#fff;
+}
+
+.thumb-num{
+  position:absolute;
+  bottom:5px;
+  right:5px;
+  background:rgba(0,0,0,.75);
+  color:#fff;
+  font-size:10px;
+  padding:2px 7px;
+  border-radius:6px;
+}
+
+.bp-viewer{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.vw-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+}
+
+.vw-indicator{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:7px 16px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:600;
+}
+
+.vw-toolbar-actions{
+  display:flex;
+  gap:8px;
+}
+
+.vw-icon-btn{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:var(--soft);
+}
+
+.vw-stage{
+  min-height:540px;
+  background:#e8f0eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:20px;
+}
+
+#pdfCanvas{
+  max-width:100%;
+  background:#fff;
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.vw-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-top:1px solid var(--border);
+}
+
+.vw-nav-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 22px;
+  border-radius:10px;
+  background:var(--green-dim);
+  color:#fff;
+  border:none;
   cursor:pointer;
 }
 
-.pagination span{
-  font-weight:bold;
+.vw-progress{
+  flex:1;
+  height:4px;
+  background:var(--border);
+  border-radius:4px;
+  margin:0 16px;
 }
 
-/* HIDE */
-.hide{ display:none !important; }
-
-/* EMPTY */
-.empty{
-  text-align:center;
-  color:#888;
-  margin-top:20px;
-  display:none;
+.vw-progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--green-dim),var(--green));
+  width:0%;
 }
 
+.bp-recommended{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px 16px;
+  max-height:82vh;
+  overflow-y:auto;
+}
+
+.rec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;
+  font-weight:700;
+  margin-bottom:16px;
+}
+
+.rec-book{
+  display:flex;
+  gap:12px;
+  padding:12px;
+  border-radius:12px;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+
+.rec-book.active{
+  background:rgba(34,197,94,.07);
+}
+
+.rec-thumb{
+  width:72px;
+}
+
+.rec-thumb canvas{
+  width:100%;
+  background:#fff;
+}
+
+.rec-info h4{
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.rec-author{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.rec-slides{
+  font-size:11px;
+  color:var(--green);
+  margin-top:6px;
+}
+
+@media(max-width:900px){
+
+  .bp-layout{
+    grid-template-columns:1fr;
+  }
+
+}
 </style>
-<br>
-<section class="section" id="ibitabo">
 
-  <div class="container">
+@php
+$books = [
+[
+'title' => 'MU BYIZA BY’UKWEZI KWA RAMADHANI 01',
+'author' => 'Iradukunda Aboubakr',
+'views' => '0',
+'pdf' => asset('Guest/books/MU BYIZA BY’UKWEZI KWA RAMADHANI 01.pdf')
+],
 
-    <div class="section-title">
-      <h2>Ibitabo byacu</h2>
-      <p>soma cyangwa ufungure ibitabo bya PDF</p>
-    </div>
+[
+'title' => 'فصول في الصيام والتراويح والزكاة',
+'author' => 'Iradukunda Aboubakr',
+'views' => '0',
+'pdf' => asset('Guest/books/فصول في الصيام والتراويح والزكاة.pdf')
+],
 
-    <!-- SEARCH -->
-    <div class="search-boxx">
-      <input type="text" id="searchInput" placeholder="Shakisha igitabo...">
-    </div>
+[
+'title' => 'نبذة_في_العقيدة_الإسلامية_ابن_عثيمين_',
+'author' => 'Iradukunda Aboubakr',
+'views' => '0',
+'pdf' => asset('Guest/books/نبذة_في_العقيدة_الإسلامية_ابن_عثيمين_2.pdf')
+],
+];
+@endphp
 
-    <!-- GRID -->
-<div class="books-grid">
+<section class="bp-page">
+<div class="bp-wrap">
 
-  <div class="card">
-    <span class="book-badge">Igitabo 1</span>
-    <br>
-    <h3>ESE BIREMEWE GUSIBA KUMUNSI W'IJUMA</h3>
-    <p>Igitabo cya mbere cya PDF cyasobanura neza ibi bibazo mu Islamu.</p>
-    <div class="book-actions">
-      <a href="igitabo1.pdf" target="_blank" class="btn-book">
-        <i class="fas fa-eye"></i> soma igitabo
-      </a>
-      <a href="igitabo1.pdf" download class="btn-book">
-        <i class="fas fa-download"></i> Download
-      </a>
-    </div>
-  </div>
+<div class="bp-header">
 
-  <div class="card">
-    <span class="book-badge">Igitabo 2</span>
-    <br>
-    <h3>KWIGANA IMIGENZO Y'ABAHAKANYE</h3>
-    <p>Igitabo kijyanye n’ingaruka zo kwigana imigenzo y’abahakanye.</p>
-    <div class="book-actions">
-      <a href="igitabo2.pdf" target="_blank" class="btn-book">
-        <i class="fas fa-eye"></i> soma igitabo
-      </a>
-      <a href="igitabo2.pdf" download class="btn-book">
-        <i class="fas fa-download"></i> Download
-      </a>
-    </div>
-  </div>
+<div class="bp-header-left">
 
-  <div class="card">
-    <span class="book-badge">Igitabo 3</span>
-    <br>
-    <h3>UMUNSI W'IVUKA RY'INTUMWA</h3>
-    <p>Ubusobanuro bw’uyu munsi mu Islamu n’impaka zawo.</p>
-    <div class="book-actions">
-      <a href="igitabo3.pdf" target="_blank" class="btn-book">
-        <i class="fas fa-eye"></i> soma igitabo
-      </a>
-      <a href="igitabo3.pdf" download class="btn-book">
-        <i class="fas fa-download"></i> Download
-      </a>
-    </div>
-  </div>
+<h1 id="bookTitle">{{ $books[0]['title'] }}</h1>
 
-  <!-- NEW 4 -->
-  <div class="card">
-    <span class="book-badge">Igitabo 4</span>
-    <br>
-    <h3>FIQH Y’ISENGESHO</h3>
-    <p>Isengesho n’uburyo rikorwa mu buryo bwuzuye bwa Sharia.</p>
-    <div class="book-actions">
-      <a href="igitabo4.pdf" target="_blank" class="btn-book">
-        <i class="fas fa-eye"></i> soma igitabo
-      </a>
-      <a href="igitabo4.pdf" download class="btn-book">
-        <i class="fas fa-download"></i> Download
-      </a>
-    </div>
-  </div>
+<div class="bp-author">
+<div class="bp-author-dot">II</div>
+<span id="bookAuthor">by {{ $books[0]['author'] }}</span>
+</div>
 
-  <!-- NEW 5 -->
-  <div class="card">
-    <span class="book-badge">Igitabo 5</span>
-    <br>
-    <h3>TAWHID</h3>
-    <p>Ubusobanuro bwa Tawhid n'ibiyirwanya mu buzima bwa Muslim.</p>
-    <div class="book-actions" style="align-content: center;align-items: center;">
-      <a href="igitabo5.pdf" target="_blank" class="btn-book">
-        <i class="fas fa-eye"></i> soma igitabo
-      </a>
-      <a href="igitabo5.pdf" download class="btn-book">
-        <i class="fas fa-download"></i> Download
-      </a>
-    </div>
-  </div>
+<div class="bp-meta-pills">
+<span class="bp-pill green">PDF</span>
 
-  <!-- NEW 6 -->
-  <div class="card">
-    <span class="book-badge">Igitabo 6</span>
-    <br>
-    <h3>HADITH Z'INTUMWA</h3>
-    <p>Hadith zifasha Muslim mu buzima bwa buri munsi.</p>
-    <div class="book-actions">
-      <a href="igitabo6.pdf" target="_blank" class="btn-book">
-        <i class="fas fa-eye"></i> soma igitabo
-      </a>
-      <a href="igitabo6.pdf" download class="btn-book">
-        <i class="fas fa-download"></i> Download
-      </a>
-    </div>
-  </div>
+<span class="bp-pill">
+<i class="fas fa-eye"></i>
+<span id="bookViews">{{ $books[0]['views'] }}</span>
+views
+</span>
+
+<span class="bp-pill">
+<i class="fas fa-file"></i>
+<span id="bookSlides">0</span>
+pages
+</span>
+</div>
 
 </div>
 
-    <div class="empty" id="emptyState">
-      Nta gitabo cyabonetse 😕
-    </div>
+<div class="bp-header-right">
 
-    <!-- PAGINATION -->
-    <div class="pagination">
-      <button onclick="changePage(-1)">Prev</button>
-      <span id="pageNum">1</span>
-      <button onclick="changePage(1)">Next</button>
-    </div>
+<div class="bp-search">
+<input type="text" id="searchInput" placeholder="Search books...">
+<i class="fas fa-search"></i>
+</div>
 
-  </div>
+<div class="bp-actions">
+
+<button class="btn-act ghost" onclick="shareBook()">
+<i class="fas fa-share-alt"></i>
+<span>Share</span>
+</button>
+
+<a class="btn-act amber"
+id="headerDownload"
+href="{{ $books[0]['pdf'] }}"
+download>
+
+<i class="fas fa-download"></i>
+<span>Download PDF</span>
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bp-layout">
+
+<div class="bp-sidebar" id="thumbnailContainer">
+<div class="sb-label">Pages</div>
+</div>
+
+<div class="bp-viewer">
+
+<div class="vw-toolbar">
+
+<div class="vw-indicator" id="pageIndicator">
+1 / 1
+</div>
+
+<div class="vw-toolbar-actions">
+
+<a class="vw-icon-btn"
+id="toolbarDownload"
+href="{{ $books[0]['pdf'] }}"
+download>
+
+<i class="fas fa-download"></i>
+
+</a>
+
+</div>
+
+</div>
+
+<div class="vw-stage">
+
+<canvas id="pdfCanvas"></canvas>
+
+</div>
+
+<div class="vw-nav">
+
+<button class="vw-nav-btn"
+id="btnPrev"
+onclick="prevPage()">
+
+<i class="fas fa-arrow-left"></i>
+<span>Previous</span>
+
+</button>
+
+<div class="vw-progress">
+<div class="vw-progress-fill"
+id="progressFill"></div>
+</div>
+
+<button class="vw-nav-btn"
+id="btnNext"
+onclick="nextPage()">
+
+<span>Next</span>
+<i class="fas fa-arrow-right"></i>
+
+</button>
+
+</div>
+
+</div>
+
+<div class="bp-recommended">
+
+<div class="rec-title">
+urutonde rw'ibitabo
+</div>
+
+<div id="recommendedBooks"></div>
+
+</div>
+
+</div>
+
+</div>
 </section>
 
 <script>
 
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const BOOKS = @json($books);
+
+let currentBook = 0;
 let currentPage = 1;
-const perPage = 3;
+let pdfDoc = null;
 
-const cards = document.querySelectorAll(".card");
-const searchInput = document.getElementById("searchInput");
-const emptyState = document.getElementById("emptyState");
+const canvas = document.getElementById('pdfCanvas');
+const ctx = canvas.getContext('2d');
 
-function getFiltered(){
-  let search = searchInput.value.toLowerCase();
+/*
+|--------------------------------------------------------------------------
+| LOAD BOOK
+|--------------------------------------------------------------------------
+*/
 
-  return [...cards].filter(card =>
-    card.innerText.toLowerCase().includes(search)
-  );
+async function loadBook(index){
+
+    currentBook = index;
+    currentPage = 1;
+
+    const book = BOOKS[index];
+
+    document.getElementById('bookTitle').innerText =
+        book.title;
+
+    document.getElementById('bookAuthor').innerText =
+        'by ' + book.author;
+
+    document.getElementById('bookViews').innerText =
+        book.views;
+
+    document.getElementById('headerDownload').href =
+        book.pdf;
+
+    document.getElementById('toolbarDownload').href =
+        book.pdf;
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD PDF
+    |--------------------------------------------------------------------------
+    */
+
+    pdfDoc = await pdfjsLib
+        .getDocument(book.pdf)
+        .promise;
+
+    document.getElementById('bookSlides').innerText =
+        pdfDoc.numPages;
+
+    buildThumbs();
+
+    renderPage(currentPage);
+
+    renderRecommended(
+        document.getElementById('searchInput').value
+    );
 }
 
-function render(){
-  let filtered = getFiltered();
+/*
+|--------------------------------------------------------------------------
+| RENDER MAIN PAGE
+|--------------------------------------------------------------------------
+*/
 
-  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+async function renderPage(pageNumber){
 
-  if(currentPage > maxPage) currentPage = maxPage;
-  if(currentPage < 1) currentPage = 1;
+    const page =
+        await pdfDoc.getPage(pageNumber);
 
-  let start = (currentPage - 1) * perPage;
-  let end = start + perPage;
+    const viewport =
+        page.getViewport({ scale: 1.5 });
 
-  cards.forEach(c => c.classList.add("hide"));
+    canvas.width =
+        viewport.width;
 
-  filtered.slice(start, end).forEach(c => c.classList.remove("hide"));
+    canvas.height =
+        viewport.height;
 
-  emptyState.style.display = filtered.length === 0 ? "block" : "none";
+    await page.render({
+        canvasContext: ctx,
+        viewport: viewport
+    }).promise;
 
-  document.getElementById("pageNum").innerText = currentPage;
+    /*
+    |--------------------------------------------------------------------------
+    | PAGE INDICATOR
+    |--------------------------------------------------------------------------
+    */
+
+    document.getElementById('pageIndicator').innerText =
+        `${pageNumber} / ${pdfDoc.numPages}`;
+
+    document.getElementById('progressFill').style.width =
+        `${(pageNumber / pdfDoc.numPages) * 100}%`;
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUTTONS
+    |--------------------------------------------------------------------------
+    */
+
+    document.getElementById('btnPrev').disabled =
+        pageNumber <= 1;
+
+    document.getElementById('btnNext').disabled =
+        pageNumber >= pdfDoc.numPages;
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACTIVE THUMB
+    |--------------------------------------------------------------------------
+    */
+
+    document.querySelectorAll('.thumb-item')
+    .forEach((el,index)=>{
+
+        el.classList.toggle(
+            'active',
+            index + 1 === pageNumber
+        );
+
+    });
+
 }
 
-searchInput.addEventListener("input", ()=>{
-  currentPage = 1;
-  render();
+/*
+|--------------------------------------------------------------------------
+| BUILD THUMBNAILS
+|--------------------------------------------------------------------------
+*/
+
+async function buildThumbs(){
+
+    const container =
+        document.getElementById('thumbnailContainer');
+
+    container.innerHTML =
+        '<div class="sb-label">Pages</div>';
+
+    for(let i = 1; i <= pdfDoc.numPages; i++){
+
+        const page =
+            await pdfDoc.getPage(i);
+
+        const viewport =
+            page.getViewport({ scale: 0.25 });
+
+        const thumb =
+            document.createElement('canvas');
+
+        const thumbCtx =
+            thumb.getContext('2d');
+
+        thumb.width =
+            viewport.width;
+
+        thumb.height =
+            viewport.height;
+
+        await page.render({
+            canvasContext: thumbCtx,
+            viewport: viewport
+        }).promise;
+
+        const div =
+            document.createElement('div');
+
+        div.className =
+            'thumb-item' + (i === 1 ? ' active' : '');
+
+        div.onclick = () => {
+
+            currentPage = i;
+
+            renderPage(currentPage);
+
+        };
+
+        div.innerHTML =
+            `<div class="thumb-num">${i}</div>`;
+
+        div.prepend(thumb);
+
+        container.appendChild(div);
+
+    }
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| NEXT PAGE
+|--------------------------------------------------------------------------
+*/
+
+function nextPage(){
+
+    if(currentPage >= pdfDoc.numPages)
+        return;
+
+    currentPage++;
+
+    renderPage(currentPage);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| PREVIOUS PAGE
+|--------------------------------------------------------------------------
+*/
+
+function prevPage(){
+
+    if(currentPage <= 1)
+        return;
+
+    currentPage--;
+
+    renderPage(currentPage);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| RECOMMENDED BOOKS
+|--------------------------------------------------------------------------
+*/
+
+async function renderRecommended(query = ''){
+
+    const container =
+        document.getElementById('recommendedBooks');
+
+    container.innerHTML = '';
+
+    const filtered =
+        BOOKS.filter(book =>
+
+            book.title
+            .toLowerCase()
+            .includes(query.toLowerCase())
+
+        );
+
+    for(const book of filtered){
+
+        const index =
+            BOOKS.indexOf(book);
+
+        const card =
+            document.createElement('div');
+
+        card.className =
+            'rec-book' +
+            (index === currentBook ? ' active' : '');
+
+        card.onclick = () =>
+            loadBook(index);
+
+        /*
+        |--------------------------------------------------------------------------
+        | PDF THUMB
+        |--------------------------------------------------------------------------
+        */
+
+        const pdf =
+            await pdfjsLib
+            .getDocument(book.pdf)
+            .promise;
+
+        const page =
+            await pdf.getPage(1);
+
+        const viewport =
+            page.getViewport({ scale: 0.25 });
+
+        const thumb =
+            document.createElement('canvas');
+
+        const thumbCtx =
+            thumb.getContext('2d');
+
+        thumb.width =
+            viewport.width;
+
+        thumb.height =
+            viewport.height;
+
+        await page.render({
+            canvasContext: thumbCtx,
+            viewport: viewport
+        }).promise;
+
+        const thumbWrap =
+            document.createElement('div');
+
+        thumbWrap.className =
+            'rec-thumb';
+
+        thumbWrap.appendChild(thumb);
+
+        const info =
+            document.createElement('div');
+
+        info.className =
+            'rec-info';
+
+        info.innerHTML = `
+            <h4>${book.title}</h4>
+
+            <div class="rec-author">
+                ${book.author}
+            </div>
+
+            <div class="rec-slides">
+                ${pdf.numPages} pages
+            </div>
+        `;
+
+        card.appendChild(thumbWrap);
+        card.appendChild(info);
+
+        container.appendChild(card);
+
+    }
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| SEARCH
+|--------------------------------------------------------------------------
+*/
+
+document
+.getElementById('searchInput')
+.addEventListener('input', function(){
+
+    renderRecommended(this.value);
+
 });
 
-function changePage(dir){
-  let filtered = getFiltered();
-  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+/*
+|--------------------------------------------------------------------------
+| SHARE
+|--------------------------------------------------------------------------
+*/
 
-  currentPage += dir;
+function shareBook(){
 
-  if(currentPage < 1) currentPage = 1;
-  if(currentPage > maxPage) currentPage = maxPage;
+    if(navigator.share){
 
-  render();
+        navigator.share({
+            title: BOOKS[currentBook].title,
+            url: window.location.href
+        });
+
+    }
+
 }
 
-render();
+// function shareBook() {
+
+//     const currentPdf = BOOKS[currentBook].pdf;
+
+//     // FULL URL
+//     const shareUrl = window.location.origin + currentPdf;
+
+//     if (navigator.share) {
+
+//         navigator.share({
+//             title: BOOKS[currentBook].title,
+//             text: 'Read this PDF book',
+//             url: shareUrl
+//         })
+//         .catch(err => console.log(err));
+
+//     } else {
+
+//         navigator.clipboard.writeText(shareUrl)
+//         .then(() => {
+
+//             const btn = document.querySelector('.btn-act.ghost');
+
+//             btn.innerHTML = `
+//                 <i class="fas fa-check"></i>
+//                 <span>Copied!</span>
+//             `;
+
+//             setTimeout(() => {
+
+//                 btn.innerHTML = `
+//                     <i class="fas fa-share-alt"></i>
+//                     <span>Share</span>
+//                 `;
+
+//             }, 2000);
+
+//         });
+
+//     }
+
+// }
+
+/*
+|--------------------------------------------------------------------------
+| KEYBOARD
+|--------------------------------------------------------------------------
+*/
+
+document.addEventListener('keydown', e => {
+
+    if(e.key === 'ArrowRight')
+        nextPage();
+
+    if(e.key === 'ArrowLeft')
+        prevPage();
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| START
+|--------------------------------------------------------------------------
+*/
+
+loadBook(0);
 
 </script>
 
