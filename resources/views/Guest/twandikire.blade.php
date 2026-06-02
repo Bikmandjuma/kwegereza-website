@@ -1,13 +1,38 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="chat-page">
     <!-- NAME SCREEN -->
-    <div id="nameScreen" class="name-screen">
+   <!--  <div id="nameScreen" class="name-screen">
         <div class="name-card">
             <div class="logo">💬</div>
             <h2>Welcome to Live Chat</h2>
             <p>Enter your name to start chatting with support.</p>
             <input type="text" id="guestName" placeholder="Your name">
             <button onclick="startChat()">Start Chat</button>
+        </div>
+    </div>
+ -->
+    <div id="nameScreen" class="name-screen">
+        <div class="name-card">
+            <div class="logo">
+                💬
+            </div>
+
+            <h2>Live Support Chat</h2>
+
+            <p>
+                Connect instantly with our support team.
+                Enter your name below to start chatting.
+            </p>
+
+            <input
+                type="text"
+                id="guestName"
+                placeholder="Enter your name"
+            >
+
+            <button onclick="startChat()">
+                Start Conversation
+            </button>
         </div>
     </div>
 
@@ -67,7 +92,7 @@ body{
 /* ==========================
    NAME SCREEN
 ========================== */
-
+/*
 .name-screen{
     width:100%;
     height:100vh;
@@ -92,7 +117,144 @@ body{
     box-shadow:
         0 20px 60px rgba(0,0,0,.15);
 }
+*/
 
+.name-screen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    z-index:9999;
+}
+
+.name-card{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    border-radius:24px;
+    padding:40px 30px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+}
+
+.name-card h2{
+    font-size:30px;
+    margin-bottom:12px;
+    color:#111827;
+}
+
+.name-card p{
+    font-size:17px;
+    line-height:1.6;
+    color:#6b7280;
+    margin-bottom:25px;
+}
+
+.name-card input{
+    width:100%;
+    height:60px;
+    border:2px solid #e5e7eb;
+    border-radius:14px;
+    padding:0 18px;
+    font-size:17px;
+    outline:none;
+    box-sizing:border-box;
+}
+
+.name-card button{
+    width:100%;
+    height:60px;
+    margin-top:15px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* Tablets */
+@media (max-width:768px){
+    .name-card{
+        max-width:95%;
+        padding:35px 25px;
+    }
+}
+
+/* Phones */
+@media (max-width:480px){
+
+    .name-screen{
+        padding:10px;
+    }
+
+    .name-card{
+        width:100%;
+        max-width:100%;
+        padding:30px 20px;
+        border-radius:20px;
+    }
+
+    .logo{
+        width:80px;
+        height:80px;
+        font-size:36px;
+    }
+
+    .name-card h2{
+        font-size:26px;
+    }
+
+    .name-card p{
+        font-size:16px;
+    }
+
+    .name-card input,
+    .name-card button{
+        height:56px;
+        font-size:16px;
+    }
+}
+
+/* Very small devices */
+@media (max-width:360px){
+
+    .name-card{
+        width: 400px;
+        height: 400px;
+        padding:25px 15px;
+    }
+
+    .name-card h2{
+        font-size:22px;
+    }
+
+    .name-card p{
+        font-size:14px;
+    }
+
+    .logo{
+        width:70px;
+        height:70px;
+        font-size:30px;
+    }
+}
 .logo{
     width:85px;
     height:85px;
