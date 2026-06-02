@@ -63,6 +63,10 @@ class GuestController extends Controller{
         return view('Guest.inyigisho_zabarimu');
     }
 
+    public function twandikire(){
+        return view('Guest.twandikire');
+    }
+
     public function trackVisit(Request $request, $guestId)
     {
         $today = now()->toDateString();

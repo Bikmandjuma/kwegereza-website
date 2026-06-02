@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\WebAuthController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\GuestController;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\ChatController;
 
 
 Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],function(){
@@ -41,68 +42,22 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
     route::get('/amatangazo', [AdminController::class, 'amatangazo'])->name('owner.amatangazo');
     route::get('/Ibitabo', [AdminController::class, 'Ibitabo'])->name('owner.ibitabo');
 
-     Route::resource('users', AdminController::class);
+    Route::resource('users', AdminController::class);
     route::get('/Edit/{id}', [AdminController::class, 'ownerEditUser'])->name('owner.EditUser');
     route::get('/show/{id}', [AdminController::class, 'ownershowUser'])->name('owner.showUser');
+    route::get('/chatroom', [ChatController::class, 'ownerchatroom'])->name('owner.chatroom');
 
+    Route::get('/chat/conversations', [ChatController::class, 'conversations']);
+    Route::get('/chat/messages/{guest_id}', [ChatController::class, 'adminMessages']);
+    Route::post('/chat/send', [ChatController::class, 'adminSend']);
+    Route::post('chat/read', [ChatController::class,'markAsRead']);
+    Route::get('chat/typing/{guest_id}', [ChatController::class,'typingStatus']);
 
 });
 Route::get('/refresh_counts', [AdminController::class, 'refresh_counts'])->name('owner.refresh_counts');
 
 Route::get('/login', [WebAuthController::class, 'login_form'])->name('owner.login');
 Route::post('/submit_login', [WebAuthController::class, 'submit_login'])->name('owner.submit.login');
-
-// routes/web.php
-// Route::get('/proxy/env', function () {
-//     $response = Http::get('https://recruitment.mifotra.gov.rw/api/recruitment/open-advertisements');
-//     return response($response->body(), $response->status())
-//         ->header('Content-Type', $response->header('Content-Type'));
-// });
-
-// Route::get('/proxy/env', function () {
-//     $response = Http::withHeaders([
-//         'Accept-Encoding' => 'gzip, deflate',
-//         'Accept' => 'application/json'
-//     ])->get('https://recruitment.mifotra.gov.rw/api/recruitment/open-advertisements');
-
-//     return $response->json(); // this will parse JSON if available
-// });
-
-// Route::get('/proxy/env', function () {
-//     $raw = Http::get('https://recruitment.mifotra.gov.rw/api/recruitment/open-advertisements')->body();
-
-//     // try decompressing
-//     $decoded = @gzdecode($raw);
-
-//     return response($decoded ?: $raw)
-//         ->header('Content-Type', 'application/json');
-// });
-
-Route::get('/proxy/env', function () {
-    $response = Http::withHeaders([
-        'Accept-Encoding' => 'gzip, deflate',
-        'Accept' => 'application/json',
-    ])->get('https://recruitment.mifotra.gov.rw/api/recruitment/open-advertisements');
-
-    // get raw binary
-    $raw = $response->getBody()->getContents();
-
-    // decompress gzip
-    $decoded = @gzdecode($raw);
-
-    if ($decoded === false) {
-        return response()->json(['error' => 'Failed to decompress API response']);
-    }
-
-    // parse JSON
-    $json = json_decode($decoded, true);
-
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        return response()->json(['error' => 'Failed to parse JSON']);
-    }
-
-    return response()->json($json);
-});
 
 Route::get('/forgot-password', [WebAuthController::class, 'forgot_password'])->name('guest.forgot-password');
 Route::post('submit-forgot-password',[WebAuthController::class, 'submit_forgot_password'])->name('guest.submit-forgot-password');
@@ -116,9 +71,13 @@ Route::get('/ibitabo', [GuestController::class, 'books'])->name('guest.books');
 Route::get('/abasheikh', [GuestController::class, 'teachers'])->name('guest.teachers');
 Route::get('/amatangazo', [GuestController::class, 'news'])->name('guest.news');
 Route::get('/inyandiko-zabamenyi', [GuestController::class, 'inyandiko_zabamenyi'])->name('guest.inyandiko_zabamenyi');
+Route::get('/twandikire', [GuestController::class, 'twandikire'])->name('guest.twandikire');
 Route::get('/shakisha', [GuestController::class, 'search'])->name('guest.search');
 Route::get('/inyigisho-zabasheikh', [GuestController::class, 'teacher_darsa'])->name('guest.teacher-darsa');
 
+Route::post('/chat/presence',[ChatController::class,'presence']);
+Route::get('/chat/messages/{guest_id}', [ChatController::class,'messages']);
+Route::post('/chat/send', [ChatController::class,'sendMessage']);
 Route::get('/live-visits', [GuestController::class, 'liveVisits'])->name('guest.live.visits');
 Route::get('/guest/ping', [GuestController::class, 'ping']);
 

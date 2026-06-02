@@ -32,7 +32,7 @@ class AdminSeeder extends Seeder
             'lastname' => 'Ismaile',
             'gender' => 'male',
             'phone' => '+250790338841',
-            'email' => 'islamailemunyawera@gmail.com',
+            'email' => 'ismailemunyawera@gmail.com',
             'role' => 'AssistantAdmin',
             'title' => 'Admin',
             'image' => 'user.png',

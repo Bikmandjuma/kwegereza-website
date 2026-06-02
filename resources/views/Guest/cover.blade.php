@@ -91,7 +91,7 @@
        <i class="fas fa-user"></i> Account
     </a>
 
-    <a href="{{ route('guest.home') }}#twandikire" 
+    <a target="parent" href="{{ route('guest.twandikire') }}#twandikire" 
        class="btn-account hidden md:inline-flex items-center gap-2">
        <i class="fas fa-phone"></i> Twandikire
     </a>

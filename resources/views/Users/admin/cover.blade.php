@@ -84,6 +84,35 @@
                 
               </div>
 
+              <div x-data="{ isActive: true, open: true}">
+                  <a
+                      href="{{ route('owner.chatroom') }}"
+                      class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'chatroom' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                      role="button"
+                      aria-haspopup="true"
+                      :aria-expanded="(open || isActive) ? 'true' : 'false'"
+                  >
+                      <span aria-hidden="true">
+                          <svg
+                              class="w-5 h-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                          >
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M8 10h8M8 14h5m-9 6l3.5-3.5A2 2 0 016.914 16H19a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2h1v4z"
+                              />
+                          </svg>
+                      </span>
+
+                      <span class="ml-2 text-sm">Chat-room</span>
+                  </a>
+              </div>
+
               <!-- Authentication links -->
               <div x-data="{ isActive: false, open: false}">
                 <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
