@@ -278,6 +278,15 @@ body{
     color:#334155;
 }
 
+.dash-btn{
+    position: relative;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    float: right;
+    margin-left: 100px;
+}
+
 .dashboard-btn{
     text-decoration:none;
     background:#4f46e5;
@@ -423,13 +432,14 @@ body{
 			        </div>
 
 			    </div>
-
-			    <a
-			        href="{{ route('owner.dashboard') }}"
-			        class="dashboard-btn"
-			    >
-			        Dashboard
-			    </a>
+                <div class="dash-btn">
+    			    <a
+    			        href="{{ route('owner.dashboard') }}"
+    			        class="dashboard-btn"
+    			    >
+    			        Back to Dashboard
+    			    </a>
+                </div>
 
 			</div>
 
