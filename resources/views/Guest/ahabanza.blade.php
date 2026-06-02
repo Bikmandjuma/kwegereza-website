@@ -56,7 +56,7 @@ function startPing() {
     <p>Ikaze ku rubuga rwacu rwigisha ubumenyi bw'idini ya Islamu bushingiye kuri Qur'an na Sunnah, mu buryo bworoshye, bwiza kandi bunoze.</p>
     <div class="hero-btns">
       <a href="#amasomo" class="btn-primary"><i class="fas fa-graduation-cap"></i> Tangira Kwiga</a>
-      <a href="#social" class="btn-outline"><i class="fas fa-users"></i> Twiyungeho (Join us)</a>
+      <a href="{{ route('guest.twandikire') }}" class="btn-outline"><i class="fas fa-users"></i> Twiyungeho (Join us)</a>
     </div>
     <div class="System-status">
       <div class="System-status-card">
@@ -232,8 +232,8 @@ function startPing() {
       <h2>Injira mu Muryango Wacu</h2>
       <p>Kwiyandikisha no kubona inyigisho nshya buri gihe hamwe n'ibihumbi by'abanyamuryango mu Rwanda no hanze</p>
       <div class="join-form">
-        <input type="email" placeholder="Andika imeyili yawe...">
-        <button><i class="fas fa-paper-plane"></i> Kwiyandikisha</button>
+        <!-- <input type="email" placeholder="Andika imeyili yawe..."> -->
+        <button onclick="window.location.href='{{ route('guest.twandikire') }}'"><i class="fas fa-paper-plane"></i> Twandikire</button>
       </div>
     </div>
   </div>

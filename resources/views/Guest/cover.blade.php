@@ -91,7 +91,7 @@
        <i class="fas fa-user"></i> Account
     </a>
 
-    <a target="parent" href="{{ route('guest.twandikire') }}#twandikire" 
+    <a target="parent" href="{{ route('guest.twandikire') }}" 
        class="btn-account hidden md:inline-flex items-center gap-2">
        <i class="fas fa-phone"></i> Twandikire
     </a>
@@ -163,11 +163,10 @@
       <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="{{Request::segment(1) == 'inyandiko-zabamenyi' ? 'active' : ''}}"><i class="fas fa-pencil"></i> Inyandiko z'abamenyi</a>
       <a href="{{ route('guest.news') }}" class="{{Request::segment(1) == 'amatangazo' ? 'active' : ''}}"><i class="fas fa-bullhorn"></i> Amatangazo</a>
       <a href="{{ route('guest.books') }}" class="{{Request::segment(1) == 'ibitabo' ? 'active' : ''}}"><i class="fas fa-book"></i> Ibitabo</a>
-    <a href="{{ route('guest.home') }}#twandikire"><i class="fas fa-phone"></i> Twandikire</a>
+    <a href="{{ route('guest.twandikire') }}"><i class="fas fa-phone"></i> Twandikire</a>
     <a href="{{ route('owner.login') }}" class="btn-donate hidden sm:hidden" style="max-width: 40%;"><i class="fas fa-user"></i>Account</a>
   </div>
 </div>
-
 
 <!-- DAILY AYAH + HADITH -->
 <!-- <div class="daily-strip container" style="padding-top:40px;">
