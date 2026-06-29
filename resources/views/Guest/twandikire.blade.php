@@ -92,39 +92,16 @@ body{
 /* ==========================
    NAME SCREEN
 ========================== */
-/*
+
 .name-screen{
+    position:fixed;
+    top:0;
+    left:0;
     width:100%;
     height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    background:linear-gradient(
-        135deg,
-        #4f46e5,
-        #6366f1
-    );
-}
-
-.name-card{
-    width:100%;
-    max-width:420px;
-    background:#ffffff;
-    border-radius:30px;
-    padding:35px 30px;
-    text-align:center;
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.15);
-}
-*/
-
-.name-screen{
-    position:fixed;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     padding:15px;
     background:linear-gradient(135deg,#4f46e5,#7c3aed);
     z-index:9999;
@@ -135,69 +112,88 @@ body{
     max-width:500px;
     background:#fff;
     border-radius:24px;
-    padding:40px 30px;
+    padding:35px 25px;
     text-align:center;
-    box-shadow:0 20px 50px rgba(0,0,0,.15);
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
 }
 
 .logo{
-    width:90px;
-    height:90px;
+    width:80px;
+    height:80px;
     margin:0 auto 20px;
-    border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:42px;
-    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    border-radius:50%;
+    background:#eef2ff;
+    font-size:36px;
 }
 
 .name-card h2{
-    font-size:30px;
-    margin-bottom:12px;
+    font-size:28px;
     color:#111827;
+    margin-bottom:10px;
 }
 
 .name-card p{
-    font-size:17px;
+    color:#64748b;
+    font-size:15px;
     line-height:1.6;
-    color:#6b7280;
     margin-bottom:25px;
 }
 
 .name-card input{
     width:100%;
-    height:60px;
-    border:2px solid #e5e7eb;
+    height:55px;
+    border:1px solid #dbeafe;
     border-radius:14px;
-    padding:0 18px;
-    font-size:17px;
+    padding:0 16px;
+    font-size:16px;
     outline:none;
-    box-sizing:border-box;
+    background:#f8fafc;
+}
+
+.name-card input:focus{
+    border-color:#4f46e5;
 }
 
 .name-card button{
     width:100%;
-    height:60px;
+    height:55px;
     margin-top:15px;
     border:none;
     border-radius:14px;
-    background:linear-gradient(135deg,#4f46e5,#7c3aed);
-    color:white;
-    font-size:18px;
+    background:#4f46e5;
+    color:#fff;
+    font-size:16px;
     font-weight:600;
     cursor:pointer;
 }
 
-/* Tablets */
+.name-card button:hover{
+    background:#4338ca;
+}
+
+/* Tablet */
+
 @media (max-width:768px){
+
     .name-card{
         max-width:95%;
-        padding:35px 25px;
+        padding:30px 20px;
+    }
+
+    .name-card h2{
+        font-size:24px;
+    }
+
+    .name-card p{
+        font-size:14px;
     }
 }
 
-/* Phones */
+/* Mobile */
+
 @media (max-width:480px){
 
     .name-screen{
@@ -206,39 +202,16 @@ body{
 
     .name-card{
         width:100%;
-        max-width:100%;
-        padding:30px 20px;
-        border-radius:20px;
+        max-width:none;
+        border-radius:18px;
+        padding:25px 15px;
     }
 
     .logo{
-        width:80px;
-        height:80px;
-        font-size:36px;
-    }
-
-    .name-card h2{
-        font-size:26px;
-    }
-
-    .name-card p{
-        font-size:16px;
-    }
-
-    .name-card input,
-    .name-card button{
-        height:56px;
-        font-size:16px;
-    }
-}
-
-/* Very small devices */
-@media (max-width:360px){
-
-    .name-card{
-        width: 400px;
-        height: 400px;
-        padding:25px 15px;
+        width:65px;
+        height:65px;
+        font-size:30px;
+        margin-bottom:15px;
     }
 
     .name-card h2{
@@ -247,285 +220,42 @@ body{
 
     .name-card p{
         font-size:14px;
+        margin-bottom:20px;
+    }
+
+    .name-card input,
+    .name-card button{
+        height:50px;
+        font-size:15px;
+    }
+}
+
+/* Extra Small Phones */
+
+@media (max-width:360px){
+
+    .name-card{
+        padding:20px 12px;
     }
 
     .logo{
-        width:70px;
-        height:70px;
-        font-size:30px;
-    }
-}
-.logo{
-    width:85px;
-    height:85px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:#eef2ff;
-    font-size:38px;
-}
-
-.name-card h2{
-    margin-top:18px;
-    font-size:28px;
-    color:#111827;
-}
-
-.name-card p{
-    margin-top:8px;
-    color:#64748b;
-    line-height:1.6;
-}
-
-.name-card input{
-    width:100%;
-    margin-top:22px;
-    padding:15px;
-    border:none;
-    outline:none;
-    border-radius:15px;
-    background:#f1f5f9;
-    font-size:15px;
-}
-
-.name-card button{
-    width:100%;
-    margin-top:15px;
-    padding:15px;
-    border:none;
-    border-radius:15px;
-    background:#4f46e5;
-    color:white;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.name-card button:hover{
-    background:#4338ca;
-}
-
-/* ==========================
-   CHAT SCREEN
-========================== */
-
-.chat-container{
-    display:none;
-    flex-direction:column;
-    width:100%;
-    height:100vh;
-    background:#f8fafc;
-}
-
-/* HEADER */
-
-.chat-header{
-    background:#4f46e5;
-    color:white;
-    padding:18px 20px;
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.08);
-}
-
-.chat-header h3{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:18px;
-    font-weight:700;
-}
-
-.chat-header span{
-    font-size:13px;
-    opacity:.85;
-}
-
-/* UNREAD BADGE */
-
-.badge{
-    display:none;
-    min-width:22px;
-    height:22px;
-    padding:0 8px;
-    border-radius:999px;
-    background:#ef4444;
-    color:white;
-    font-size:11px;
-    font-weight:700;
-    align-items:center;
-    justify-content:center;
-}
-
-/* CHAT BODY */
-
-.chat-messages{
-    flex:1;
-    overflow-y:auto;
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-}
-
-/* MESSAGE */
-
-.message{
-    display:flex;
-    margin-bottom:12px;
-}
-
-.message.guest{
-    justify-content:flex-end;
-}
-
-.message.admin{
-    justify-content:flex-start;
-}
-
-.message > div{
-    max-width:80%;
-}
-
-/* BUBBLE */
-
-.bubble{
-    padding:12px 16px;
-    border-radius:18px;
-    word-break:break-word;
-    line-height:1.5;
-    font-size:14px;
-}
-
-.guest .bubble{
-    background:#4f46e5;
-    color:white;
-    border-bottom-right-radius:6px;
-}
-
-.admin .bubble{
-    background:white;
-    color:#111827;
-    border:1px solid #e5e7eb;
-    border-bottom-left-radius:6px;
-}
-
-/* TIME */
-
-.msg-time{
-    margin-top:4px;
-    font-size:11px;
-    color:#94a3b8;
-}
-
-.message.guest .msg-time{
-    text-align:right;
-    padding-right:6px;
-}
-
-.message.admin .msg-time{
-    text-align:left;
-    padding-left:6px;
-}
-
-/* TYPING */
-
-.typing-indicator{
-    display:none;
-    padding:10px 20px;
-    color:#64748b;
-    font-size:13px;
-    font-style:italic;
-    background:#ffffff;
-    border-top:1px solid #e5e7eb;
-}
-
-/* INPUT AREA */
-
-.chat-input{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:15px;
-    background:white;
-    border-top:1px solid #e5e7eb;
-}
-
-.chat-input input{
-    flex:1;
-    border:none;
-    outline:none;
-    background:#f1f5f9;
-    padding:14px 16px;
-    border-radius:15px;
-    font-size:15px;
-}
-
-.chat-input button{
-    border:none;
-    background:#4f46e5;
-    color:white;
-    padding:14px 22px;
-    border-radius:15px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.chat-input button:hover{
-    background:#4338ca;
-}
-
-/* SCROLLBAR */
-
-.chat-messages::-webkit-scrollbar{
-    width:6px;
-}
-
-.chat-messages::-webkit-scrollbar-thumb{
-    background:#cbd5e1;
-    border-radius:999px;
-}
-
-/* ==========================
-   MOBILE
-========================== */
-
-@media(max-width:768px){
-
-    .name-card{
-        padding:25px;
-        border-radius:22px;
+        width:55px;
+        height:55px;
+        font-size:24px;
     }
 
-    .chat-header{
-        padding:15px;
+    .name-card h2{
+        font-size:20px;
     }
 
-    .chat-messages{
-        padding:15px;
+    .name-card p{
+        font-size:13px;
     }
 
-    .message > div{
-        max-width:88%;
-    }
-
-    .bubble{
+    .name-card input,
+    .name-card button{
+        height:46px;
         font-size:14px;
-        padding:11px 14px;
-    }
-
-    .chat-input{
-        padding:12px;
-    }
-
-    .chat-input input{
-        padding:13px 14px;
-    }
-
-    .chat-input button{
-        padding:13px 18px;
     }
 }
 </style>

@@ -310,6 +310,28 @@ input[type=text]{
       
     </div>
 
+    <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid Abuu Muadh">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="avatar">MI</div>
+          <div>
+            <div class="teacher-name">Ustaz MUNYAWERA ISMAIL ABUU ABDILLAH</div>
+            <span class="spec-badge">Tawhid · Arabic</span>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat">6 Inyigisho</span>
+          <span class="stat">4 Video</span>
+          <span class="stat">2 Audio</span>
+        </div>
+
+        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh NDAHAYO KHALID">
+          Reba amasomo
+        </a>
+      </div>
+      
+    </div>
+
     <!-- EMPTY -->
     <div class="no-result" id="noResult">
       Nta mwarimu ubonetse 😕
