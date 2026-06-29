@@ -121,7 +121,7 @@
       </div>
 
       <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="{{Request::segment(1) == 'inyandiko-zabamenyi' ? 'active' : ''}}">
-        <i class="fas fa-pen"></i> Inyandiko z'abamenyi
+        <i class="fas fa-pen"></i> Inyandiko
       </a>
 
       <a href="{{ route('guest.news') }}" class="{{Request::segment(1) == 'amatangazo' ? 'active' : ''}}">
@@ -160,7 +160,7 @@
         </a>
       <!-- </div> -->
 
-      <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="{{Request::segment(1) == 'inyandiko-zabamenyi' ? 'active' : ''}}"><i class="fas fa-pencil"></i> Inyandiko z'abamenyi</a>
+      <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="{{Request::segment(1) == 'inyandiko-zabamenyi' ? 'active' : ''}}"><i class="fas fa-pencil"></i> Inyandiko</a>
       <a href="{{ route('guest.news') }}" class="{{Request::segment(1) == 'amatangazo' ? 'active' : ''}}"><i class="fas fa-bullhorn"></i> Amatangazo</a>
       <a href="{{ route('guest.books') }}" class="{{Request::segment(1) == 'ibitabo' ? 'active' : ''}}"><i class="fas fa-book"></i> Ibitabo</a>
     <a href="{{ route('guest.twandikire') }}"><i class="fas fa-phone"></i> Twandikire</a>
