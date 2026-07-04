@@ -36,4 +36,9 @@ class Owner extends Authenticatable{
         'email_verified_at' => 'datetime',
         'dob' => 'date',
     ];
+
+    public function darsat()
+    {
+        return $this->hasMany(DarsatTable::class, 'teachers');
+    }
 }

@@ -237,18 +237,18 @@ input[type=text]{
     </div>
 
     <!-- FILTERS -->
-    <div class="filter-bar">
+    <!-- <div class="filter-bar">
       <button class="filter-btn active" data-spec="all">Bose</button>
       <button class="filter-btn" data-spec="tawhid">Tawhid</button>
       <button class="filter-btn" data-spec="fiqh">Fiqh</button>
       <button class="filter-btn" data-spec="hadith">Hadith</button>
       <button class="filter-btn" data-spec="arabic">Arabic</button>
     </div>
-
+ -->
     <!-- GRID -->
     <div class="teacher-grid" id="teacherGrid">
 
-      <div class="teacher-card" data-spec="tawhid fiqh" data-name="sheikh munyaneza ismail Abuu omar">
+      <!-- <div class="teacher-card" data-spec="tawhid fiqh" data-name="sheikh munyaneza ismail Abuu omar">
         <div style="display:flex;gap:12px;align-items:center">
           <div class="avatar">MI</div>
           <div>
@@ -266,9 +266,9 @@ input[type=text]{
         <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh MUNYANEZA ISMAIL">
           Reba amasomo
         </a>
-      </div>
+      </div> -->
 
-      <div class="teacher-card" data-spec="hadith fiqh" data-name="sheikh aboubakar ABUU ABDOULRAHMAN">
+      <!-- <div class="teacher-card" data-spec="hadith fiqh" data-name="sheikh aboubakar ABUU ABDOULRAHMAN">
         <div style="display:flex;gap:12px;align-items:center">
           <div class="avatar">AB</div>
           <div>
@@ -286,42 +286,20 @@ input[type=text]{
         <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh ABOUBAKAR">
           Reba amasomo
         </a>
-      </div>
+      </div> -->
 
       <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid Abuu Muadh">
         <div style="display:flex;gap:12px;align-items:center">
           <div class="avatar">NK</div>
           <div>
             <div class="teacher-name">Sheikh NDAHAYO KHALID ABUU MUADH</div>
-            <span class="spec-badge">Tawhid · Arabic</span>
+            <!-- <span class="spec-badge">Tawhid · Arabic</span> -->
           </div>
         </div>
 
         <div class="stat-row">
           <span class="stat">6 Inyigisho</span>
-          <span class="stat">4 Video</span>
-          <span class="stat">2 Audio</span>
-        </div>
-
-        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh NDAHAYO KHALID">
-          Reba amasomo
-        </a>
-      </div>
-      
-    </div>
-
-    <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid Abuu Muadh">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div class="avatar">MI</div>
-          <div>
-            <div class="teacher-name">Ustaz MUNYAWERA ISMAIL ABUU ABDILLAH</div>
-            <span class="spec-badge">Tawhid · Arabic</span>
-          </div>
-        </div>
-
-        <div class="stat-row">
-          <span class="stat">6 Inyigisho</span>
-          <span class="stat">4 Video</span>
+          <!-- <span class="stat">4 Video</span> -->
           <span class="stat">2 Audio</span>
         </div>
 

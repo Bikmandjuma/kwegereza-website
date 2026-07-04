@@ -52,8 +52,11 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
     Route::post('/chat/send', [ChatController::class, 'adminSend']);
     Route::post('chat/read', [ChatController::class,'markAsRead']);
     Route::get('chat/typing/{guest_id}', [ChatController::class,'typingStatus']);
-
+    //darsat
+    Route::post('/storeDarsat', [AdminController::class, 'storeDarsat'])->name('owner.storeDarsat');
+    Route::get('/viewDarsat', [AdminController::class, 'viewDarsat'])->name('owner.viewDarsat');
 });
+
 Route::get('/refresh_counts', [AdminController::class, 'refresh_counts'])->name('owner.refresh_counts');
 
 Route::get('/login', [WebAuthController::class, 'login_form'])->name('owner.login');
@@ -61,7 +64,6 @@ Route::post('/submit_login', [WebAuthController::class, 'submit_login'])->name('
 
 Route::get('/forgot-password', [WebAuthController::class, 'forgot_password'])->name('guest.forgot-password');
 Route::post('submit-forgot-password',[WebAuthController::class, 'submit_forgot_password'])->name('guest.submit-forgot-password');
-
 
 // Route::get('/', [GuestController::class, 'home'])->name('guest.home');
 Route::get('/', [GuestController::class, 'home'])

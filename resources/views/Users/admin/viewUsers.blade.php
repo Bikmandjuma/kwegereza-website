@@ -47,12 +47,6 @@
             <!-- TABS -->
             <div class="flex flex-wrap items-center gap-3 mb-4">
 
-                <!-- ALL -->
-<!-- 
-                <a href="{{ route('owner.viewUser') }}"
-                   class="px-4 py-2 text-sm font-semibold text-white transition rounded-xl bg-primary hover:bg-primary-dark">
-                    All
-                </a> -->
                 <a href="{{ route('owner.viewUser') }}"
                    class="px-4 py-2 text-sm font-semibold text-white transition rounded-xl bg-primary hover:bg-primary-dark">
                     All ({{ $users->count() }})
@@ -65,7 +59,6 @@
                         href="{{ route('owner.viewUser', ['title' => $title->title]) }}"
                         class="px-4 py-2 text-sm font-medium text-gray-700 transition bg-gray-100 rounded-xl hover:bg-primary hover:text-white dark:bg-dark dark:text-gray-300"
                     >
-                        <!-- {{ $title->title }} -->
                         {{ $title->title }} ({{ $title->total }})
                     </a>
 
@@ -202,9 +195,13 @@
 
                             <span class="px-3 py-1 text-xs font-semibold text-purple-700 bg-purple-100 rounded-full">
 
-                                @if($user->role == "Assistant-Admin")
+                                @if($user->role == "AssistantAdmin")
 
                                     Assistant&nbsp;Admin
+
+                                @elseif($user->role == "superSheikh")
+
+                                    Sheikh
 
                                 @else
 

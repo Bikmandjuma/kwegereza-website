@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Visit;
 use App\Models\Payment;
+use App\Models\DarsatTable;
 
 class AdminController extends Controller
 {
@@ -276,12 +277,140 @@ class AdminController extends Controller
         return view('Users.admin.addUsers');
     }
 
-    // public function ViewUser(){
-    //     return view('Users.admin.viewUsers');
+    public function darsat(Request $request)
+    {
+        $title = $request->title;
+
+        $users = Owner::when($title, function ($query) use ($title) {
+                return $query->where('title', $title);
+            }, function ($query) {
+                return $query->whereIn('title', ['sheikh','ustadh']);
+            })
+            ->latest()
+            ->orderBy('title')
+            ->get();
+
+        return view('Users.admin.darsat', compact('users'));
+    }
+
+    // public function storeDarsat(Request $request)
+    // {
+    //     $request->validate([
+    //         'title'    => 'required|string|max:255',
+    //         'teachers' => 'required|exists:owners,id',
+    //         'type'     => 'required|string|max:100',
+    //         'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200|unique:darsat_tables,audio',
+    //     ]);
+
+    //     // dd($request);
+
+    //     $audioName = null;
+
+    //     if ($request->hasFile('audio')) {
+
+    //         // $audioName = $request->audio->getClientOriginalName();
+    //         $originalName = $request->file('audio')->getClientOriginalName();
+
+    //         if (DarsatTable::where('audio', 'like', '%_'.$originalName)->exists()) {
+    //             return back()
+    //                 ->withInput()
+    //                 ->withErrors([
+    //                     'audio' => 'This audio file has already been uploaded.'
+    //                 ]);
+    //         }
+    //         // $audioName = time().'_'.$request->audio->getClientOriginalName();
+
+    //         $request->audio->move(public_path('uploads/audio'), $audioName);
+    //     }
+
+    //     DarsatTable::create([
+    //         'title'    => $request->title,
+    //         'teachers' => $request->teachers,
+    //         'type'     => $request->type,
+    //         'audio'    => $audioName,
+    //     ]);
+
+    //     return redirect()
+    //         ->back()
+    //         ->with('info', 'Darsat added successfully !');
     // }
 
-    public function darsat(){
-        return view('Users.admin.darsat');
+    public function storeDarsat(Request $request){
+        $request->validate([
+            'title'    => 'required|string|max:255',
+            'teachers' => 'required|exists:owners,id',
+            'type'     => 'required|string|max:100',
+            'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
+        ]);
+
+        $audioName = null;
+
+        if ($request->hasFile('audio')) {
+
+            // Original file name
+            $originalName = $request->file('audio')->getClientOriginalName();
+
+            // Check if a file with the same original name has already been uploaded
+            if (DarsatTable::where('audio', 'like', '%_'.$originalName)->exists()) {
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'audio' => 'This audio file has already been uploaded.'
+                        // 'audio' => 'Iyi audio iri muri mububiko !'
+
+                    ]);
+            }
+
+            // Create a unique file name
+            $audioName = time() . '_' . $originalName;
+
+            // Move file
+            $request->file('audio')->move(
+                public_path('uploads/audio'),
+                $audioName
+            );
+        }
+
+        DarsatTable::create([
+            'title'    => $request->title,
+            'teachers' => $request->teachers,
+            'type'     => $request->type,
+            'audio'    => $audioName,
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('info', 'Darsat added successfully!');
+    }
+
+    // public function viewDarsat()
+    // {
+    //     $users = Owner::whereIn('title', ['sheikh', 'ustadh'])
+    //         ->orderBy('firstname')
+    //         ->get();
+
+    //     $darsat = DarsatTable::latest()->get()->groupBy('teachers');
+
+    //     return view('Users.admin.ViewDarsat', compact(
+    //         'users',
+    //         'darsat'
+    //     ));
+    // }
+
+    public function viewDarsat(){
+        $users = Owner::whereIn('title', ['sheikh', 'ustadh'])
+            ->withCount('darsat')
+            ->orderBy('firstname')
+            ->get();
+
+        $darsat = DarsatTable::latest()
+            ->get()
+            ->groupBy('teachers');
+
+        return view('Users.admin.ViewDarsat', compact(
+            'users',
+            'darsat'
+        ));
     }
 
     public function inyandiko_zabamenyi(){
