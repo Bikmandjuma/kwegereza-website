@@ -870,29 +870,6 @@ h1,h2,h3,h4,.font-display{
     </div>
 
     <div class="lesson-card lesson-item"
-         data-type="audio fiqh"
-         data-title="Igisibo cya Ramadhan"
-         data-duration="31 min"
-         data-media-type="audio"
-         data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-         data-desc="Amabwiriza y'ibanze ku byerekeye igisibo cya Ramadhan, ibicyangiza n'ibihembo byacyo.">
-      <div class="thumb thumb-audio">
-        <div class="play-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
-        <span class="duration-pill">31 min</span>
-      </div>
-      <div class="card-body">
-        <h4>Igisibo cya Ramadhan</h4>
-        <div class="lesson-meta">
-          <span class="type-tag tag-audio">Audio</span>
-          <span class="type-tag tag-fiqh">Fiqh</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-card lesson-item"
          data-type="video tawhid"
          data-title="Uburemere bw'Aqida"
          data-duration="50 min"
@@ -941,16 +918,6 @@ h1,h2,h3,h4,.font-display{
           <div class="card-body">
 
               <h4>{{ $lesson->title }}</h4>
-
-              <!-- <div class="lesson-meta"> -->
-
-                  <!-- <span class="type-tag tag-audio">
-                      Audio
-                  </span> -->
-
-                  <!-- <span class="type-tag tag-tawhid">
-                      {{ $lesson->type }}
-                  </span>
 
               </div> -->
               <div class="lesson-meta">
