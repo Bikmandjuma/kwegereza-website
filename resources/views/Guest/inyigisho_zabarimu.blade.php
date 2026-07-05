@@ -59,7 +59,6 @@ body{
 .page{ padding:28px 0 60px; }
 h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
 
-/* signature arabesque texture, reused on the profile card + audio player */
 .geo-pattern{
   position:absolute;
   inset:0;
@@ -214,10 +213,6 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
 
 .thumb.thumb-video{ background:linear-gradient(135deg,var(--green-100),#d6f5e2); }
 
-/* audio thumbnail = branded "album tile": logo centered on a deep green
-   plate, with an arabesque texture, a play button and an equalizer.
-   Uses background-size:contain so the logo is never cropped or
-   stretched on ANY screen size (phone / tablet / desktop). */
 .thumb.thumb-audio{
   background-color:var(--green-800);
   background-image:
@@ -283,6 +278,8 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
   font-weight:600;
   padding:2px 7px;
   border-radius:5px;
+  min-width:28px;
+  text-align:center;
 }
 
 .media-badge{
@@ -385,6 +382,9 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
   box-shadow:0 20px 40px rgba(10,42,31,.3);
   position:relative;
 }
+.player-shell:fullscreen{ border-radius:0; display:flex; align-items:center; justify-content:center; }
+.player-shell:fullscreen .player-media{ height:100vh; aspect-ratio:auto; }
+.player-shell:fullscreen .player-info{ display:none; }
 
 .player-media{
   position:relative;
@@ -406,8 +406,9 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:18px;
+  gap:16px;
   color:#fff;
+  padding:20px 0;
 }
 .audio-visual .geo-pattern{ opacity:.08; }
 
@@ -415,7 +416,7 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
   width:100px;
   height:100px;
   border-radius:50%;
-  background:var(--surface);
+  background-color:var(--surface);
   background-image:url('{{ asset("Guest/images/logo.png") }}');
   background-repeat:no-repeat;
   background-position:center;
@@ -427,8 +428,81 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
   z-index:1;
 }
 
-.audio-visual audio{ width:86%; max-width:520px; z-index:1; border-radius:999px; }
-.audio-visual .a-title{ font-family:var(--font-display); font-weight:700; font-size:15px; z-index:1; opacity:.9; text-align:center; padding:0 20px; }
+.a-title{ font-family:var(--font-display); font-weight:700; font-size:15px; z-index:1; opacity:.92; text-align:center; padding:0 20px; }
+
+/* -------- custom audio controls (YouTube-style) -------- */
+.audio-controls{
+  width:92%;
+  max-width:620px;
+  z-index:1;
+  color:#fff;
+  margin-top:6px;
+}
+
+.progress-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.progress-row .time{ font-size:11px; font-variant-numeric:tabular-nums; opacity:.85; min-width:34px; }
+.progress-row .time.duration{ text-align:right; }
+
+input[type=range]{
+  -webkit-appearance:none;
+  appearance:none;
+  height:4px;
+  border-radius:999px;
+  background:rgba(255,255,255,.25);
+  outline:none;
+  cursor:pointer;
+}
+.seek-bar{ flex:1; }
+.seek-bar::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:13px;height:13px;border-radius:50%;
+  background:var(--gold-300);
+  box-shadow:0 0 0 4px rgba(233,200,119,.25);
+  transition:transform .15s;
+}
+.seek-bar:hover::-webkit-slider-thumb{ transform:scale(1.15); }
+.seek-bar::-moz-range-thumb{ width:13px;height:13px;border-radius:50%;background:var(--gold-300);border:none; }
+
+.buttons-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+.controls-left, .controls-right{ display:flex; align-items:center; gap:6px; }
+
+.ctrl-btn{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  color:#fff;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+  position:relative;
+  flex-shrink:0;
+}
+.ctrl-btn:hover{ background:rgba(255,255,255,.18); transform:translateY(-1px); }
+
+.ctrl-btn.play-btn{
+  width:46px;height:46px;
+  background:linear-gradient(135deg,var(--gold-300),var(--gold-700));
+  color:var(--green-950);
+  border:none;
+  box-shadow:0 6px 16px rgba(0,0,0,.3);
+}
+.ctrl-btn.play-btn:hover{ transform:translateY(-1px) scale(1.05); }
+
+.skip-num{
+  position:absolute;
+  bottom:-3px; right:-3px;
+  background:var(--green-950);
+  border:1px solid rgba(255,255,255,.35);
+  font-size:8px;
+  font-weight:700;
+  padding:0 3px;
+  border-radius:5px;
+  line-height:1.3;
+}
+
+.volume-bar{ width:80px; }
+.volume-bar::-webkit-slider-thumb{ -webkit-appearance:none; width:11px;height:11px;border-radius:50%;background:#fff; }
 
 .player-info{ padding:20px 22px 22px; background:var(--surface); }
 .player-info h2{ font-size:19px; font-weight:700; margin-bottom:10px; color:var(--ink); }
@@ -515,16 +589,21 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
 
   .lesson-card{ display:flex; flex-direction:row; align-items:stretch; padding:0; border-radius:14px; }
   .thumb{ width:128px; height:auto; flex-shrink:0; }
-  .thumb.thumb-audio{ background-size:cover, 62%; } /* logo stays legible in the narrower tile */
+  .thumb.thumb-audio{ background-size:cover, 62%; }
   .card-body{ padding:10px 12px; }
   .lesson-card h4{ font-size:13px; }
 
   .player-info h2{ font-size:16px; }
   .audio-orb{ width:80px; height:80px; }
+  .volume-bar{ width:50px; }
+  .ctrl-btn{ width:32px; height:32px; }
+  .ctrl-btn.play-btn{ width:42px; height:42px; }
+  .buttons-row{ gap:8px; }
 }
 
 @media(max-width:420px){
   .thumb{ width:104px; }
+  .volume-bar{ display:none; }
 }
 </style>
 
@@ -598,7 +677,7 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
               <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
-              <span class="duration-pill"></span>
+              <span class="duration-pill">--:--</span>
           </div>
 
           <div class="card-body">
@@ -634,7 +713,58 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
 
     <div>
       <div class="player-shell">
-        <div class="player-media" id="playerMedia"></div>
+        <div class="player-media" id="playerMedia">
+
+          <video id="videoEl" style="display:none" playsinline></video>
+
+          <div class="audio-visual" id="audioVisual" style="display:none">
+            <div class="geo-pattern"></div>
+            <div class="audio-orb" id="audioOrb"></div>
+            <div class="a-title" id="audioTitle"></div>
+
+            <div class="audio-controls">
+              <div class="progress-row">
+                <span class="time current" id="curTime">0:00</span>
+                <input type="range" id="seekBar" class="seek-bar" min="0" max="100" value="0" step="0.1">
+                <span class="time duration" id="durTime">0:00</span>
+              </div>
+
+              <div class="buttons-row">
+                <div class="controls-left">
+                  <button id="prevBtn" class="ctrl-btn" title="Ibibanziriza">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z"/></svg>
+                  </button>
+                  <button id="rewindBtn" class="ctrl-btn" title="Subira inyuma">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h9a6 6 0 1 1-6 8.5"/></svg>
+                    <span class="skip-num">10</span>
+                  </button>
+                  <button id="playPauseBtn" class="ctrl-btn play-btn" title="Tangira/Hagarika">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </button>
+                  <button id="forwardBtn" class="ctrl-btn" title="Jya imbere">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9h-9a6 6 0 1 0 6 8.5"/></svg>
+                    <span class="skip-num">10</span>
+                  </button>
+                  <button id="nextBtn" class="ctrl-btn" title="Ibikurikira">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                  </button>
+                </div>
+
+                <div class="controls-right">
+                  <button id="muteBtn" class="ctrl-btn" title="Ijwi">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 12a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+                  </button>
+                  <input type="range" id="volumeBar" class="volume-bar" min="0" max="1" step="0.01" value="1">
+                  <button id="fullscreenBtn" class="ctrl-btn" title="Efishi yose">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M4 4l6 6M20 9V4h-5M20 4l-6 6M4 15v5h5M4 20l6-6M20 15v5h-5M20 20l-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
         <div class="player-info">
           <h2 id="playerTitle">Umutwe w'isomo</h2>
           <div class="player-tags" id="playerTags"></div>
@@ -685,11 +815,42 @@ document.addEventListener("DOMContentLoaded", function () {
   const playlistItems = document.getElementById("playlistItems");
   const playlistCount = document.getElementById("playlistCount");
 
+  const videoEl = document.getElementById("videoEl");
+  const audioVisual = document.getElementById("audioVisual");
+  const audioTitleEl = document.getElementById("audioTitle");
+  const playerShell = document.querySelector(".player-shell");
+
+  const playPauseBtn = document.getElementById("playPauseBtn");
+  const rewindBtn = document.getElementById("rewindBtn");
+  const forwardBtn = document.getElementById("forwardBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const seekBar = document.getElementById("seekBar");
+  const curTimeEl = document.getElementById("curTime");
+  const durTimeEl = document.getElementById("durTime");
+  const muteBtn = document.getElementById("muteBtn");
+  const volumeBar = document.getElementById("volumeBar");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+
   let current = "all";
   let currentPage = 1;
   const perPage = 4;
+  let currentIndex = -1;
+  let currentAudio = null;
 
   const playIconSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const ICON_PLAY = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const ICON_PAUSE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>';
+  const ICON_VOLUME = '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 12a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
+  const ICON_MUTE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M19 8.5 15.5 12 19 15.5l-1 1L14.5 13 11 16.5l-1-1L13.5 12 10 8.5l1-1L14.5 11 18 7.5z"/></svg>';
+
+  function formatTime(s){
+    if(!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60);
+    let sec = Math.floor(s % 60);
+    if (sec < 10) sec = '0' + sec;
+    return m + ':' + sec;
+  }
 
   function getFiltered(){
     const keyword = search.value.toLowerCase().trim();
@@ -736,6 +897,114 @@ document.addEventListener("DOMContentLoaded", function () {
     render();
   };
 
+  // ---------------- CUSTOM AUDIO ENGINE ----------------
+
+  function updateSeekFill(){
+    const max = parseFloat(seekBar.max) || 1;
+    const val = parseFloat(seekBar.value) || 0;
+    const pct = (val / max) * 100;
+    seekBar.style.background = `linear-gradient(to right, var(--gold-300) ${pct}%, rgba(255,255,255,.25) ${pct}%)`;
+  }
+
+  function stopCurrentAudio(){
+    if (currentAudio){
+      currentAudio.pause();
+      currentAudio.src = "";
+      currentAudio = null;
+    }
+  }
+
+  function loadAudioForItem(item){
+    stopCurrentAudio();
+    currentAudio = new Audio(item.dataset.src);
+    currentAudio.preload = "metadata";
+    currentAudio.volume = parseFloat(volumeBar.value);
+
+    seekBar.value = 0;
+    seekBar.max = 0;
+    curTimeEl.textContent = "0:00";
+    durTimeEl.textContent = "0:00";
+    updateSeekFill();
+    playPauseBtn.innerHTML = ICON_PLAY;
+
+    const setDuration = () => {
+      if (isFinite(currentAudio.duration) && currentAudio.duration > 0){
+        seekBar.max = currentAudio.duration;
+        durTimeEl.textContent = formatTime(currentAudio.duration);
+      }
+    };
+    currentAudio.addEventListener("loadedmetadata", setDuration);
+    currentAudio.addEventListener("durationchange", setDuration);
+
+    currentAudio.addEventListener("timeupdate", () => {
+      if (!seekBar.dataset.dragging){
+        seekBar.value = currentAudio.currentTime;
+        updateSeekFill();
+      }
+      curTimeEl.textContent = formatTime(currentAudio.currentTime);
+    });
+
+    currentAudio.addEventListener("play", () => { playPauseBtn.innerHTML = ICON_PAUSE; });
+    currentAudio.addEventListener("pause", () => { playPauseBtn.innerHTML = ICON_PLAY; });
+    currentAudio.addEventListener("ended", () => { playPauseBtn.innerHTML = ICON_PLAY; goNext(); });
+    currentAudio.addEventListener("error", () => { durTimeEl.textContent = "--:--"; });
+
+    currentAudio.play().catch(() => { playPauseBtn.innerHTML = ICON_PLAY; });
+  }
+
+  playPauseBtn.addEventListener("click", () => {
+    if (!currentAudio) return;
+    if (currentAudio.paused) currentAudio.play(); else currentAudio.pause();
+  });
+
+  rewindBtn.addEventListener("click", () => {
+    if (currentAudio) currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
+  });
+  forwardBtn.addEventListener("click", () => {
+    if (currentAudio) currentAudio.currentTime = Math.min(currentAudio.duration || 0, currentAudio.currentTime + 10);
+  });
+
+  seekBar.addEventListener("input", () => {
+    seekBar.dataset.dragging = "1";
+    updateSeekFill();
+    curTimeEl.textContent = formatTime(parseFloat(seekBar.value));
+  });
+  seekBar.addEventListener("change", () => {
+    if (currentAudio) currentAudio.currentTime = parseFloat(seekBar.value);
+    delete seekBar.dataset.dragging;
+  });
+
+  muteBtn.addEventListener("click", () => {
+    if (!currentAudio) return;
+    currentAudio.muted = !currentAudio.muted;
+    muteBtn.innerHTML = currentAudio.muted ? ICON_MUTE : ICON_VOLUME;
+  });
+
+  volumeBar.addEventListener("input", () => {
+    const v = parseFloat(volumeBar.value);
+    if (currentAudio){ currentAudio.volume = v; currentAudio.muted = false; }
+    muteBtn.innerHTML = v === 0 ? ICON_MUTE : ICON_VOLUME;
+  });
+
+  fullscreenBtn.addEventListener("click", () => {
+    if (!document.fullscreenElement){
+      (playerShell.requestFullscreen || playerShell.webkitRequestFullscreen)?.call(playerShell);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen)?.call(document);
+    }
+  });
+
+  function goNext(){
+    if (currentIndex < 0 || !items.length) return;
+    openTheater(items[(currentIndex + 1) % items.length]);
+  }
+  function goPrev(){
+    if (currentIndex < 0 || !items.length) return;
+    openTheater(items[(currentIndex - 1 + items.length) % items.length]);
+  }
+  nextBtn.addEventListener("click", goNext);
+  prevBtn.addEventListener("click", goPrev);
+
   // ---------------- THEATER / PLAYER ----------------
 
   function tagsMarkupFor(item){
@@ -744,9 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ? '<span class="type-tag tag-video">Video</span>'
       : '<span class="type-tag tag-audio">Audio</span>';
     const topicTag = '<span class="type-tag tag-dynamic">' + item.dataset.lessonType + '</span>';
-    const durationPill = item.querySelector('.duration-pill');
-    const durationTxt = durationPill ? durationPill.textContent : '';
-    return typeTag + topicTag + (durationTxt ? '<span class="duration">' + durationTxt + '</span>' : '');
+    return typeTag + topicTag;
   }
 
   function buildPlaylist(activeItem){
@@ -772,6 +1039,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function openTheater(item){
+    currentIndex = items.indexOf(item);
     const isVideo = item.dataset.mediaType === "video";
 
     playerTitle.innerText = item.dataset.title;
@@ -779,18 +1047,21 @@ document.addEventListener("DOMContentLoaded", function () {
     playerTags.innerHTML = tagsMarkupFor(item);
     playerTeacherSub.innerText = "Inyigisho ya " + item.dataset.lessonType;
 
-    if (isVideo) {
+    if (isVideo){
+      stopCurrentAudio();
+      audioVisual.style.display = "none";
+      videoEl.style.display = "block";
       playerMedia.className = "player-media";
-      playerMedia.innerHTML = `<video src="${item.dataset.src}" controls autoplay playsinline></video>`;
+      videoEl.src = item.dataset.src;
+      videoEl.play();
     } else {
+      videoEl.pause();
+      videoEl.style.display = "none";
+      videoEl.src = "";
+      audioVisual.style.display = "flex";
       playerMedia.className = "player-media is-audio";
-      playerMedia.innerHTML = `
-        <div class="audio-visual">
-          <div class="geo-pattern"></div>
-          <div class="audio-orb"></div>
-          <div class="a-title">${item.dataset.title}</div>
-          <audio src="${item.dataset.src}" controls autoplay></audio>
-        </div>`;
+      audioTitleEl.innerText = item.dataset.title;
+      loadAudioForItem(item);
     }
 
     buildPlaylist(item);
@@ -801,9 +1072,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   window.closeTheater = function(){
+    stopCurrentAudio();
+    videoEl.pause();
+    videoEl.src = "";
     theater.classList.remove("active");
     gridWrap.classList.remove("hidden");
-    playerMedia.innerHTML = "";
   };
 
   items.forEach(item => {
@@ -816,6 +1089,7 @@ document.addEventListener("DOMContentLoaded", function () {
   } catch (e) { /* storage unavailable, ignore */ }
 
   render();
+  updateSeekFill();
 
   // populate real audio durations onto each card's thumbnail badge
   document.querySelectorAll('.lesson-card').forEach(card => {
@@ -823,15 +1097,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const durationEl = card.querySelector('.duration-pill');
       if (!audioSrc || !durationEl) return;
 
-      const audio = new Audio(audioSrc);
-      audio.addEventListener('loadedmetadata', function () {
-          let seconds = Math.floor(audio.duration);
-          if (!isFinite(seconds)) return;
-          let min = Math.floor(seconds / 60);
-          let sec = seconds % 60;
-          if (sec < 10) sec = '0' + sec;
-          durationEl.textContent = `${min}:${sec}`;
-      });
+      const probe = new Audio();
+      probe.preload = 'metadata';
+
+      const setFromProbe = () => {
+        const seconds = Math.floor(probe.duration);
+        if (!isFinite(seconds) || seconds <= 0) return;
+        const min = Math.floor(seconds / 60);
+        let sec = seconds % 60;
+        if (sec < 10) sec = '0' + sec;
+        durationEl.textContent = `${min}:${sec}`;
+      };
+
+      probe.addEventListener('loadedmetadata', setFromProbe);
+      probe.addEventListener('durationchange', setFromProbe);
+      probe.addEventListener('error', () => { durationEl.textContent = '--:--'; });
+
+      probe.src = audioSrc;
+      probe.load();
   });
 });
 </script>
