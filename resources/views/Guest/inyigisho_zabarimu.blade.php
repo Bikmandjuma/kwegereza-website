@@ -677,6 +677,21 @@ h1,h2,h3,h4,.font-display{
 
   .lesson-grid{ grid-template-columns:1fr; gap:12px; }
 
+  .thumb.thumb-audio {
+    background: url('/Guest/images/logo.png') center center no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 140px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.thumb-audio::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.15);
+}
   .lesson-card{
     display:flex;
     flex-direction:row;
@@ -711,8 +726,25 @@ h1,h2,h3,h4,.font-display{
         {{ $teacher->firstname }}
         {{ $teacher->lastname }}
     </h2>
+    
+    <!-- <div class="flex">
+      <p>Umwarimu wa </p>&nbsp;
 
-    <p>Umwarimu wa Tawhid na Fiqh</p>
+       @foreach($types as $type)
+          <p  data-type="{{ $type }}">
+              {{ ucfirst($type) }}&nbsp; ,
+          </p>
+      @endforeach
+    </div> -->
+    <div class="flex">
+        <p>Umwarimu wa </p>&nbsp;
+
+        @foreach($types as $type)
+            <p data-type="{{ $type }}">
+                {{ ucfirst($type) }}@if(!$loop->last) ,&nbsp; @endif
+            </p>
+        @endforeach
+    </div>
 
     <div class="badges">
       <!-- <div class="badge">5 Inyigisho</div> -->
@@ -738,13 +770,25 @@ h1,h2,h3,h4,.font-display{
   <input type="text" id="searchInput" placeholder="Shakisha isomo...">
 </div>
 
-<!-- <div class="filters">
-  <button class="filter-btn active" data-type="all">Byose</button>
-  <button class="filter-btn" data-type="video">Videos</button>
-  <button class="filter-btn" data-type="audio">Audio</button>
-  <button class="filter-btn" data-type="fiqh">Fiqh</button>
-  <button class="filter-btn" data-type="tawhid">Tawhid</button>
-</div> -->
+<!-- <div class="filters"> -->
+  <!-- <button class="filter-btn active" data-type="all">Byose</button> -->
+  <!-- <button class="filter-btn" data-type="video">Videos</button> -->
+  <!-- <button class="filter-btn" data-type="audio">Audio</button>
+  <button class="filter-btn" data-type="fiqh">{{ $types }}</button>
+   -->
+  <!-- <button class="filter-btn" data-type="tawhid">Tawhid</button> -->
+<!-- </div> -->
+<div class="filters">
+
+    <button class="filter-btn active" data-type="all">Byose</button>
+
+    @foreach($types as $type)
+        <button class="filter-btn" data-type="{{ $type }}">
+            {{ ucfirst($type) }}
+        </button>
+    @endforeach
+
+</div>
 
 <div class="lesson-grid-wrap" id="gridWrap">
 
@@ -898,16 +942,23 @@ h1,h2,h3,h4,.font-display{
 
               <h4>{{ $lesson->title }}</h4>
 
-              <div class="lesson-meta">
+              <!-- <div class="lesson-meta"> -->
 
                   <!-- <span class="type-tag tag-audio">
                       Audio
                   </span> -->
 
-                  <span class="type-tag tag-tawhid">
+                  <!-- <span class="type-tag tag-tawhid">
                       {{ $lesson->type }}
                   </span>
 
+              </div> -->
+              <div class="lesson-meta">
+                  <span class="type-tag tag-tawhid">
+                    {{ $lesson->type }}
+                  </span>
+
+                  <span class="type-tag duration"></span>
               </div>
 
           </div>
@@ -1130,6 +1181,28 @@ document.addEventListener("DOMContentLoaded", function () {
   } catch (e) { /* storage unavailable, ignore */ }
 
   render();
+
+  document.querySelectorAll('.lesson-card').forEach(card => {
+
+      const audioSrc = card.getAttribute('data-src');
+      const durationEl = card.querySelector('.duration');
+
+      if (!audioSrc) return;
+
+      const audio = new Audio(audioSrc);
+
+      audio.addEventListener('loadedmetadata', function () {
+
+          let seconds = Math.floor(audio.duration);
+          let min = Math.floor(seconds / 60);
+          let sec = seconds % 60;
+
+          if (sec < 10) sec = '0' + sec;
+
+          durationEl.textContent = `${min}:${sec}`;
+      });
+
+  });
 });
 </script>
 

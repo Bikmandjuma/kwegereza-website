@@ -75,17 +75,56 @@ class GuestController extends Controller{
     //     return view('Guest.inyigisho_zabarimu');
     // }
 
+    // public function teacherDarsa($id)
+    // {
+    //     $teacher = Owner::findOrFail($id);
+
+    //     $darsat = DarsatTable::where('teachers', $id)
+    //                 ->latest()
+    //                 ->get();
+
+    //     return view('Guest.inyigisho_zabarimu', compact(
+    //         'teacher',
+    //         'darsat'
+    //     ));
+    // }
+
+    // public function teacherDarsa($id)
+    // {
+    //     $teacher = Owner::withCount('darsat')
+    //         ->findOrFail($id);
+
+    //     $darsat = DarsatTable::where('teachers', $id)
+    //         ->latest()
+    //         ->get();
+
+    //     return view('Guest.inyigisho_zabarimu', compact(
+    //         'teacher',
+    //         'darsat'
+    //     ));
+    // }
+
     public function teacherDarsa($id)
     {
-        $teacher = Owner::findOrFail($id);
+        $teacher = Owner::withCount('darsat')->findOrFail($id);
 
         $darsat = DarsatTable::where('teachers', $id)
-                    ->latest()
-                    ->get();
+            ->latest()
+            ->get();
+
+        // $types = DarsatTable::where('teachers', $id)
+        //     ->distinct()
+        //     ->pluck('type')
+        //     ->implode(' . ');
+
+        $types = DarsatTable::where('teachers', $id)
+            ->distinct()
+            ->pluck('type');
 
         return view('Guest.inyigisho_zabarimu', compact(
             'teacher',
-            'darsat'
+            'darsat',
+            'types'
         ));
     }
 
