@@ -55,6 +55,18 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
     //darsat
     Route::post('/storeDarsat', [AdminController::class, 'storeDarsat'])->name('owner.storeDarsat');
     Route::get('/viewDarsat', [AdminController::class, 'viewDarsat'])->name('owner.viewDarsat');
+
+    Route::get('/books', [AdminController::class,'create'])
+            ->name('owner.books');
+
+    Route::post('/books/store', [AdminController::class,'storeBook'])
+            ->name('owner.storeBook');
+
+    Route::get('/books/view', [AdminController::class,'viewBooks'])
+            ->name('owner.viewBooks');
+
+    Route::delete('/books/{id}', [AdminController::class,'destroy'])
+            ->name('owner.deleteBook');
 });
 
 Route::get('/refresh_counts', [AdminController::class, 'refresh_counts'])->name('owner.refresh_counts');

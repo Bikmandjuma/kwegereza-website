@@ -932,7 +932,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showPlayerError(src){
     console.error("Audio failed to load:", src);
-    playerError.textContent = "Kwegereza islam umuryango";
+    playerError.textContent = "Ntibishoboka gukina iyi dosiye. Reba niba link/dosiye iriho kuri seriveri.";
     playerError.style.display = "block";
   }
   function hidePlayerError(){

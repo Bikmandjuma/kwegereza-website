@@ -13,6 +13,7 @@ use App\Models\Visit;
 use App\Models\Payment;
 use App\Models\DarsatTable;
 use Illuminate\Support\Str;
+use App\Models\Book;
 
 class AdminController extends Controller
 {
@@ -488,6 +489,65 @@ class AdminController extends Controller
 
     public function ibitabo(){
         return view('Users.admin.ibitabo');
+    }
+
+    public function storeBook(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'book'  => 'required|mimes:pdf|max:51200',
+        ]);
+
+        $bookName = null;
+
+        if ($request->hasFile('book')) {
+
+            $file = $request->file('book');
+
+            $bookName = time().'_'.$file->getClientOriginalName();
+
+            $file->move(public_path('books'), $bookName);
+        }
+
+        Book::create([
+
+            'title' => $request->title,
+
+            'book' => $bookName,
+
+        ]);
+
+        return redirect()
+                ->back()
+                ->with('success','Book uploaded successfully.');
+    }
+
+    /**
+     * View Books
+     */
+    public function viewBooks()
+    {
+        $books = Book::latest()->paginate(10);
+
+        return view('Users.admin.view_books', compact('books'));
+    }
+
+    /**
+     * Delete Book
+     */
+    public function destroyBook($id)
+    {
+        $book = Book::findOrFail($id);
+
+        if(file_exists(public_path('books/'.$book->book))){
+
+            unlink(public_path('books/'.$book->book));
+
+        }
+
+        $book->delete();
+
+        return back()->with('success','Book deleted successfully.');
     }
 
     /*

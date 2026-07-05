@@ -12,15 +12,15 @@
         <div class="logo-ring"><span>💬</span></div>
         <span class="online-dot"></span>
       </div>
-      <h2>Live Support</h2>
-      <p>Our team typically replies in under a minute. Enter your name to get started.</p>
+      <h2>💬Kwegereza chat</h2>
+      <p>Ababishinzwe bari bugusubize mugihe gito , andika izina ryawe utangire ikiganiro.</p>
       <div class="input-wrap">
         <i class="fa fa-user input-icon"></i>
-        <input type="text" id="guestName" placeholder="Your name" autocomplete="off"
+        <input type="text" id="guestName" placeholder="Andika izina ryawe ex:Umm Raslaan" autocomplete="off"
                onkeypress="if(event.key==='Enter'){startChat()}">
       </div>
       <button class="start-btn" onclick="startChat()">
-        Start Conversation <i class="fa fa-arrow-right"></i>
+        Tangira ikiganiro <i class="fa fa-arrow-right"></i>
       </button>
     </div>
   </div>
