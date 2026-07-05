@@ -430,6 +430,19 @@ h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
 
 .a-title{ font-family:var(--font-display); font-weight:700; font-size:15px; z-index:1; opacity:.92; text-align:center; padding:0 20px; }
 
+.player-error{
+  display:none;
+  background:rgba(220,53,69,.16);
+  border:1px solid rgba(220,53,69,.4);
+  color:#ffd7db;
+  font-size:12px;
+  padding:8px 14px;
+  border-radius:10px;
+  z-index:1;
+  max-width:88%;
+  text-align:center;
+}
+
 /* -------- custom audio controls (YouTube-style) -------- */
 .audio-controls{
   width:92%;
@@ -453,6 +466,7 @@ input[type=range]{
   cursor:pointer;
 }
 .seek-bar{ flex:1; }
+.seek-bar:disabled{ opacity:.35; cursor:not-allowed; }
 .seek-bar::-webkit-slider-thumb{
   -webkit-appearance:none;
   width:13px;height:13px;border-radius:50%;
@@ -721,6 +735,7 @@ input[type=range]{
             <div class="geo-pattern"></div>
             <div class="audio-orb" id="audioOrb"></div>
             <div class="a-title" id="audioTitle"></div>
+            <div class="player-error" id="playerError"></div>
 
             <div class="audio-controls">
               <div class="progress-row">
@@ -818,6 +833,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const videoEl = document.getElementById("videoEl");
   const audioVisual = document.getElementById("audioVisual");
   const audioTitleEl = document.getElementById("audioTitle");
+  const playerError = document.getElementById("playerError");
   const playerShell = document.querySelector(".player-shell");
 
   const playPauseBtn = document.getElementById("playPauseBtn");
@@ -914,14 +930,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function showPlayerError(src){
+    console.error("Audio failed to load:", src);
+    playerError.textContent = "Ntibishoboka gukina iyi dosiye. Reba niba link/dosiye iriho kuri seriveri.";
+    playerError.style.display = "block";
+  }
+  function hidePlayerError(){
+    playerError.style.display = "none";
+  }
+
   function loadAudioForItem(item){
     stopCurrentAudio();
-    currentAudio = new Audio(item.dataset.src);
+    hidePlayerError();
+
+    currentAudio = new Audio();
     currentAudio.preload = "metadata";
     currentAudio.volume = parseFloat(volumeBar.value);
 
     seekBar.value = 0;
     seekBar.max = 0;
+    seekBar.disabled = true;
     curTimeEl.textContent = "0:00";
     durTimeEl.textContent = "0:00";
     updateSeekFill();
@@ -930,11 +958,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const setDuration = () => {
       if (isFinite(currentAudio.duration) && currentAudio.duration > 0){
         seekBar.max = currentAudio.duration;
+        seekBar.disabled = false;
         durTimeEl.textContent = formatTime(currentAudio.duration);
       }
     };
     currentAudio.addEventListener("loadedmetadata", setDuration);
     currentAudio.addEventListener("durationchange", setDuration);
+    currentAudio.addEventListener("canplay", setDuration);
 
     currentAudio.addEventListener("timeupdate", () => {
       if (!seekBar.dataset.dragging){
@@ -947,8 +977,14 @@ document.addEventListener("DOMContentLoaded", function () {
     currentAudio.addEventListener("play", () => { playPauseBtn.innerHTML = ICON_PAUSE; });
     currentAudio.addEventListener("pause", () => { playPauseBtn.innerHTML = ICON_PLAY; });
     currentAudio.addEventListener("ended", () => { playPauseBtn.innerHTML = ICON_PLAY; goNext(); });
-    currentAudio.addEventListener("error", () => { durTimeEl.textContent = "--:--"; });
+    currentAudio.addEventListener("error", () => {
+      durTimeEl.textContent = "--:--";
+      showPlayerError(item.dataset.src);
+    });
 
+    // set src AFTER listeners are wired so a fast/cached load can't be missed
+    currentAudio.src = item.dataset.src;
+    currentAudio.load();
     currentAudio.play().catch(() => { playPauseBtn.innerHTML = ICON_PLAY; });
   }
 
@@ -958,19 +994,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   rewindBtn.addEventListener("click", () => {
-    if (currentAudio) currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
+    if (!currentAudio) return;
+    currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
   });
   forwardBtn.addEventListener("click", () => {
-    if (currentAudio) currentAudio.currentTime = Math.min(currentAudio.duration || 0, currentAudio.currentTime + 10);
+    if (!currentAudio) return;
+    // IMPORTANT: duration can be NaN before metadata finishes loading, and
+    // NaN is falsy in JS, so "duration || 0" silently collapsed to 0 and
+    // this button used to reset playback to the start. Fall back to
+    // Infinity instead so a forward-skip never gets clamped to zero.
+    const dur = (isFinite(currentAudio.duration) && currentAudio.duration > 0) ? currentAudio.duration : Infinity;
+    currentAudio.currentTime = Math.min(dur, currentAudio.currentTime + 10);
   });
 
   seekBar.addEventListener("input", () => {
     seekBar.dataset.dragging = "1";
     updateSeekFill();
     curTimeEl.textContent = formatTime(parseFloat(seekBar.value));
+    // seek live while dragging/clicking, not only on release
+    if (currentAudio && !seekBar.disabled) currentAudio.currentTime = parseFloat(seekBar.value);
   });
   seekBar.addEventListener("change", () => {
-    if (currentAudio) currentAudio.currentTime = parseFloat(seekBar.value);
+    if (currentAudio && !seekBar.disabled) currentAudio.currentTime = parseFloat(seekBar.value);
     delete seekBar.dataset.dragging;
   });
 
