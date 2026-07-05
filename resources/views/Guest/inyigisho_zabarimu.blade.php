@@ -705,13 +705,27 @@ h1,h2,h3,h4,.font-display{
   </div>
 
   <div class="profile-info">
-    <h2 id="sheikhTitle">Sheikh Munyaneza Ismail Abuu Omar</h2>
+    <!-- <h2 id="sheikhTitle">Sheikh Munyaneza Ismail Abuu Omar</h2> -->
+    <h2 id="sheikhTitle">
+        {{ $teacher->title }}
+        {{ $teacher->firstname }}
+        {{ $teacher->lastname }}
+    </h2>
+
     <p>Umwarimu wa Tawhid na Fiqh</p>
 
     <div class="badges">
-      <div class="badge">5 Inyigisho</div>
-      <div class="badge">3 Videos</div>
-      <div class="badge">2 Audio</div>
+      <!-- <div class="badge">5 Inyigisho</div> -->
+      <div class="badge">
+          {{ $teacher->darsat_count }} Inyigisho
+      </div>
+
+      <!-- <div class="badge">3 Videos</div> -->
+      <!-- <div class="badge">2 Audio</div> -->
+      <div class="badge">
+          {{ $teacher->darsat_count }}  Audio
+      </div>
+
     </div>
   </div>
 </div>
@@ -724,24 +738,27 @@ h1,h2,h3,h4,.font-display{
   <input type="text" id="searchInput" placeholder="Shakisha isomo...">
 </div>
 
-<div class="filters">
+<!-- <div class="filters">
   <button class="filter-btn active" data-type="all">Byose</button>
   <button class="filter-btn" data-type="video">Videos</button>
   <button class="filter-btn" data-type="audio">Audio</button>
   <button class="filter-btn" data-type="fiqh">Fiqh</button>
   <button class="filter-btn" data-type="tawhid">Tawhid</button>
-</div>
+</div> -->
 
 <div class="lesson-grid-wrap" id="gridWrap">
 
   <div class="section-header">
     <h3>Amasomo</h3>
-    <span class="count" id="countLabel">5 amasomo</span>
+    <!-- <span class="count" id="countLabel">5 amasomo</span> -->
+    <span id="countLabel">
+        {{ $teacher->darsat_count }} amasomo
+    </span>
   </div>
 
   <div class="lesson-grid" id="lessonGrid">
 
-    <div class="lesson-card lesson-item"
+    <!-- <div class="lesson-card lesson-item"
          data-type="video tawhid"
          data-title="Tawhid y'ibanze"
          data-duration="42 min"
@@ -851,7 +868,53 @@ h1,h2,h3,h4,.font-display{
           <span class="type-tag tag-tawhid">Tawhid</span>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    @foreach($darsat as $lesson)
+
+      <div class="lesson-card lesson-item"
+           data-type="audio {{ strtolower($lesson->type) }}"
+           data-title="{{ $lesson->title }}"
+           data-duration=""
+           data-media-type="audio"
+           data-src="{{ asset('uploads/audio/'.$lesson->audio) }}"
+           data-desc="">
+
+          <div class="thumb thumb-audio">
+
+              <div class="play-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                  </svg>
+              </div>
+
+              <div class="eq-bars">
+                  <span></span><span></span><span></span><span></span><span></span>
+              </div>
+
+          </div>
+
+          <div class="card-body">
+
+              <h4>{{ $lesson->title }}</h4>
+
+              <div class="lesson-meta">
+
+                  <!-- <span class="type-tag tag-audio">
+                      Audio
+                  </span> -->
+
+                  <span class="type-tag tag-tawhid">
+                      {{ $lesson->type }}
+                  </span>
+
+              </div>
+
+          </div>
+
+      </div>
+
+    @endforeach
 
   </div>
 
@@ -887,8 +950,14 @@ h1,h2,h3,h4,.font-display{
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.3 3a8.7 8.7 0 1 0 8.4 10.9 7 7 0 0 1-8.4-10.9Z"/></svg>
             </div>
             <div>
-              <div class="t-name">Sheikh Munyaneza Ismail Abuu Omar</div>
-              <div class="t-sub">Umwarimu wa Tawhid na Fiqh</div>
+              <div class="t-name">
+                {{ $teacher->title }}
+                {{ $teacher->firstname }}
+                {{ $teacher->lastname }}
+              </div>
+                      
+              <div class="t-sub">Inyigisho ya {{ $lesson->type }} </div>
+
             </div>
           </div>
 
@@ -900,7 +969,7 @@ h1,h2,h3,h4,.font-display{
     <!-- Playlist sidebar -->
     <div class="playlist-panel">
       <h3>Inyigisho z'Ubu Bwoko</h3>
-      <div class="pl-sub" id="playlistCount">5 amasomo</div>
+      <div class="pl-sub" id="playlistCount"> amasomo</div>
       <div id="playlistItems"></div>
     </div>
 
@@ -995,7 +1064,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function buildPlaylist(activeItem){
     playlistItems.innerHTML = "";
-    playlistCount.innerText = items.length + " amasomo";
+    // playlistCount.innerText = items.length + " amasomo";
+    playlistCount.innerText = document.querySelectorAll(".lesson-item").length + " amasomo";
 
     items.forEach(item => {
       const isVideo = item.dataset.mediaType === "video";

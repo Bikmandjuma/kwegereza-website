@@ -248,65 +248,64 @@ input[type=text]{
     <!-- GRID -->
     <div class="teacher-grid" id="teacherGrid">
 
-      <!-- <div class="teacher-card" data-spec="tawhid fiqh" data-name="sheikh munyaneza ismail Abuu omar">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div class="avatar">MI</div>
-          <div>
-            <div class="teacher-name">Sheikh MUNYANEZA ISMAIL ABUU OMAR</div>
-            <span class="spec-badge">Tawhid · Fiqh</span>
+      @foreach($teachers as $teacher)
+
+      <div class="teacher-card"
+           data-name="{{ $teacher->title }} {{ $teacher->firstname }} {{ $teacher->lastname }}">
+
+          <div style="display:flex;gap:12px;align-items:center">
+
+              <div class="avatar">
+                  {{ strtoupper(substr($teacher->firstname,0,1).substr($teacher->lastname,0,1)) }}
+              </div>
+
+              <div>
+
+                  <div class="teacher-name">
+                      {{ strtoupper($teacher->title) }}
+                      {{ strtoupper($teacher->firstname) }}
+                      {{ strtoupper($teacher->lastname) }}
+                      @if(strtoupper($teacher->lastname) == "ABOUBAKR")
+                        Abuu Abdi Rahman  
+                      @elseif(strtoupper($teacher->lastname) == "KHALID")
+                        Abuu Muadh  
+                      @elseif(strtoupper($teacher->lastname) == "ISMAIL")
+                        Abuu Umar  
+                      @elseif(strtoupper($teacher->lastname) == "MUZZAMIL")
+                        Abuu Abdi Rahman 
+                      @else
+                        Abuu Abdillah 
+                      @endif
+                      
+                  </div>
+                    <!-- <span class="spec-badge">Hadith · Fiqh</span> -->
+              </div>
+
           </div>
-        </div>
 
-        <div class="stat-row">
-          <span class="stat">5 Inyigisho</span>
-          <span class="stat">3 Video</span>
-          <span class="stat">2 Audio</span>
-        </div>
+          <div class="stat-row">
 
-        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh MUNYANEZA ISMAIL">
-          Reba amasomo
-        </a>
-      </div> -->
+              <span class="stat">
+                  {{ $teacher->darsat_count }}
+                  {{ $teacher->darsat_count == 1 ? 'Inyigisho' : 'Inyigisho' }}
+              </span>
 
-      <!-- <div class="teacher-card" data-spec="hadith fiqh" data-name="sheikh aboubakar ABUU ABDOULRAHMAN">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div class="avatar">AB</div>
-          <div>
-            <div class="teacher-name">Sheikh ABOUBAKAR ABUU ABDOULRAHMAN</div>
-            <span class="spec-badge">Hadith · Fiqh</span>
+              <span class="stat">
+                  {{ $teacher->darsat_count }}
+                  {{ $teacher->darsat_count == 1 ? 'Audio' : 'Audio' }}
+              </span>
+
+
           </div>
-        </div>
 
-        <div class="stat-row">
-          <span class="stat">8 Inyigisho</span>
-          <span class="stat">5 Video</span>
-          <span class="stat">3 Audio</span>
-        </div>
+          <a href="{{ route('guest.teacher-darsa', $teacher->id) }}"
+             class="btn-view">
+              Reba amasomo
+          </a>
 
-        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh ABOUBAKAR">
-          Reba amasomo
-        </a>
-      </div> -->
-
-      <div class="teacher-card" data-spec="tawhid arabic" data-name="sheikh ndahayo khalid Abuu Muadh">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div class="avatar">NK</div>
-          <div>
-            <div class="teacher-name">Sheikh NDAHAYO KHALID ABUU MUADH</div>
-            <!-- <span class="spec-badge">Tawhid · Arabic</span> -->
-          </div>
-        </div>
-
-        <div class="stat-row">
-          <span class="stat">6 Inyigisho</span>
-          <!-- <span class="stat">4 Video</span> -->
-          <span class="stat">2 Audio</span>
-        </div>
-
-        <a href="{{ route('guest.teacher-darsa') }}" class="btn-view" data-name="Sheikh NDAHAYO KHALID">
-          Reba amasomo
-        </a>
       </div>
+
+    @endforeach
       
     </div>
 

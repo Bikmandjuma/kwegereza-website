@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\GuestVisit;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Owner;
+use App\Models\DarsatTable;
 
 
 class GuestController extends Controller{
@@ -51,16 +53,40 @@ class GuestController extends Controller{
         return view('Guest.inyandiko-zabamenyi');
     }
 
-    public function teachers(){
-        return view('Guest.abasheikh');
+    // public function teachers(){
+    //     return view('Guest.abasheikh');
+    // }
+
+    public function teachers()
+    {
+        $teachers = Owner::whereIn('title', ['sheikh', 'ustadh'])
+            ->withCount('darsat')
+            ->orderBy('firstname')
+            ->get();
+
+        return view('Guest.abasheikh', compact('teachers'));
     }
 
     public function search(){
         return view('Guest.search');
     }
 
-    public function teacher_darsa(){
-        return view('Guest.inyigisho_zabarimu');
+    // public function teacherDarsa(){
+    //     return view('Guest.inyigisho_zabarimu');
+    // }
+
+    public function teacherDarsa($id)
+    {
+        $teacher = Owner::findOrFail($id);
+
+        $darsat = DarsatTable::where('teachers', $id)
+                    ->latest()
+                    ->get();
+
+        return view('Guest.inyigisho_zabarimu', compact(
+            'teacher',
+            'darsat'
+        ));
     }
 
     public function twandikire(){

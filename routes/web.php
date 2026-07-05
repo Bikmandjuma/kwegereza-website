@@ -71,11 +71,15 @@ Route::get('/', [GuestController::class, 'home'])
     ->name('guest.home');
 Route::get('/ibitabo', [GuestController::class, 'books'])->name('guest.books');
 Route::get('/abasheikh', [GuestController::class, 'teachers'])->name('guest.teachers');
+Route::get('/teacher/{id}/darsa', [GuestController::class, 'teacherDarsa'])
+    ->name('guest.teacher-darsa');
+// Route::get('/inyigisho-zabasheikh', [GuestController::class, 'teacher_darsa'])->name('guest.teacher-darsa');
+
 Route::get('/amatangazo', [GuestController::class, 'news'])->name('guest.news');
 Route::get('/inyandiko-zabamenyi', [GuestController::class, 'inyandiko_zabamenyi'])->name('guest.inyandiko_zabamenyi');
 Route::get('/twandikire', [GuestController::class, 'twandikire'])->name('guest.twandikire');
 Route::get('/shakisha', [GuestController::class, 'search'])->name('guest.search');
-Route::get('/inyigisho-zabasheikh', [GuestController::class, 'teacher_darsa'])->name('guest.teacher-darsa');
+// Route::get('/inyigisho-zabasheikh', [GuestController::class, 'teacher_darsa'])->name('guest.teacher-darsa');
 
 Route::post('/chat/presence',[ChatController::class,'presence']);
 Route::get('/chat/messages/{guest_id}', [ChatController::class,'messages']);
