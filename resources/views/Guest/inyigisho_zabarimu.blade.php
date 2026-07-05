@@ -14,7 +14,6 @@
 }
 
 :root{
-  /* ---- Design tokens ---- */
   --ink:#132018;
   --ink-soft:#4d5c53;
   --surface:#ffffff;
@@ -43,7 +42,7 @@
   --radius-md:14px;
   --radius-sm:9px;
   --shadow-card:0 10px 28px rgba(11,61,46,.08);
-  --shadow-card-hover:0 16px 36px rgba(11,61,46,.14);
+  --shadow-card-hover:0 18px 38px rgba(11,61,46,.16);
 }
 
 body{
@@ -56,23 +55,11 @@ body{
   min-height:100vh;
 }
 
-.container{
-  max-width:1180px;
-  margin:auto;
-  padding:0 16px;
-}
+.container{ max-width:1180px; margin:auto; padding:0 16px; }
+.page{ padding:28px 0 60px; }
+h1,h2,h3,h4,.font-display{ font-family:var(--font-display); }
 
-.page{
-  padding:28px 0 60px;
-}
-
-h1,h2,h3,h4,.font-display{
-  font-family:var(--font-display);
-}
-
-/* =====================================================
-   ARABESQUE PATTERN (signature motif, reused twice)
-   ===================================================== */
+/* signature arabesque texture, reused on the profile card + audio player */
 .geo-pattern{
   position:absolute;
   inset:0;
@@ -85,9 +72,7 @@ h1,h2,h3,h4,.font-display{
   pointer-events:none;
 }
 
-/* =====================================================
-   PROFILE / SHEIKH CARD
-   ===================================================== */
+/* ================= PROFILE CARD ================= */
 .profile-card{
   position:relative;
   overflow:hidden;
@@ -118,7 +103,7 @@ h1,h2,h3,h4,.font-display{
   box-shadow:0 6px 16px rgba(0,0,0,.25);
 }
 
-.profile-info{ position:relative; z-index:1; }
+.profile-info{ position:relative; z-index:1; min-width:0; }
 
 .profile-info h2{
   font-size:20px;
@@ -127,17 +112,19 @@ h1,h2,h3,h4,.font-display{
   letter-spacing:.2px;
 }
 
-.profile-info p{
+.teacher-types{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:4px;
   font-size:13px;
-  opacity:.85;
+  opacity:.9;
   margin-bottom:12px;
 }
+.teacher-types p{ margin:0; }
+.teacher-types strong{ font-weight:600; }
 
-.badges{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-}
+.badges{ display:flex; gap:7px; flex-wrap:wrap; }
 
 .badge{
   background:rgba(255,255,255,.14);
@@ -149,21 +136,9 @@ h1,h2,h3,h4,.font-display{
   letter-spacing:.3px;
 }
 
-/* =====================================================
-   SEARCH
-   ===================================================== */
-.search-wrap{
-  margin:20px 0 12px;
-  position:relative;
-}
-
-.search-wrap svg{
-  position:absolute;
-  left:14px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--green-600);
-}
+/* ================= SEARCH ================= */
+.search-wrap{ margin:20px 0 12px; position:relative; }
+.search-wrap svg{ position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--green-600); }
 
 #searchInput{
   width:100%;
@@ -178,20 +153,10 @@ h1,h2,h3,h4,.font-display{
   outline:none;
   transition:box-shadow .2s;
 }
+#searchInput:focus{ box-shadow:0 0 0 4px rgba(11,109,32,.14); }
 
-#searchInput:focus{
-  box-shadow:0 0 0 4px rgba(11,109,32,.14);
-}
-
-/* =====================================================
-   FILTERS
-   ===================================================== */
-.filters{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:16px;
-}
+/* ================= FILTERS ================= */
+.filters{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
 
 .filter-btn{
   border:none;
@@ -206,39 +171,19 @@ h1,h2,h3,h4,.font-display{
   box-shadow:0 4px 12px rgba(0,0,0,.05);
   transition:.2s;
 }
-
 .filter-btn:hover{ transform:translateY(-2px); }
-
 .filter-btn.active{
   background:linear-gradient(135deg,var(--green-800),var(--green-600));
   color:#fff;
   box-shadow:0 8px 18px rgba(11,109,32,.28);
 }
 
-/* =====================================================
-   SECTION HEADER
-   ===================================================== */
-.section-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:14px;
-}
+/* ================= SECTION HEADER ================= */
+.section-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.section-header h3{ font-size:16px; font-weight:700; }
+.count{ font-size:13px; color:var(--ink-soft); font-weight:600; }
 
-.section-header h3{
-  font-size:16px;
-  font-weight:700;
-}
-
-.count{
-  font-size:13px;
-  color:var(--ink-soft);
-  font-weight:600;
-}
-
-/* =====================================================
-   LESSON GRID + CARD
-   ===================================================== */
+/* ================= LESSON GRID + CARD ================= */
 .lesson-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -252,51 +197,59 @@ h1,h2,h3,h4,.font-display{
   overflow:hidden;
   box-shadow:var(--shadow-card);
   cursor:pointer;
-  transition:transform .2s, box-shadow .2s;
+  transition:transform .22s ease, box-shadow .22s ease;
   border:1px solid rgba(11,61,46,.05);
 }
 
-.lesson-card:hover{
-  transform:translateY(-4px);
-  box-shadow:var(--shadow-card-hover);
-}
+.lesson-card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-card-hover); }
 
 .thumb{
   position:relative;
-  height:140px;
+  height:150px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
 }
 
-.thumb.thumb-video{
-  background:linear-gradient(135deg,var(--green-100),#d6f5e2);
-}
+.thumb.thumb-video{ background:linear-gradient(135deg,var(--green-100),#d6f5e2); }
 
+/* audio thumbnail = branded "album tile": logo centered on a deep green
+   plate, with an arabesque texture, a play button and an equalizer.
+   Uses background-size:contain so the logo is never cropped or
+   stretched on ANY screen size (phone / tablet / desktop). */
 .thumb.thumb-audio{
-  background:linear-gradient(135deg,var(--gold-100),#ffe9c2);
+  background-color:var(--green-800);
+  background-image:
+    linear-gradient(135deg, rgba(10,42,31,.35), rgba(10,42,31,.65)),
+    url('{{ asset("Guest/images/logo.png") }}');
+  background-repeat:no-repeat, no-repeat;
+  background-position:center, center;
+  background-size:cover, 46%;
 }
 
 .thumb .play-icon{
-  width:48px;
-  height:48px;
+  position:relative;
+  z-index:2;
+  width:50px;
+  height:50px;
   border-radius:50%;
-  background:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(2px);
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
   transition:transform .2s;
 }
-
-.lesson-card:hover .play-icon{ transform:scale(1.08); }
+.lesson-card:hover .play-icon{ transform:scale(1.1); }
 
 .thumb-video .play-icon svg{ color:var(--green-600); }
 .thumb-audio .play-icon svg{ color:var(--gold-700); }
 
 .eq-bars{
   position:absolute;
+  z-index:2;
   bottom:10px;
   left:50%;
   transform:translateX(-50%);
@@ -305,11 +258,10 @@ h1,h2,h3,h4,.font-display{
   align-items:flex-end;
   height:16px;
 }
-
 .eq-bars span{
   width:3px;
-  background:var(--gold-700);
-  opacity:.55;
+  background:#fff;
+  opacity:.75;
   border-radius:2px;
   animation:eq 1.1s ease-in-out infinite;
 }
@@ -318,17 +270,14 @@ h1,h2,h3,h4,.font-display{
 .eq-bars span:nth-child(3){ height:9px; animation-delay:.5s; }
 .eq-bars span:nth-child(4){ height:16px; animation-delay:.2s; }
 .eq-bars span:nth-child(5){ height:7px; animation-delay:.4s; }
-
-@keyframes eq{
-  0%,100%{ transform:scaleY(.5); }
-  50%{ transform:scaleY(1); }
-}
+@keyframes eq{ 0%,100%{ transform:scaleY(.5); } 50%{ transform:scaleY(1); } }
 
 .duration-pill{
   position:absolute;
+  z-index:2;
   bottom:8px;
   right:8px;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.72);
   color:#fff;
   font-size:10.5px;
   font-weight:600;
@@ -336,9 +285,25 @@ h1,h2,h3,h4,.font-display{
   border-radius:5px;
 }
 
-.card-body{
-  padding:14px 14px 0;
+.media-badge{
+  position:absolute;
+  z-index:2;
+  top:8px;
+  left:8px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.3px;
+  padding:3px 9px;
+  border-radius:999px;
 }
+
+.card-body{ padding:14px 14px 0; }
 
 .lesson-card h4{
   font-family:var(--font-body);
@@ -347,14 +312,13 @@ h1,h2,h3,h4,.font-display{
   color:var(--ink);
   margin-bottom:8px;
   line-height:1.35;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 
-.lesson-meta{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:6px;
-}
+.lesson-meta{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
 
 .type-tag{
   font-size:10px;
@@ -362,36 +326,19 @@ h1,h2,h3,h4,.font-display{
   border-radius:999px;
   font-weight:700;
   letter-spacing:.2px;
+  text-transform:capitalize;
 }
 
 .tag-video{background:var(--green-100);color:var(--green-600);}
 .tag-audio{background:var(--gold-100);color:var(--gold-700);}
 .tag-fiqh{background:var(--rose-100);color:var(--rose-600);}
 .tag-tawhid{background:var(--violet-100);color:var(--violet-600);}
+.tag-dynamic{background:var(--green-100);color:var(--green-600);}
 
-.meta-sep{ color:#c7d0cb; font-size:11px; }
+/* ================= NO RESULT / PAGER ================= */
+.no-result{ display:none; text-align:center; padding:30px; color:var(--ink-soft); font-weight:600; }
 
-.duration{ font-size:11px; color:var(--ink-soft); }
-
-/* =====================================================
-   NO RESULT / PAGER
-   ===================================================== */
-.no-result{
-  display:none;
-  text-align:center;
-  padding:30px;
-  color:var(--ink-soft);
-  font-weight:600;
-}
-
-.pager{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  margin-top:22px;
-}
-
+.pager{ display:flex; justify-content:center; align-items:center; gap:10px; margin-top:22px; }
 .pager button{
   background:var(--surface);
   color:var(--green-600);
@@ -404,15 +351,10 @@ h1,h2,h3,h4,.font-display{
   transition:.2s;
 }
 .pager button:hover{ background:var(--green-600); color:#fff; }
-
 .pager span{ font-size:12.5px; font-weight:600; color:var(--ink-soft); }
 
-/* =====================================================
-   THEATER (PLAYER) VIEW
-   ===================================================== */
-.theater{
-  display:none;
-}
+/* ================= THEATER (PLAYER) VIEW ================= */
+.theater{ display:none; }
 .theater.active{ display:block; }
 .lesson-grid-wrap.hidden{ display:none; }
 
@@ -434,12 +376,7 @@ h1,h2,h3,h4,.font-display{
 }
 .back-btn:hover{ transform:translateX(-3px); }
 
-.theater-grid{
-  display:grid;
-  grid-template-columns:2.1fr 1fr;
-  gap:20px;
-  align-items:start;
-}
+.theater-grid{ display:grid; grid-template-columns:2.1fr 1fr; gap:20px; align-items:start; }
 
 .player-shell{
   background:var(--green-950);
@@ -458,17 +395,8 @@ h1,h2,h3,h4,.font-display{
   align-items:center;
   justify-content:center;
 }
-
-.player-media video{
-  width:100%;
-  height:100%;
-  display:block;
-  background:#000;
-}
-
-.player-media.is-audio{
-  background:linear-gradient(135deg,var(--green-950),var(--green-800));
-}
+.player-media video{ width:100%; height:100%; display:block; background:#000; }
+.player-media.is-audio{ background:linear-gradient(135deg,var(--green-950),var(--green-800)); }
 
 .audio-visual{
   position:relative;
@@ -484,51 +412,27 @@ h1,h2,h3,h4,.font-display{
 .audio-visual .geo-pattern{ opacity:.08; }
 
 .audio-orb{
-  width:96px;
-  height:96px;
+  width:100px;
+  height:100px;
   border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, var(--gold-300), var(--gold-700));
+  background:var(--surface);
+  background-image:url('{{ asset("Guest/images/logo.png") }}');
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:62%;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 0 0 10px rgba(255,255,255,.06);
+  box-shadow:0 0 0 10px rgba(255,255,255,.08), 0 10px 30px rgba(0,0,0,.35);
   z-index:1;
 }
 
-.audio-visual audio{
-  width:86%;
-  max-width:520px;
-  z-index:1;
-  border-radius:999px;
-}
+.audio-visual audio{ width:86%; max-width:520px; z-index:1; border-radius:999px; }
+.audio-visual .a-title{ font-family:var(--font-display); font-weight:700; font-size:15px; z-index:1; opacity:.9; text-align:center; padding:0 20px; }
 
-.audio-visual .a-title{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:15px;
-  z-index:1;
-  opacity:.9;
-}
-
-.player-info{
-  padding:20px 22px 22px;
-  background:var(--surface);
-}
-
-.player-info h2{
-  font-size:19px;
-  font-weight:700;
-  margin-bottom:10px;
-  color:var(--ink);
-}
-
-.player-tags{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
+.player-info{ padding:20px 22px 22px; background:var(--surface); }
+.player-info h2{ font-size:19px; font-weight:700; margin-bottom:10px; color:var(--ink); }
+.player-tags{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
 
 .player-teacher{
   display:flex;
@@ -538,36 +442,14 @@ h1,h2,h3,h4,.font-display{
   border-top:1px solid rgba(11,61,46,.08);
   border-bottom:1px solid rgba(11,61,46,.08);
 }
-
 .player-teacher .mini-avatar{
-  width:40px;
-  height:40px;
-  border-radius:50%;
+  width:40px; height:40px; border-radius:50%;
   background:radial-gradient(circle at 30% 30%, var(--gold-300), var(--gold-700));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:14px;
-  flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; flex-shrink:0;
 }
-
-.player-teacher .t-name{
-  font-size:13.5px;
-  font-weight:700;
-  color:var(--ink);
-}
-.player-teacher .t-sub{
-  font-size:11.5px;
-  color:var(--ink-soft);
-}
-
-.player-desc{
-  margin-top:14px;
-  font-size:13px;
-  line-height:1.6;
-  color:var(--ink-soft);
-}
+.player-teacher .t-name{ font-size:13.5px; font-weight:700; color:var(--ink); }
+.player-teacher .t-sub{ font-size:11.5px; color:var(--ink-soft); }
+.player-desc{ margin-top:14px; font-size:13px; line-height:1.6; color:var(--ink-soft); }
 
 /* -------- Playlist sidebar -------- */
 .playlist-panel{
@@ -578,78 +460,41 @@ h1,h2,h3,h4,.font-display{
   max-height:640px;
   overflow-y:auto;
 }
-
-.playlist-panel h3{
-  font-size:14.5px;
-  font-weight:700;
-  margin-bottom:3px;
-}
-
-.playlist-panel .pl-sub{
-  font-size:11.5px;
-  color:var(--ink-soft);
-  margin-bottom:14px;
-}
+.playlist-panel h3{ font-size:14.5px; font-weight:700; margin-bottom:3px; }
+.playlist-panel .pl-sub{ font-size:11.5px; color:var(--ink-soft); margin-bottom:14px; }
 
 .pl-item{
-  display:flex;
-  gap:10px;
-  padding:9px;
-  border-radius:var(--radius-sm);
-  cursor:pointer;
-  margin-bottom:6px;
-  transition:background .15s;
-  align-items:center;
+  display:flex; gap:10px; padding:9px; border-radius:var(--radius-sm);
+  cursor:pointer; margin-bottom:6px; transition:background .15s; align-items:center;
 }
-
 .pl-item:hover{ background:var(--bg); }
-
-.pl-item.active{
-  background:var(--green-100);
-}
+.pl-item.active{ background:var(--green-100); }
 
 .pl-thumb{
-  width:64px;
-  height:44px;
-  border-radius:8px;
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
+  width:64px; height:44px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; position:relative;
 }
 .pl-thumb.thumb-video{ background:var(--green-100); }
-.pl-thumb.thumb-audio{ background:var(--gold-100); }
+.pl-thumb.thumb-audio{
+  background-color:var(--green-800);
+  background-image:url('{{ asset("Guest/images/logo.png") }}');
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:44%;
+}
 .pl-thumb svg{ width:16px; height:16px; }
 .pl-thumb.thumb-video svg{ color:var(--green-600); }
-.pl-thumb.thumb-audio svg{ color:var(--gold-700); }
 
 .pl-info{ min-width:0; }
-
 .pl-info .pl-title{
-  font-size:12.5px;
-  font-weight:600;
-  color:var(--ink);
-  line-height:1.3;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
+  font-size:12.5px; font-weight:600; color:var(--ink); line-height:1.3;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
 }
+.pl-info .pl-meta{ font-size:10.5px; color:var(--ink-soft); margin-top:3px; }
 
-.pl-info .pl-meta{
-  font-size:10.5px;
-  color:var(--ink-soft);
-  margin-top:3px;
-}
-
-/* =====================================================
-   MOBILE
-   ===================================================== */
+/* ================= RESPONSIVE ================= */
 @media(max-width:900px){
-  .theater-grid{
-    grid-template-columns:1fr;
-  }
+  .theater-grid{ grid-template-columns:1fr; }
   .playlist-panel{ max-height:none; }
 }
 
@@ -657,57 +502,29 @@ h1,h2,h3,h4,.font-display{
 
   .page{ padding:16px 12px 48px; }
 
-  .profile-card{
-    flex-direction:column;
-    text-align:center;
-    padding:20px;
-  }
-
+  .profile-card{ flex-direction:column; text-align:center; padding:20px; }
   .avatar{ width:64px; height:64px; font-size:24px; }
   .profile-info h2{ font-size:17px; }
-  .profile-info p{ font-size:12px; }
+  .teacher-types{ justify-content:center; font-size:12px; }
   .badges{ justify-content:center; }
 
-  .filters{
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    padding-bottom:6px;
-  }
+  .filters{ flex-wrap:nowrap; overflow-x:auto; padding-bottom:6px; }
   .filter-btn{ flex-shrink:0; }
 
   .lesson-grid{ grid-template-columns:1fr; gap:12px; }
 
-  .thumb.thumb-audio {
-    background: url('/Guest/images/logo.png') center center no-repeat;
-    background-size: cover;
-    position: relative;
-    height: 140px;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.thumb-audio::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.15);
-}
-  .lesson-card{
-    display:flex;
-    flex-direction:row;
-    align-items:stretch;
-    padding:0;
-    border-radius:14px;
-  }
-  .thumb{
-    width:120px;
-    height:auto;
-    flex-shrink:0;
-  }
+  .lesson-card{ display:flex; flex-direction:row; align-items:stretch; padding:0; border-radius:14px; }
+  .thumb{ width:128px; height:auto; flex-shrink:0; }
+  .thumb.thumb-audio{ background-size:cover, 62%; } /* logo stays legible in the narrower tile */
   .card-body{ padding:10px 12px; }
   .lesson-card h4{ font-size:13px; }
 
   .player-info h2{ font-size:16px; }
+  .audio-orb{ width:80px; height:80px; }
+}
+
+@media(max-width:420px){
+  .thumb{ width:104px; }
 }
 </style>
 
@@ -720,44 +537,20 @@ h1,h2,h3,h4,.font-display{
   </div>
 
   <div class="profile-info">
-    <!-- <h2 id="sheikhTitle">Sheikh Munyaneza Ismail Abuu Omar</h2> -->
     <h2 id="sheikhTitle">
-        {{ $teacher->title }}
-        {{ $teacher->firstname }}
-        {{ $teacher->lastname }}
+        {{ $teacher->title }} {{ $teacher->firstname }} {{ $teacher->lastname }}
     </h2>
-    
-    <!-- <div class="flex">
-      <p>Umwarimu wa </p>&nbsp;
 
-       @foreach($types as $type)
-          <p  data-type="{{ $type }}">
-              {{ ucfirst($type) }}&nbsp; ,
-          </p>
-      @endforeach
-    </div> -->
-    <div class="flex">
-        <p>Umwarimu wa </p>&nbsp;
-
+    <div class="teacher-types">
+        <p><strong>Umwarimu wa</strong></p>
         @foreach($types as $type)
-            <p data-type="{{ $type }}">
-                {{ ucfirst($type) }}@if(!$loop->last) ,&nbsp; @endif
-            </p>
+            <p>{{ ucfirst($type) }}@if(!$loop->last),@endif</p>
         @endforeach
     </div>
 
     <div class="badges">
-      <!-- <div class="badge">5 Inyigisho</div> -->
-      <div class="badge">
-          {{ $teacher->darsat_count }} Inyigisho
-      </div>
-
-      <!-- <div class="badge">3 Videos</div> -->
-      <!-- <div class="badge">2 Audio</div> -->
-      <div class="badge">
-          {{ $teacher->darsat_count }}  Audio
-      </div>
-
+      <div class="badge">{{ $teacher->darsat_count }} Inyigisho</div>
+      <div class="badge">{{ $teacher->darsat_count }} Audio</div>
     </div>
   </div>
 </div>
@@ -770,168 +563,52 @@ h1,h2,h3,h4,.font-display{
   <input type="text" id="searchInput" placeholder="Shakisha isomo...">
 </div>
 
-<!-- <div class="filters"> -->
-  <!-- <button class="filter-btn active" data-type="all">Byose</button> -->
-  <!-- <button class="filter-btn" data-type="video">Videos</button> -->
-  <!-- <button class="filter-btn" data-type="audio">Audio</button>
-  <button class="filter-btn" data-type="fiqh">{{ $types }}</button>
-   -->
-  <!-- <button class="filter-btn" data-type="tawhid">Tawhid</button> -->
-<!-- </div> -->
 <div class="filters">
-
     <button class="filter-btn active" data-type="all">Byose</button>
-
     @foreach($types as $type)
-        <button class="filter-btn" data-type="{{ $type }}">
-            {{ ucfirst($type) }}
-        </button>
+        <button class="filter-btn" data-type="{{ strtolower($type) }}">{{ ucfirst($type) }}</button>
     @endforeach
-
 </div>
 
 <div class="lesson-grid-wrap" id="gridWrap">
 
   <div class="section-header">
     <h3>Amasomo</h3>
-    <!-- <span class="count" id="countLabel">5 amasomo</span> -->
-    <span id="countLabel">
-        {{ $teacher->darsat_count }} amasomo
-    </span>
+    <span class="count" id="countLabel">{{ $teacher->darsat_count }} amasomo</span>
   </div>
 
   <div class="lesson-grid" id="lessonGrid">
 
-    <!-- <div class="lesson-card lesson-item"
-         data-type="video tawhid"
-         data-title="Tawhid y'ibanze"
-         data-duration="42 min"
-         data-media-type="video"
-         data-src="{{ asset('uploads/audio/1783201677_IGITABO_CYA_TAWHID_02.mp3') }}"
-         data-desc="Isomo risobanura ibanze bya Tawhid, icyo aricyo n'impamvu ari ryo shingiro ry'ukwemera muri Isilamu.">
-      <div class="thumb thumb-video">
-        <div class="play-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <span class="duration-pill">42 min</span>
-      </div>
-      <div class="card-body">
-        <h4>Tawhid y'ibanze</h4>
-        <div class="lesson-meta">
-          <span class="type-tag tag-video">Video</span>
-          <span class="type-tag tag-tawhid">Tawhid</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-card lesson-item"
-         data-type="audio tawhid"
-         data-title="Shirk n'uburyo bwo kuyirinda"
-         data-duration="35 min"
-         data-media-type="audio"
-         data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-         data-desc="Inyigisho igaragaza uburyo bwo kwirinda shirk mu buzima bwa buri munsi, hifashishijwe ingero zifatika.">
-      <div class="thumb thumb-audio">
-        <div class="play-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
-        <span class="duration-pill">35 min</span>
-      </div>
-      <div class="card-body">
-        <h4>Shirk n'uburyo bwo kuyirinda</h4>
-        <div class="lesson-meta">
-          <span class="type-tag tag-audio">Audio</span>
-          <span class="type-tag tag-tawhid">Tawhid</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-card lesson-item"
-         data-type="video fiqh"
-         data-title="Uburemere bw'Iswala"
-         data-duration="28 min"
-         data-media-type="video"
-         data-src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-         data-desc="Isomo ryibanda ku buremere bw'Iswala mu buzima bw'Umuyisilamu n'ingaruka zo kuyitakaza.">
-      <div class="thumb thumb-video">
-        <div class="play-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <span class="duration-pill">28 min</span>
-      </div>
-      <div class="card-body">
-        <h4>Uburemere bw'Iswala</h4>
-        <div class="lesson-meta">
-          <span class="type-tag tag-video">Video</span>
-          <span class="type-tag tag-fiqh">Fiqh</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-card lesson-item"
-         data-type="video tawhid"
-         data-title="Uburemere bw'Aqida"
-         data-duration="50 min"
-         data-media-type="video"
-         data-src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-         data-desc="Isesengura ry'uburemere bw'Aqida isukuye n'uko igira uruhare mu buzima bw'Umuyisilamu.">
-      <div class="thumb thumb-video">
-        <div class="play-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <span class="duration-pill">50 min</span>
-      </div>
-      <div class="card-body">
-        <h4>Uburemere bw'Aqida</h4>
-        <div class="lesson-meta">
-          <span class="type-tag tag-video">Video</span>
-          <span class="type-tag tag-tawhid">Tawhid</span>
-        </div>
-      </div>
-    </div> -->
-
     @foreach($darsat as $lesson)
-
+      @php $typeSlug = strtolower(str_replace(' ', '-', $lesson->type)); @endphp
       <div class="lesson-card lesson-item"
-           data-type="audio {{ strtolower($lesson->type) }}"
+           data-type="audio {{ $typeSlug }}"
            data-title="{{ $lesson->title }}"
-           data-duration=""
+           data-lesson-type="{{ $lesson->type }}"
            data-media-type="audio"
            data-src="{{ asset('uploads/audio/'.$lesson->audio) }}"
            data-desc="">
 
           <div class="thumb thumb-audio">
-
+              <span class="media-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
+                Audio
+              </span>
               <div class="play-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z"/>
-                  </svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
-
-              <div class="eq-bars">
-                  <span></span><span></span><span></span><span></span><span></span>
-              </div>
-
+              <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
+              <span class="duration-pill"></span>
           </div>
 
           <div class="card-body">
-
               <h4>{{ $lesson->title }}</h4>
-
-              </div> -->
               <div class="lesson-meta">
-                  <span class="type-tag tag-tawhid">
-                    {{ $lesson->type }}
-                  </span>
-
-                  <span class="type-tag duration"></span>
+                  <span class="type-tag tag-dynamic">{{ $lesson->type }}</span>
               </div>
-
           </div>
 
       </div>
-
     @endforeach
 
   </div>
@@ -955,7 +632,6 @@ h1,h2,h3,h4,.font-display{
 
   <div class="theater-grid">
 
-    <!-- Player + info -->
     <div>
       <div class="player-shell">
         <div class="player-media" id="playerMedia"></div>
@@ -968,14 +644,8 @@ h1,h2,h3,h4,.font-display{
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.3 3a8.7 8.7 0 1 0 8.4 10.9 7 7 0 0 1-8.4-10.9Z"/></svg>
             </div>
             <div>
-              <div class="t-name">
-                {{ $teacher->title }}
-                {{ $teacher->firstname }}
-                {{ $teacher->lastname }}
-              </div>
-                      
-              <div class="t-sub">Inyigisho ya {{ $lesson->type }} </div>
-
+              <div class="t-name">{{ $teacher->title }} {{ $teacher->firstname }} {{ $teacher->lastname }}</div>
+              <div class="t-sub" id="playerTeacherSub">Inyigisho</div>
             </div>
           </div>
 
@@ -984,10 +654,9 @@ h1,h2,h3,h4,.font-display{
       </div>
     </div>
 
-    <!-- Playlist sidebar -->
     <div class="playlist-panel">
       <h3>Inyigisho z'Ubu Bwoko</h3>
-      <div class="pl-sub" id="playlistCount"> amasomo</div>
+      <div class="pl-sub" id="playlistCount">{{ $teacher->darsat_count }} amasomo</div>
       <div id="playlistItems"></div>
     </div>
 
@@ -1012,6 +681,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const playerTitle = document.getElementById("playerTitle");
   const playerTags = document.getElementById("playerTags");
   const playerDesc = document.getElementById("playerDesc");
+  const playerTeacherSub = document.getElementById("playerTeacherSub");
   const playlistItems = document.getElementById("playlistItems");
   const playlistCount = document.getElementById("playlistCount");
 
@@ -1019,7 +689,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentPage = 1;
   const perPage = 4;
 
-  const videoIconSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const playIconSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
 
   function getFiltered(){
     const keyword = search.value.toLowerCase().trim();
@@ -1070,30 +740,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function tagsMarkupFor(item){
     const isVideo = item.dataset.mediaType === "video";
-    const isTawhid = item.dataset.type.includes("tawhid");
     const typeTag = isVideo
       ? '<span class="type-tag tag-video">Video</span>'
       : '<span class="type-tag tag-audio">Audio</span>';
-    const topicTag = isTawhid
-      ? '<span class="type-tag tag-tawhid">Tawhid</span>'
-      : '<span class="type-tag tag-fiqh">Fiqh</span>';
-    return typeTag + topicTag + '<span class="duration">' + item.dataset.duration + '</span>';
+    const topicTag = '<span class="type-tag tag-dynamic">' + item.dataset.lessonType + '</span>';
+    const durationPill = item.querySelector('.duration-pill');
+    const durationTxt = durationPill ? durationPill.textContent : '';
+    return typeTag + topicTag + (durationTxt ? '<span class="duration">' + durationTxt + '</span>' : '');
   }
 
   function buildPlaylist(activeItem){
     playlistItems.innerHTML = "";
-    // playlistCount.innerText = items.length + " amasomo";
-    playlistCount.innerText = document.querySelectorAll(".lesson-item").length + " amasomo";
+    playlistCount.innerText = items.length + " amasomo";
 
     items.forEach(item => {
       const isVideo = item.dataset.mediaType === "video";
+      const durationPill = item.querySelector('.duration-pill');
+      const durationTxt = durationPill ? durationPill.textContent : '';
       const row = document.createElement("div");
       row.className = "pl-item" + (item === activeItem ? " active" : "");
       row.innerHTML = `
-        <div class="pl-thumb ${isVideo ? 'thumb-video' : 'thumb-audio'}">${videoIconSVG}</div>
+        <div class="pl-thumb ${isVideo ? 'thumb-video' : 'thumb-audio'}">${isVideo ? playIconSVG : ''}</div>
         <div class="pl-info">
           <div class="pl-title">${item.dataset.title}</div>
-          <div class="pl-meta">${isVideo ? 'Video' : 'Audio'} · ${item.dataset.duration}</div>
+          <div class="pl-meta">${item.dataset.lessonType}${durationTxt ? ' · ' + durationTxt : ''}</div>
         </div>
       `;
       row.addEventListener("click", () => openTheater(item));
@@ -1107,6 +777,7 @@ document.addEventListener("DOMContentLoaded", function () {
     playerTitle.innerText = item.dataset.title;
     playerDesc.innerText = item.dataset.desc || "";
     playerTags.innerHTML = tagsMarkupFor(item);
+    playerTeacherSub.innerText = "Inyigisho ya " + item.dataset.lessonType;
 
     if (isVideo) {
       playerMedia.className = "player-media";
@@ -1116,7 +787,7 @@ document.addEventListener("DOMContentLoaded", function () {
       playerMedia.innerHTML = `
         <div class="audio-visual">
           <div class="geo-pattern"></div>
-          <div class="audio-orb">${videoIconSVG}</div>
+          <div class="audio-orb"></div>
           <div class="a-title">${item.dataset.title}</div>
           <audio src="${item.dataset.src}" controls autoplay></audio>
         </div>`;
@@ -1139,9 +810,6 @@ document.addEventListener("DOMContentLoaded", function () {
     item.addEventListener("click", () => openTheater(item));
   });
 
-  // ---------------- SHEIKH NAME (persisted in-memory) ----------------
-  // Note: localStorage isn't available in every embedding context;
-  // fall back gracefully if it's blocked.
   try {
     const savedName = localStorage.getItem("sheikh_name");
     if (savedName && sheikhTitle) sheikhTitle.innerText = savedName;
@@ -1149,26 +817,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   render();
 
+  // populate real audio durations onto each card's thumbnail badge
   document.querySelectorAll('.lesson-card').forEach(card => {
-
       const audioSrc = card.getAttribute('data-src');
-      const durationEl = card.querySelector('.duration');
-
-      if (!audioSrc) return;
+      const durationEl = card.querySelector('.duration-pill');
+      if (!audioSrc || !durationEl) return;
 
       const audio = new Audio(audioSrc);
-
       audio.addEventListener('loadedmetadata', function () {
-
           let seconds = Math.floor(audio.duration);
+          if (!isFinite(seconds)) return;
           let min = Math.floor(seconds / 60);
           let sec = seconds % 60;
-
           if (sec < 10) sec = '0' + sec;
-
           durationEl.textContent = `${min}:${sec}`;
       });
-
   });
 });
 </script>
