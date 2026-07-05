@@ -202,7 +202,7 @@
                       />
                     </svg>
                   </span>
-                  <span class="ml-2 text-sm">Darsat</span>
+                  <span class="ml-2 text-sm">Darsat(Inyigisho)</span>
                   <span aria-hidden="true" class="ml-auto">
                     <!-- active class 'rotate-180' -->
                     <svg
