@@ -1,6 +1,46 @@
 @extends('Guest.cover')
 @section('content')
+<style>
+  .video-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    margin-top:40px;
+}
 
+.video-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.video-card:hover{
+    transform:translateY(-6px);
+}
+
+.video-card iframe{
+    width:100%;
+    aspect-ratio:16/9;
+    border:0;
+}
+
+.video-body{
+    padding:20px;
+}
+
+.video-body h4{
+    color:#14532d;
+    margin-bottom:10px;
+    font-size:20px;
+}
+
+.video-body p{
+    color:#666;
+    line-height:1.6;
+}
+</style>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -150,38 +190,31 @@ function startPing() {
         <div class="feature-top"><i class="fas fa-book-open"></i></div>
         <div class="feature-body">
           <h4>Amasomo y'ingenzi</h4>
-          <p>Qur'an, Hadith, Tawhid</p>
+          <p>Fiqh, Hadith, Tawhid</p>
         </div>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="window.location.href='{{ route("guest.teachers") }}'" style="cursor: pointer;">
         <div class="feature-top"><i class="fas fa-play-circle"></i></div>
         <div class="feature-body">
-          <h4>Videos</h4>
-          <p>Video z'amasomo</p>
+          <h4>Videos & Audio</h4>
+          <p>z'amasoma</p>
         </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-top"><i class="fas fa-headphones"></i></div>
-        <div class="feature-body">
-          <h4>Audio</h4>
-          <p>Audio z'amasoma</p>
-        </div>
-      </div>
-      <div class="feature-card" onclick="window.location.href='pages/ibitabo.html'">
+      <div class="feature-card" onclick="window.location.href='{{ route("guest.books") }}'" style="cursor: pointer;">
         <div class="feature-top"><i class="fas fa-file-pdf"></i></div>
         <div class="feature-body">
           <h4>Ibitabo</h4>
           <p>ibitabo byo kwigiramo</p>
         </div>
       </div>
-      <div class="feature-card">
+      <!-- <div class="feature-card">
         <div class="feature-top"><i class="fas fa-question-circle"></i></div>
         <div class="feature-body">
           <h4>Q &amp; A</h4>
           <p>Ibibazo n'ibisubizo</p>
         </div>
-      </div>
-      <div class="feature-card">
+      </div> -->
+      <div class="feature-card" onclick="window.location.href='{{ route("guest.twandikire") }}'" style="cursor: pointer;">
         <div class="feature-top"><i class="fas fa-users"></i></div>
         <div class="feature-body">
           <h4>Community</h4>
@@ -190,6 +223,65 @@ function startPing() {
       </div>
     </div>
   </div>
+</section>
+
+<!-- SAMPLE LESSONS -->
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-title">
+            <div class="tag">Ingero z'Amasomo</div>
+            <h2>Reba zimwe mu nyigisho zacu</h2>
+            <p>Urugero rw'amasomo ushobora gukurikira kuri Kwegereza Islam Umuryango.</p>
+        </div>
+
+        <div class="video-grid">
+
+            <div class="video-card">
+                <iframe
+                    src="https://www.youtube.com/watch?v=R90sVYixtBI"
+                    allowfullscreen>
+                </iframe>
+
+                <div class="video-body">
+                    <h6><i class="fas fa-list-alt"></i>&nbsp;Imyitwarire y'umuyislamu mubintu byose</h6>
+                    <p><i class="fas fa-user"></i>&nbsp;Sheikh Ndahayo Khalid Abuu Muadh</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <iframe
+                    src="https://www.youtube.com/watch?v=TnhyqsKQmR4"
+                    allowfullscreen>
+                </iframe>
+
+                <div class="video-body">
+                    <h6><i class="fas fa-list-alt"></i>&nbsp;Incamake mu myitwarire y'umuyislamu</h6>
+                    <p><i class="fas fa-user"></i>&nbsp;Sheikh Iradukunda Aboubakr Abuu Abdilrahman</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <iframe
+                    src="https://www.youtube.com/watch?v=06ync-Qr0v0&t=516s"
+                    allowfullscreen>
+                </iframe>
+
+                <div class="video-body">
+                    <h6 title="Ibintu bine buri musilamu ategetswe kumenya"><i class="fas fa-list-alt"></i>&nbsp;Ibintu bine buri musilamu ategetswe..</h6>
+                    <p><i class="fas fa-user"></i>&nbsp;Sheikh Munyaneza Ismail Abuu Omar</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="text-align:center;margin-top:40px;">
+            <a href="{{ route('guest.teachers') }}" class="btn-primary">
+                <i class="fas fa-play-circle"></i>
+                Reba amasomo yose
+            </a>
+        </div>
+
+    </div>
 </section>
 
 <!-- COURSES -->
@@ -255,5 +347,25 @@ function startPing() {
     </div>
   </div>
 </section>
+<script>
+document.querySelectorAll("iframe").forEach(frame => {
 
+    const url = frame.src;
+
+    if (url.includes("youtube.com/watch")) {
+        const params = new URL(url).searchParams;
+        const id = params.get("v");
+
+        if (id) {
+            frame.src = `https://www.youtube.com/embed/${id}`;
+        }
+    }
+
+    if (url.includes("youtu.be/")) {
+        const id = url.split("youtu.be/")[1].split("?")[0];
+        frame.src = `https://www.youtube.com/embed/${id}`;
+    }
+
+});
+</script>
 @endsection
