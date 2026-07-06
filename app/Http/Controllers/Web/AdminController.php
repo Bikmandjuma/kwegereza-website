@@ -529,7 +529,7 @@ class AdminController extends Controller
     {
         $books = Book::latest()->paginate(10);
 
-        return view('Users.admin.view_books', compact('books'));
+        return view('Users.admin.ViewBooks', compact('books'));
     }
 
     /**
