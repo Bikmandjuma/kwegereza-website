@@ -374,28 +374,25 @@ body{
 </style>
 
 @php
-$books = [
-[
-'title' => 'MU BYIZA BY’UKWEZI KWA RAMADHANI 01',
-'author' => 'Iradukunda Aboubakr',
-'views' => '0',
-'pdf' => asset('Guest/books/MU BYIZA BY’UKWEZI KWA RAMADHANI 01.pdf')
-],
 
-[
-'title' => 'فصول في الصيام والتراويح والزكاة',
-'author' => 'Iradukunda Aboubakr',
-'views' => '0',
-'pdf' => asset('Guest/books/فصول في الصيام والتراويح والزكاة.pdf')
-],
+$booksData = $books->map(function ($book) {
 
-[
-'title' => 'نبذة_في_العقيدة_الإسلامية_ابن_عثيمين_',
-'author' => 'Iradukunda Aboubakr',
-'views' => '0',
-'pdf' => asset('Guest/books/نبذة_في_العقيدة_الإسلامية_ابن_عثيمين_2.pdf')
-],
-];
+    return [
+
+        'id' => $book->id,
+
+        'title' => $book->title,
+
+        'author' => 'Admin',
+
+        'views' => 0,
+
+        'pdf' => asset('books/'.$book->book),
+
+    ];
+
+});
+
 @endphp
 
 <section class="bp-page">
@@ -405,11 +402,14 @@ $books = [
 
 <div class="bp-header-left">
 
-<h1 id="bookTitle">{{ $books[0]['title'] }}</h1>
+<!-- <h1 id="bookTitle">{{ $books[0]['title'] }}</h1> -->
+<h1 id="bookTitle">{{ $booksData[0]['title'] ?? 'No Books Available' }}</h1>
 
 <div class="bp-author">
 <div class="bp-author-dot">II</div>
-<span id="bookAuthor">by {{ $books[0]['author'] }}</span>
+<!-- <span id="bookAuthor">by {{ $books[0]['author'] }}</span> -->
+<span id="bookAuthor">by {{ $booksData[0]['author'] ?? '' }}</span>
+
 </div>
 
 <div class="bp-meta-pills">
@@ -417,7 +417,9 @@ $books = [
 
 <span class="bp-pill">
 <i class="fas fa-eye"></i>
-<span id="bookViews">{{ $books[0]['views'] }}</span>
+<!-- <span id="bookViews">{{ $books[0]['views'] }}</span> -->
+<span id="bookViews">{{ $booksData[0]['views'] ?? 0 }}</span>
+
 views
 </span>
 
@@ -446,7 +448,7 @@ pages
 
 <a class="btn-act amber"
 id="headerDownload"
-href="{{ $books[0]['pdf'] }}"
+href="{{ $booksData[0]['pdf'] ?? '#' }}"
 download>
 
 <i class="fas fa-download"></i>
@@ -544,7 +546,8 @@ urutonde rw'ibitabo
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const BOOKS = @json($books);
+// const BOOKS = @json($books);
+const BOOKS = @json($booksData);
 
 let currentBook = 0;
 let currentPage = 1;
@@ -972,7 +975,17 @@ document.addEventListener('keydown', e => {
 |--------------------------------------------------------------------------
 */
 
-loadBook(0);
+// loadBook(0);
+if (BOOKS.length > 0) {
+
+    loadBook(0);
+
+} else {
+
+    document.getElementById('bookTitle').innerHTML =
+        'No books available';
+
+}
 
 </script>
 

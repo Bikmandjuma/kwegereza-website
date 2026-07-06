@@ -218,8 +218,6 @@
                   </span>
                 </a>
                 <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" aria-label="Authentication">
-                  <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                  <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
                   <a
                     href="{{ route('owner.darsat') }}"
                     role="menuitem"
@@ -237,29 +235,7 @@
                   
                 </div>
 
-
-              <!--   <div x-data="{ isActive: true, open: true}">
-                  <a
-                    href="{{ route('owner.darsat') }}"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Inyandiko-zabamenyi' ? 'bg-primary-100 dark:bg-primary' : '' }}"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0 0l-3-3m3 3l3-3"/>
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm "> Darsat (inyigisho) </span>
-                    
-                  </a>
-                  
-              </div> -->
-
-              <div x-data="{ isActive: true, open: true}">
-                  <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
+              <!-- <div x-data="{ isActive: true, open: true}">
                   <a
                     href="{{ route('owner.inyandiko_zabamenyi') }}"
                     class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Inyandiko-zabamenyi' ? 'bg-primary-100 dark:bg-primary' : '' }}"
@@ -280,7 +256,6 @@
               </div>
 
               <div x-data="{ isActive: true, open: true}">
-                <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                 <a
                   href="{{ route('owner.amatangazo') }}"
                   class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Amatangazo' ? 'bg-primary-100 dark:bg-primary' : '' }}"
@@ -288,22 +263,7 @@
                   aria-haspopup="true"
                   :aria-expanded="(open || isActive) ? 'true' : 'false'"
                 >
-                  <!-- <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                      />
-                    </svg>
-                  </span> -->
+                 
                   <span aria-hidden="true">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -314,10 +274,9 @@
                   
                 </a>
                 
-              </div>
+              </div> -->
 
               <div x-data="{ isActive: true, open: true}">
-                <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
                 <a
                   href="{{ route('owner.ibitabo') }}"
                   class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary  {{ Request::segment(2) == 'Ibitabo' ? 'bg-primary-100 dark:bg-primary' : '' }}"
@@ -325,22 +284,7 @@
                   aria-haspopup="true"
                   :aria-expanded="(open || isActive) ? 'true' : 'false'"
                 >
-                  <!-- <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                      />
-                    </svg>
-                  </span> -->
+                 
                   <span aria-hidden="true">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -353,92 +297,8 @@
                 
               </div>
               </div>
-
-              <!-- <div x-data="{ isActive: false, open: false}">
-                <a
-                  href="#"
-                  @click="$event.preventDefault(); open = !open"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                  :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-                      />
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Job_Category/Position </span>
-                  <span aria-hidden="true" class="ml-auto">
-                    <svg
-                      class="w-4 h-4 transition-transform transform"
-                      :class="{ 'rotate-180': open }"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </a>
-                <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" aria-label="Layouts">
-                  <a
-                    href="layouts/two-columns-sidebar.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Job categories
-                  </a>
-                  <a
-                    href="layouts/mini-plus-one-columns-sidebar.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Job positions
-                  </a>
-                </div>
-              </div> -->
             </nav>
-
-            <!-- Sidebar footer -->
-            <div class="flex-shrink-0 px-2 py-4 space-y-2">
-              <!-- <button
-                @click="openSettingsPanel"
-                type="button"
-                class="flex items-center justify-center w-full px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary-dark focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
-              >
-                <span aria-hidden="true">
-                  <svg
-                    class="w-4 h-4 mr-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                    />
-                  </svg>
-                </span>
-                <span>Customize</span>
-              </button> -->
-            </div>
+            
           </div>
         </aside>
 

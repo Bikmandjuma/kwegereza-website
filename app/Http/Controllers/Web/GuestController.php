@@ -11,6 +11,7 @@ use App\Models\GuestVisit;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Owner;
 use App\Models\DarsatTable;
+use App\Models\Book;
 
 
 class GuestController extends Controller{
@@ -41,8 +42,10 @@ class GuestController extends Controller{
         ));
     }
 
-    public function books(){
-        return view('Guest.ibitabo');
+    public function books()
+    {
+        $books = Book::latest()->get();
+        return view('Guest.ibitabo', compact('books'));
     }
 
     public function news(){
