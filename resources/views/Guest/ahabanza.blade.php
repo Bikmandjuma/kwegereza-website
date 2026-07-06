@@ -267,7 +267,7 @@ function startPing() {
                 </iframe>
 
                 <div class="video-body">
-                    <h6 title="Ibintu bine buri musilamu ategetswe kumenya"><i class="fas fa-list-alt"></i>&nbsp;Ibintu bine buri musilamu ategetswe..</h6>
+                    <h6 title="Ibintu bine buri musilamu ategetswe kumenya"><i class="fas fa-list-alt"></i>&nbsp;Ibintu bine buri musilamu ategetswe kumenya</h6>
                     <p><i class="fas fa-user"></i>&nbsp;Sheikh Munyaneza Ismail Abuu Omar</p>
                 </div>
             </div>
