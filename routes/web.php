@@ -122,3 +122,16 @@ Route::get('/test-mail', function () {
 
     return 'Mail sent!';
 });
+
+Route::get('/debug-storage', function () {
+
+    return [
+        'public_path' => public_path(),
+        'uploads_exists' => is_dir(public_path('uploads/audio')),
+        'storage_exists' => is_dir(storage_path('app/public')),
+        'public_audio_files' => is_dir(public_path('uploads/audio'))
+            ? scandir(public_path('uploads/audio'))
+            : [],
+    ];
+
+});
