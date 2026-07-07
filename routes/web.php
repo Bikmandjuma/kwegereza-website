@@ -135,3 +135,17 @@ Route::get('/debug-storage', function () {
     ];
 
 });
+
+Route::get('/storage-check', function () {
+    return [
+        'app_env' => app()->environment(),
+        'public_path' => public_path(),
+        'storage_link_exists' => is_link(public_path('storage')),
+        'storage_exists' => file_exists(public_path('storage')),
+        'storage_target_exists' => file_exists(storage_path('app/public')),
+        'audio_folder_exists' => file_exists(storage_path('app/public/audio')),
+        'audio_files' => file_exists(storage_path('app/public/audio'))
+            ? scandir(storage_path('app/public/audio'))
+            : [],
+    ];
+});

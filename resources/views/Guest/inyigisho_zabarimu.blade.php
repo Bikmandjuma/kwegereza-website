@@ -638,7 +638,7 @@ input[type=range]{
     </h2>
 
     <div class="teacher-types">
-        <p><strong>Umwarimu wa</strong></p>
+        <p><strong>Isomo rya</strong></p>
         @foreach($types as $type)
             <p>{{ ucfirst($type) }}@if(!$loop->last),@endif</p>
         @endforeach
