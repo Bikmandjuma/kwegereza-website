@@ -14,6 +14,7 @@ use App\Models\Payment;
 use App\Models\DarsatTable;
 use Illuminate\Support\Str;
 use App\Models\Book;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -385,6 +386,70 @@ class AdminController extends Controller
     //         ->with('info', 'Darsat added successfully!');
     // }
 
+    // public function storeDarsat(Request $request)
+    // {
+    //     $request->validate([
+    //         'title'    => 'required|string|max:255',
+    //         'teachers' => 'required|exists:owners,id',
+    //         'type'     => 'required|string|max:100',
+    //         'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
+    //     ]);
+
+    //     $audioName = null;
+
+    //     if ($request->hasFile('audio')) {
+
+    //         $file = $request->file('audio');
+
+    //         // Original filename without extension
+    //         $originalName = pathinfo(
+    //             $file->getClientOriginalName(),
+    //             PATHINFO_FILENAME
+    //         );
+
+    //         // File extension
+    //         $extension = strtolower($file->getClientOriginalExtension());
+
+    //         // Clean filename (replace spaces & special characters with underscores)
+    //         $cleanName = Str::slug($originalName, '_');
+
+    //         // Check if the same audio has already been uploaded
+    //         $existingAudio = DarsatTable::where('audio', 'like', '%_' . $cleanName . '.' . $extension)
+    //             ->exists();
+
+    //         if ($existingAudio) {
+    //             return back()
+    //                 ->withInput()
+    //                 ->withErrors([
+    //                     'audio' => 'This audio file has already been uploaded.',
+    //                     // 'audio' => 'Iyi audio iri muri mubiko!'
+    //                 ]);
+    //         }
+
+    //         // Create unique filename
+    //         $audioName = time() . '_' . $cleanName . '.' . $extension;
+
+    //         // Ensure upload directory exists
+    //         $destination = public_path('uploads/audio');
+
+    //         if (!is_dir($destination)) {
+    //             mkdir($destination, 0755, true);
+    //         }
+
+    //         // Move uploaded file
+    //         $file->move($destination, $audioName);
+    //     }
+
+    //     DarsatTable::create([
+    //         'title'    => $request->title,
+    //         'teachers' => $request->teachers,
+    //         'type'     => $request->type,
+    //         'audio'    => $audioName,
+    //     ]);
+
+    //     return back()->with('info', 'Darsat added successfully!');
+    // }
+
     public function storeDarsat(Request $request)
     {
         $request->validate([
@@ -394,56 +459,51 @@ class AdminController extends Controller
             'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
         ]);
 
-        $audioName = null;
+        $audioPath = null;
 
         if ($request->hasFile('audio')) {
 
             $file = $request->file('audio');
 
-            // Original filename without extension
             $originalName = pathinfo(
                 $file->getClientOriginalName(),
                 PATHINFO_FILENAME
             );
 
-            // File extension
+            // Extension
             $extension = strtolower($file->getClientOriginalExtension());
 
-            // Clean filename (replace spaces & special characters with underscores)
+            // Clean filename
             $cleanName = Str::slug($originalName, '_');
 
-            // Check if the same audio has already been uploaded
-            $existingAudio = DarsatTable::where('audio', 'like', '%_' . $cleanName . '.' . $extension)
+            // Prevent duplicate uploads
+            $existing = DarsatTable::where('audio', 'like', '%'.$cleanName.'.'.$extension)
                 ->exists();
 
-            if ($existingAudio) {
+            if ($existing) {
                 return back()
                     ->withInput()
                     ->withErrors([
                         'audio' => 'This audio file has already been uploaded.',
-                        // 'audio' => 'Iyi audio iri muri mubiko!'
                     ]);
             }
 
-            // Create unique filename
-            $audioName = time() . '_' . $cleanName . '.' . $extension;
+            // Final filename
+            $fileName = time().'_'.$cleanName.'.'.$extension;
 
-            // Ensure upload directory exists
-            $destination = public_path('uploads/audio');
-
-            if (!is_dir($destination)) {
-                mkdir($destination, 0755, true);
-            }
-
-            // Move uploaded file
-            $file->move($destination, $audioName);
+            // Store inside storage/app/public/audio
+            $audioPath = $file->storeAs(
+                'audio',
+                $fileName,
+                'public'
+            );
         }
 
         DarsatTable::create([
             'title'    => $request->title,
             'teachers' => $request->teachers,
             'type'     => $request->type,
-            'audio'    => $audioName,
+            'audio'    => $audioPath,
         ]);
 
         return back()->with('info', 'Darsat added successfully!');

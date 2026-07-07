@@ -1,5 +1,8 @@
 @extends('Guest.cover')
 @section('content')
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -679,7 +682,7 @@ input[type=range]{
            data-title="{{ $lesson->title }}"
            data-lesson-type="{{ $lesson->type }}"
            data-media-type="audio"
-           data-src="{{ asset('uploads/audio/'.$lesson->audio) }}"
+           data-src="{{ asset('storage/'.$lesson->audio) }}"
            data-desc="">
 
           <div class="thumb thumb-audio">
@@ -932,7 +935,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showPlayerError(src){
     console.error("Audio failed to load:", src);
-    playerError.textContent = "Ntibishoboka gukina iyi dosiye. Reba niba link/dosiye iriho kuri seriveri.";
+    playerError.textContent = "Isomo ntiribonetse !";
     playerError.style.display = "block";
   }
   function hidePlayerError(){
