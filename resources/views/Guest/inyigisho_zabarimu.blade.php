@@ -935,7 +935,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showPlayerError(src){
     console.error("Audio failed to load:", src);
-    playerError.textContent = "";
+    playerError.textContent = "Isomo ntiribonetse !";
     playerError.style.display = "block";
   }
   function hidePlayerError(){
