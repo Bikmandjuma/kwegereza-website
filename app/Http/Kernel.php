@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UpdateLastActive::class,
             \App\Http\Middleware\TrackGuest::class,
+            \App\Http\Middleware\SetLocale::class,
 
         ],
 
@@ -89,6 +90,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'ownerAuth' => \App\Http\Middleware\OwnerMiddleware::class,
         'userAuth' => \App\Http\Middleware\UserMiddleware::class,
+        'studentAuth' => \App\Http\Middleware\StudentAuthMiddleware::class,
         'track.visit' => \App\Http\Middleware\TrackVisit::class,
+        'permission' => \App\Http\Middleware\EnsurePermission::class,
+        'permission.api' => \App\Http\Middleware\EnsureApiPermission::class,
     ];
 }

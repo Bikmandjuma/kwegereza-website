@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { font-family: 'Inter', sans-serif; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-sand-50 text-ink transition-colors duration-300;
+    @apply dark:bg-teal-950 dark:text-sand-50;
+  }
+  :focus-visible { outline: 2px solid theme('colors.gold.500'); outline-offset: 2px; }
+
+  /* Slim, unobtrusive scrollbar so long sidebars/tables don't look default-OS */
+  * { scrollbar-width: thin; scrollbar-color: theme('colors.teal.600' / 40%) transparent; }
+  *::-webkit-scrollbar { width: 8px; height: 8px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background-color: theme('colors.teal.600' / 35%);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover { background-color: theme('colors.teal.600' / 55%); }
+}
+
+@layer utilities {
+  /* Frosted-glass surface used for cards/panels that float over the teal
+     gradient (sidebar, login hero, topbar). Kept as a utility rather than
+     baked into components so any screen can opt in. */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 dark:bg-teal-900/40 dark:border-white/10;
+  }
+  .glass-dark {
+    @apply bg-white/10 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Faint 8-point khatam lattice, tileable, for hero/sidebar backgrounds.
+     Line-art only (no fills) to stay quiet — matches StarMark's own logic. */
+  .pattern-khatam { background-image: theme('backgroundImage.khatam'); }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      theme('colors.sand.200') 0%,
+      theme('colors.sand.100') 50%,
+      theme('colors.sand.200') 100%
+    );
+    background-size: 800px 100%;
+  }
+  .dark .shimmer {
+    background: linear-gradient(
+      90deg,
+      theme('colors.teal.800') 0%,
+      theme('colors.teal.700') 50%,
+      theme('colors.teal.800') 100%
+    );
+    background-size: 800px 100%;
+  }
+}

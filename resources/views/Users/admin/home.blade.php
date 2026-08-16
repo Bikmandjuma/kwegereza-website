@@ -4,7 +4,6 @@
 <!-- Main content -->
             <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
               <h1 class="text-2xl font-semibold text-primary-dark dark:text-light" style="font-family: Times New Roman">{{ Auth()->guard('owner')->user()->title }}'s account</h1>
-              <!-- <span style="font-size: 20px;">{{ Auth()->guard('owner')->user()->title }} panel</span> -->
               <a
                 href="#"
                 class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
@@ -15,315 +14,202 @@
 
             <!-- Content -->
             <div class="mt-2">
-              <!-- State cards -->
+              <!-- Stat cards — real platform metrics -->
               <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
-                <!-- Value card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      All users
-                    </h6>
-                    <span class="text-xl font-semibold" id="allUsersCount">{{ $allUsersCount }}</span>
-                    <!-- <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 dark:text-primary-light dark:bg-darker rounded-md">
-                      100%
-                    </span> -->
-                    <!-- <span class="inline-block px-2 py-px ml-2 text-xs text-green-600 bg-green-100 dark:text-green-200 dark:bg-green-900 rounded-md">
-                        100%
-                    </span> -->
-                    <span class="inline-block px-2 py-1 ml-2 text-xs font-semibold text-green-600 bg-green-100 rounded-md dark:text-white text-primary-dark dark:text-light">
-                        100%
-                    </span>
-                    <br>
-                    <hr class="p-2">
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1"
-                    >
-                      Partial users <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="partialCountUsers">{{ $partialCountUsers }}</span>
-                    </h6>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
 
-                <!-- Users card -->
+                <!-- Card 1: All System Users / Visits Today -->
                 <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Sheikh,Ustaz
-                    </h6>
-                    <span class="text-xl font-semibold">{{ $paidUsersCount }}</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      {{ $percentPaidUsersCount }}%
-                    </span>
-                    <br>
-                    <hr class="p-2">
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1"
-                    >
-                      All visits <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="allVisitCount">{{ $allVisitCount }}</span>
-                    </h6>
-                  </div>
-                  <div>
-                  	<span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                        />
-                      </svg>
-                    </span>
-
-                  </div>
-                </div>
-
-                <!-- Orders card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      User joined today
-                    </h6>
-                    <span class="text-xl font-semibold" id="user_joined_today_count">{{ $user_joined_today_count }}</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md mb-1" id="percent_user_joined_today">
-                      {{ $percent_user_joined_today  }}
-                    </span>
-                    <br>
-                    <hr class="p-2">
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1"
-                    >
-                      Today visits <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="todaysVisitCount">{{ $todaysVisitCount }}</span>
-                    </h6>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Tickets card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-            
                   <div>
                     <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light">
-                      Online users
+                      Abakoresha Bose (All Users)
                     </h6>
-                    <span class="text-xl font-semibold" id="online-users-count">{{ $online_user_count }}</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="percent_online_user_count">
-                      {{ $percent_online_user_count }}
-                    </span>
+                    <span class="text-xl font-semibold" id="allSystemUsersCount">{{ $allSystemUsersCount }}</span>
                     <br>
                     <hr class="p-2">
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1"
-                    >
-                      Yesterday visits <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="yesterdaysVisitCount"> {{ $yesterdaysVisitCount }}</span>
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1">
+                      Abasuye Uyu Munsi <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="todaysVisitCount">{{ $todaysVisitCount }}</span>
                     </h6>
                   </div>
-
-                  <script>
-                    // Function to fetch online users count from the backend
-                    function fetchOnlineUsersCount() {
-                        fetch('/refresh_counts')
-                            .then(response => response.json())
-                            .then(data => {
-                                // Update the online user count in the HTML
-                                document.getElementById('online-users-count').innerText = data.online_user_count;
-                                document.getElementById('percent_online_user_count').innerText=data.percent_online_user_count;
-                                document.getElementById('percent_user_joined_today').innerText = data.percent_user_joined_today;
-                                document.getElementById('user_joined_today_count').innerText = data.user_joined_today_count;
-
-                                document.getElementById('todaysVisitCount').innerText = data.todaysVisitCount;
-
-                                document.getElementById('yesterdaysVisitCount').innerText = data.yesterdaysVisitCount;
-
-                                document.getElementById('allVisitCount').innerText = data.allVisitCount;
-
-                                document.getElementById('allUsersCount').innerText = data.allUsersCount;
-
-                                document.getElementById('partialCountUsers').innerText = data.partialCountUsers;
-
-                            })
-                            .catch(error => {
-                                console.error('Error fetching online users count:', error);
-                            });
-                    }
-
-                    // Fetch online users count initially
-                    fetchOnlineUsersCount();
-
-                    // Set interval to refresh the online users count every 5 seconds (5000ms)
-                    setInterval(fetchOnlineUsersCount, 1000); // Update every 5 seconds
-
-                  </script>
-
                   <div>
                     <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-                        />
+                      <svg class="w-12 h-12 text-gray-300 dark:text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                       </svg>
                     </span>
                   </div>
                 </div>
+
+                <!-- Card 2: Teachers / Amatangazo -->
+                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+                  <div>
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light">
+                      Abarimu (Sheikh, Ustaz)
+                    </h6>
+                    <span class="text-xl font-semibold" id="teachersCount">{{ $teachersCount }}</span>
+                    <br>
+                    <hr class="p-2">
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1">
+                      Amatangazo <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="amatangazoCount">{{ $amatangazoCount }}</span>
+                    </h6>
+                  </div>
+                  <div>
+                    <span>
+                      <svg class="w-12 h-12 text-gray-300 dark:text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Card 3: All Darsat / Online Users -->
+                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+                  <div>
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light">
+                      Darsat Zose
+                    </h6>
+                    <span class="text-xl font-semibold" id="allDarsatCount">{{ $allDarsatCount }}</span>
+                    <br>
+                    <hr class="p-2">
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1">
+                      Abari Kuri Line (Online) <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="onlineUsersCount">{{ $onlineUsersCount }}</span>
+                    </h6>
+                  </div>
+                  <div>
+                    <span>
+                      <svg class="w-12 h-12 text-gray-300 dark:text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Card 4: Books / Online Guests -->
+                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+                  <div>
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light">
+                      Ibitabo (Books)
+                    </h6>
+                    <span class="text-xl font-semibold" id="booksCount">{{ $booksCount }}</span>
+                    <br>
+                    <hr class="p-2">
+                    <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light mt-1">
+                      Abasuye Batinjiye (Online Guests) <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md" id="onlineGuestCount">{{ $onlineGuestCount }}</span>
+                    </h6>
+                  </div>
+                  <div>
+                    <span>
+                      <svg class="w-12 h-12 text-gray-300 dark:text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
               </div>
 
-              <!-- Charts -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
-                <!-- Bar chart card -->
-                <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-                  <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Bar Chart visits</h4>
-                    <div class="flex items-center space-x-2">
-                      <span class="text-sm text-gray-500 dark:text-light">Last year</span>
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateBarChart(isOn)"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="barChart"></canvas>
-                  </div>
-                </div>
+              <script>
+                // Lightweight periodic refresh of just the 8 numbers above —
+                // no full page reload, no fake data. Every 15s, not every 1s
+                // like the old version (that was needlessly hammering the
+                // server for numbers that rarely change second-to-second).
+                function kiuRefreshDashboardCounts() {
+                    fetch('{{ route("owner.refresh_counts") }}')
+                        .then(r => r.json())
+                        .then(data => {
+                            document.getElementById('allSystemUsersCount').innerText = data.allSystemUsersCount;
+                            document.getElementById('teachersCount').innerText = data.teachersCount;
+                            document.getElementById('allDarsatCount').innerText = data.allDarsatCount;
+                            document.getElementById('booksCount').innerText = data.booksCount;
+                            document.getElementById('todaysVisitCount').innerText = data.todaysVisitCount;
+                            document.getElementById('amatangazoCount').innerText = data.amatangazoCount;
+                            document.getElementById('onlineUsersCount').innerText = data.onlineUsersCount;
+                            document.getElementById('onlineGuestCount').innerText = data.onlineGuestCount;
+                            if (typeof kiuUpdateHeaderOnlineCount === 'function') {
+                                kiuUpdateHeaderOnlineCount(data.onlineUsersCount);
+                            }
+                        })
+                        .catch(err => console.error('Dashboard refresh failed:', err));
+                }
+                setInterval(kiuRefreshDashboardCounts, 15000);
+              </script>
 
-                <!-- Doughnut chart card -->
-                <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-                  <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Doughnut Chart</h4>
-                    <div class="flex items-center">
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateDoughnutChart(isOn)"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="doughnutChart"></canvas>
-                  </div>
-                </div>
-              </div>
+              <!-- 4 independent real charts, each with its own day/week/month/year selector -->
+              <div class="grid grid-cols-1 gap-8 p-4 md:grid-cols-2">
 
-              <!-- Two grid columns -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
-                <!-- Active users chart -->
-                <div class="col-span-1 bg-white rounded-md dark:bg-darker">
-                  <!-- Card header -->
-                  <div class="p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Active users right now</h4>
-                  </div>
-                  <p class="p-4">
-                    <span class="text-2xl font-medium text-gray-500 dark:text-light" id="usersCount">0</span>
-                    <span class="text-sm font-medium text-gray-500 dark:text-primary">Users</span>
-                  </p>
-                  <!-- Chart -->
-                  <div class="relative p-4">
-                    <canvas id="activeUsersChart"></canvas>
-                  </div>
-                </div>
-
-                <!-- Line chart card -->
-                <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
+                @foreach([
+                    ['metric' => 'students', 'title' => 'Abanyeshuri Biyandikishije (Students Joined)', 'color' => '#058e48'],
+                    ['metric' => 'darsat', 'title' => 'Darsat Zongewemo (Darsat Added)', 'color' => '#e2b45f'],
+                    ['metric' => 'amatangazo', 'title' => 'Amatangazo Ashyizweho', 'color' => '#094939'],
+                    ['metric' => 'online_users', 'title' => "Abari Kuri Line ku Munsi (Online Users)", 'color' => '#c8a36c'],
+                ] as $chart)
+                <div class="bg-white rounded-md dark:bg-darker kiu-chart-card" data-metric="{{ $chart['metric'] }}" data-color="{{ $chart['color'] }}">
                   <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Line Chart</h4>
-                    <div class="flex items-center">
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateLineChart()"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
+                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">{{ $chart['title'] }}</h4>
+                    <select class="px-3 py-1 text-xs border rounded-lg kiu-chart-period dark:bg-dark dark:text-light" data-metric="{{ $chart['metric'] }}">
+                      <option value="day" selected>Buri Munsi</option>
+                      <option value="week">Buri Cyumweru</option>
+                      <option value="month">Buri Kwezi</option>
+                      <option value="year">Buri Mwaka</option>
+                    </select>
                   </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="lineChart"></canvas>
+                  <div class="relative p-4 h-64">
+                    <canvas id="kiuChart-{{ $chart['metric'] }}"></canvas>
                   </div>
                 </div>
+                @endforeach
+
               </div>
             </div>
- 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+    const chartInstances = {};
+
+    function loadChart(metric, period) {
+        const card = document.querySelector(`.kiu-chart-card[data-metric="${metric}"]`);
+        const color = card.dataset.color;
+
+        fetch(`{{ route('owner.dashboardChartData') }}?metric=${metric}&period=${period}`)
+            .then(r => r.json())
+            .then(data => {
+                const canvas = document.getElementById('kiuChart-' + metric);
+                if (chartInstances[metric]) {
+                    chartInstances[metric].data.labels = data.labels;
+                    chartInstances[metric].data.datasets[0].data = data.data;
+                    chartInstances[metric].update();
+                    return;
+                }
+                chartInstances[metric] = new Chart(canvas.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.data,
+                            borderColor: color,
+                            backgroundColor: color + '33',
+                            fill: true,
+                            tension: 0.3,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                    }
+                });
+            })
+            .catch(err => console.error('Chart load failed for ' + metric, err));
+    }
+
+    document.querySelectorAll('.kiu-chart-period').forEach(select => {
+        select.addEventListener('change', function() {
+            loadChart(this.dataset.metric, this.value);
+        });
+        loadChart(this.dataset.metric, 'day');
+    });
+})();
+</script>
+
 @endsection

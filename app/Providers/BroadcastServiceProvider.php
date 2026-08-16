@@ -12,7 +12,10 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Broadcast::routes();
+        // Registered under /api with auth:sanctum (not the default 'web'
+        // session guard) since React authenticates via Sanctum bearer
+        // tokens, not cookies — matching every other owner API route.
+        Broadcast::routes(['middleware' => ['auth:sanctum'], 'prefix' => 'api']);
 
         require base_path('routes/channels.php');
     }

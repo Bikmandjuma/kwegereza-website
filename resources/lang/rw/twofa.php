@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'heading' => "Two-Factor Authentication",
+    'setup_step1' => "1. Fungura Google Authenticator, Authy, cyangwa indi porogaramu isa n'iyo.",
+    'setup_step2' => "2. Ongeraho konti nshya, hitamo \"Enter a setup key\" (kuko hano nta QR code duhari — reba hepfo impamvu).",
+    'setup_step3' => "3. Andika iyi kode nk'\"Secret Key\":",
+    'setup_step4' => "4. Andika kode y'imibare 6 iboneka kuri telefoni yawe:",
+    'account_label' => "Account:",
+    'issuer_label'   => "Issuer: Kwegereza Islam Umuryango",
+    'confirm_enable' => "Emeza no Gushyiraho 2FA",
+    'no_qr_explanation' => "Impamvu nta QR code ihari: tutashaka gukora QR code encoder yacu bwite kubera ko ari byoroshye guhindura amakosa atagaragara ariko akagira ingaruka ku kuyisoma neza — byaba bibi kurusha kutayigira. Andika Secret Key mu buryo bw'intoki biroroshye kandi bikora neza kimwe.",
+    'status_enabled' => "BIRAKORA (ENABLED)",
+    'enabled_since'  => "2FA yashyizweho kuri konti yawe kuva",
+    'every_login'    => "Buri gihe uzinjira, uzasabwa kode iva kuri porogaramu yawe ya Authenticator.",
+    'password_to_disable' => "Andika ijambo ry'ibanga kugira ngo uhagarike 2FA:",
+    'disable_confirm' => "Uzi neza ko ushaka guhagarika 2FA?",
+    'disable_button'  => "Hagarika 2FA",
+    'challenge_title' => "Kode ya 2FA",
+    'challenge_desc'  => "Andika kode y'imibare 6 iva kuri porogaramu yawe ya Authenticator.",
+    'confirm'         => "Emeza",
+    'lost_phone'      => "Wataye telefoni yawe? Koresha kimwe mu ma \"recovery codes\" wahawe igihe washyiragaho 2FA.",
+    'recovery_title'  => "2FA Yashyizweho!",
+    'recovery_warning'=> "Bika izi kode ahantu heza. Zizagufasha kwinjira niba wataye telefoni yawe. Ntabwo tuzongera kuzigaragaza nanone!",
+    'print_save'      => "Sohora / Bika",
+    'continue'        => "Narazibitse, Komeza",
+];

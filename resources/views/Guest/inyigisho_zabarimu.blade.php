@@ -583,6 +583,20 @@ input[type=range]{
 }
 .pl-info .pl-meta{ font-size:10.5px; color:var(--ink-soft); margin-top:3px; }
 
+/* Accessible focus states — only the search input had one before;
+   every other interactive control (filters, playlist items, player
+   controls, back button) had none, so keyboard users had no visible
+   indicator anywhere else on this page. */
+.filter-btn:focus-visible,
+.back-btn:focus-visible,
+.ctrl-btn:focus-visible,
+.pl-item:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold-500);
+  outline-offset: 2px;
+}
+
 /* ================= RESPONSIVE ================= */
 @media(max-width:900px){
   .theater-grid{ grid-template-columns:1fr; }
@@ -635,7 +649,17 @@ input[type=range]{
   <div class="profile-info">
     <h2 id="sheikhTitle">
         {{ $teacher->title }} {{ $teacher->firstname }} {{ $teacher->lastname }}
+        @if($teacher->is_verified)
+          <i class="fa-solid fa-circle-check" style="color:#058e48;font-size:15px;" title="Verified"></i>
+        @endif
     </h2>
+
+    @if($teacher->bio)
+      <p style="font-size:13px;color:#555;margin:6px 0;line-height:1.6;max-width:600px;">{{ $teacher->bio }}</p>
+    @endif
+    @if($teacher->credentials)
+      <p style="font-size:12px;color:#888;margin-bottom:10px;"><i class="fa-solid fa-graduation-cap"></i> {{ $teacher->credentials }}</p>
+    @endif
 
     <div class="teacher-types">
         <p><strong>Isomo rya</strong></p>
@@ -675,14 +699,21 @@ input[type=range]{
 
   <div class="lesson-grid" id="lessonGrid">
 
+    @auth('student')
+      @php
+          $kiuProgressByLesson = auth('student')->user()->darsatProgress()->get()->keyBy('darsat_id');
+      @endphp
+    @endauth
+
     @foreach($darsat as $lesson)
       @php $typeSlug = strtolower(str_replace(' ', '-', $lesson->type)); @endphp
       <div class="lesson-card lesson-item"
+           data-id="{{ $lesson->id }}"
            data-type="audio {{ $typeSlug }}"
            data-title="{{ $lesson->title }}"
            data-lesson-type="{{ $lesson->type }}"
            data-media-type="audio"
-           data-src="{{ asset('storage/'.$lesson->audio) }}"
+           data-src="{{ $lesson->audioUrl() }}"
            data-desc="">
 
           <div class="thumb thumb-audio">
@@ -702,6 +733,25 @@ input[type=range]{
               <div class="lesson-meta">
                   <span class="type-tag tag-dynamic">{{ $lesson->type }}</span>
               </div>
+
+              @auth('student')
+                @php
+                    $lessonProgress = $kiuProgressByLesson->get($lesson->id);
+                @endphp
+                <div class="mt-2" onclick="event.stopPropagation()">
+                  @if($lessonProgress && $lessonProgress->status === 'completed')
+                    <span style="font-size:11px;font-weight:700;color:#058e48;">
+                      <i class="fa-solid fa-circle-check"></i> Warangije iri somo
+                    </span>
+                  @else
+                    <button
+                      onclick="kiuMarkDarsatComplete({{ $lesson->id }}, this)"
+                      style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid #058e48;color:#058e48;background:#fff;cursor:pointer;">
+                      Nyandika ko warangije
+                    </button>
+                  @endif
+                </div>
+              @endauth
           </div>
 
       </div>
@@ -1074,6 +1124,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const durationTxt = durationPill ? durationPill.textContent : '';
       const row = document.createElement("div");
       row.className = "pl-item" + (item === activeItem ? " active" : "");
+      row.setAttribute("role", "button");
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("aria-label", item.dataset.title);
       row.innerHTML = `
         <div class="pl-thumb ${isVideo ? 'thumb-video' : 'thumb-audio'}">${isVideo ? playIconSVG : ''}</div>
         <div class="pl-info">
@@ -1082,6 +1135,12 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       `;
       row.addEventListener("click", () => openTheater(item));
+      row.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openTheater(item);
+        }
+      });
       playlistItems.appendChild(row);
     });
   }
@@ -1094,6 +1153,21 @@ document.addEventListener("DOMContentLoaded", function () {
     playerDesc.innerText = item.dataset.desc || "";
     playerTags.innerHTML = tagsMarkupFor(item);
     playerTeacherSub.innerText = "Inyigisho ya " + item.dataset.lessonType;
+
+    // Was never called anywhere — the backend route/controller for this
+    // (student.darsat.play, bumping times_played + last_played_at) has
+    // existed the whole time, just completely unwired from the actual
+    // player. Only fires for logged-in students (route requires the
+    // student guard); silently does nothing for guests browsing this
+    // same public page.
+    @auth('student')
+    if (item.dataset.id) {
+      fetch(`/student/darsat/${item.dataset.id}/play`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
+      }).catch(() => {});
+    }
+    @endauth
 
     if (isVideo){
       stopCurrentAudio();
@@ -1166,5 +1240,32 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+
+@auth('student')
+<script>
+function kiuMarkDarsatComplete(darsatId, btn) {
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  fetch(`/student/darsat/${darsatId}/complete`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      'Accept': 'application/json',
+    },
+  })
+    .then(r => r.json())
+    .then((data) => {
+      btn.outerHTML = '<span style="font-size:11px;font-weight:700;color:#058e48;"><i class="fa-solid fa-circle-check"></i> Warangije iri somo</span>';
+      if (typeof kiuShowBadgeToast === 'function') kiuShowBadgeToast(data.newBadges);
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Nyandika ko warangije';
+    });
+}
+</script>
+@endauth
 
 @endsection

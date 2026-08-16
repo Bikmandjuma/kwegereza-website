@@ -191,6 +191,30 @@
 
                 </div>
 
+                <!-- DESCRIPTION -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Description (optional)</label>
+                    <textarea name="description" rows="3"
+                        class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:outline-none dark:bg-dark dark:border-gray-700 dark:text-white"></textarea>
+                </div>
+
+                <!-- THUMBNAIL -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Thumbnail (optional)</label>
+                    <input type="file" name="thumbnail" accept="image/*"
+                        class="w-full py-3 pl-4 pr-4 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:outline-none dark:bg-dark dark:border-gray-700 dark:text-white">
+                </div>
+
+                <!-- STATUS -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Status</label>
+                    <select name="status" required
+                        class="w-full py-3.5 pl-4 pr-4 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:outline-none dark:bg-dark dark:border-gray-700 dark:text-white">
+                        <option value="published">Publish now</option>
+                        <option value="draft">Save as draft</option>
+                    </select>
+                </div>
+
                 <!-- AUDIO FILE -->
                 <div>
 

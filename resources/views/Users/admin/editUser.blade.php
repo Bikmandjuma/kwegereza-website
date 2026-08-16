@@ -61,7 +61,7 @@
                     <div class="relative">
 
                         <img
-                            src="{{ asset('images/users/'.$user->image) }}"
+                            src="{{ $user->imageUrl() }}"
                             alt=""
                             class="object-cover border-4 border-white rounded-full shadow-lg w-28 h-28 dark:border-dark"
                         >

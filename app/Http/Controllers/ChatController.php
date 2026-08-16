@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ChatMessage;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ChatPresence;
+use App\Services\ChatService;
 
 class ChatController extends Controller
 {
+    public function __construct(private ChatService $chat)
+    {
+        // Guest-facing methods (sendMessage, messages, presence) are
+        // intentionally left ungated here — they run on public routes with
+        // no 'ownerAuth' middleware at all, so there is no owner to check a
+        // permission against. Only the leader/admin side of Twandikire is
+        // gated, per the spec: "Only users with chat.reply permission can
+        // respond."
+        $this->middleware('permission:chat.view')->only(['ownerchatroom', 'conversations', 'adminMessages', 'typingStatus']);
+        $this->middleware('permission:chat.reply')->only(['adminSend', 'markAsRead', 'reportAdminTyping']);
+    }
+
     public function sendMessage(Request $request)
     {
         $request->validate([
@@ -18,184 +29,98 @@ class ChatController extends Controller
             'message' => 'required|string',
         ]);
 
-        ChatMessage::create([
-            'sender_type' => $request->sender_type,
-            'sender_name' => $request->sender_name,
-            'guest_id' => $request->guest_id,
-            'message' => $request->message,
-        ]);
+        $this->chat->sendAsGuest($request->guest_id, $request->message, $request->sender_name);
 
         return response()->json(['success' => true]);
     }
 
     public function messages($guest_id)
     {
-        $messages = ChatMessage::where('guest_id', $guest_id)
-            ->orderBy('id')
-            ->get();
-
-        return response()->json($messages);
+        return response()->json($this->chat->messagesFor($guest_id));
     }
 
-    public function ownerchatroom(){
+    public function ownerchatroom()
+    {
         return view('Users.admin.chatRoom');
     }
 
-    // public function conversations(){
-    //     $conversations = ChatMessage::select(
-    //         'guest_id',
-    //         'sender_name'
-    //     )
-    //     ->groupBy(
-    //         'guest_id',
-    //         'sender_name'
-    //     )
-    //     ->get();
-
-    //     $conversations->map(function($item){
-
-    //         $presence = ChatPresence::where(
-    //             'guest_id',
-    //             $item->guest_id
-    //         )->first();
-
-    //         $item->online =
-    //             $presence &&
-    //             now()->diffInSeconds(
-    //                 $presence->last_seen
-    //             ) < 20;
-
-    //         return $item;
-    //     });
-
-    //     return response()->json($conversations);
-    // }
-
-    public function conversations(){
-        $guests = ChatMessage::select(
-            'guest_id',
-            'sender_name'
-        )
-        ->groupBy(
-            'guest_id',
-            'sender_name'
-        )
-        ->get();
-
-        $guests->map(function ($guest) {
-
-            $lastMessage = ChatMessage::where(
-                'guest_id',
-                $guest->guest_id
-            )
-            ->latest('id')
-            ->first();
-
-            $guest->last_message =
-                $lastMessage?->message;
-
-            $guest->unread_count =
-                ChatMessage::where(
-                    'guest_id',
-                    $guest->guest_id
-                )
-                ->where(
-                    'sender_type',
-                    'guest'
-                )
-                ->where(
-                    'is_read',
-                    false
-                )
-                ->count();
-
-            $presence =
-                ChatPresence::where(
-                    'guest_id',
-                    $guest->guest_id
-                )
-                ->first();
-
-            $guest->online =
-                $presence &&
-                now()->diffInSeconds(
-                    $presence->last_seen
-                ) < 20;
-
-            return $guest;
-        });
-
-        return response()->json($guests);
+    public function conversations()
+    {
+        return response()->json($this->chat->conversations());
     }
 
-
-    public function adminMessages($guest_id){
-        return response()->json(
-
-            ChatMessage::where(
-                'guest_id',
-                $guest_id
-            )
-            ->orderBy('id')
-            ->get()
-
-        );
+    public function adminMessages($guest_id)
+    {
+        return response()->json($this->chat->messagesFor($guest_id));
     }
 
-    public function adminSend(Request $request){
-        ChatMessage::create([
+    public function adminSend(Request $request)
+    {
+        $this->chat->sendAsAdmin($request->guest_id, $request->message, Auth::guard('owner')->user()->firstname);
 
-            'guest_id'    => $request->guest_id,
-
-            'sender_type' => 'admin',
-
-            'sender_name' => Auth::guard('owner')->user()->firstname,
-
-            'message'     => $request->message
-
-        ]);
-
-        return response()->json([
-            'success' => true
-        ]);
+        return response()->json(['success' => true]);
     }
 
     public function presence(Request $request)
     {
-        ChatPresence::updateOrCreate(
+        $this->chat->touchPresence($request->guest_id);
 
-            [
-                'guest_id'=>$request->guest_id
-            ],
-
-            [
-                'last_seen'=>now()
-            ]
-
-        );
-
-        return response()->json([
-            'success'=>true
-        ]);
+        return response()->json(['success' => true]);
     }
 
     public function markAsRead(Request $request)
     {
-        ChatMessage::where(
-            'guest_id',
-            $request->guest_id
-        )
-        ->where(
-            'sender_type',
-            'guest'
-        )
-        ->update([
-            'is_read'=>true
-        ]);
+        $this->chat->markRead($request->guest_id);
 
-        return response()->json([
-            'success'=>true
-        ]);
+        return response()->json(['success' => true]);
     }
 
+    /**
+     * Was referenced by ->middleware(...)->only(['typingStatus']) and by a
+     * live route (GET /owner/chat/typing/{guest_id}) since this
+     * controller's very first version, but the method itself never
+     * existed — a real, confirmed bug found while building the Chat phase:
+     * hitting that route has always thrown a fatal 500. Fixed by actually
+     * implementing it. Reads whether the GUEST is currently typing (the
+     * admin chatroom's own JS confirms this is what it expects).
+     */
+    public function typingStatus($guest_id)
+    {
+        return response()->json(['typing' => $this->chat->guestTypingStatus($guest_id)]);
+    }
+
+    /**
+     * Guest reports their own typing state. Matches the real guest widget
+     * exactly (twandikire.blade.php posts to /chat/typing with
+     * {guest_id, typing} in the body — not a {guest_id} route segment,
+     * which is what I assumed on the first pass before checking the
+     * actual frontend code).
+     */
+    public function reportGuestTyping(Request $request)
+    {
+        $this->chat->setGuestTyping($request->guest_id, $request->boolean('typing'));
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * The admin's own typing state, reported from the owner chatroom.
+     * Symmetric gap to the one above: the guest widget has always polled
+     * GET /chat/admin-typing/{guestId} to show "admin is typing", but
+     * nothing anywhere ever wrote this value and the route didn't exist —
+     * confirmed by reading chatRoom.blade.php, which reports the guest's
+     * typing status to itself but never reports the admin's own typing
+     * back out. Fixed on both ends together.
+     */
+    public function reportAdminTyping(Request $request, $guest_id)
+    {
+        $this->chat->setAdminTyping($guest_id, $request->boolean('typing'));
+
+        return response()->json(['success' => true]);
+    }
+
+    public function adminTypingStatus($guest_id)
+    {
+        return response()->json(['typing' => $this->chat->adminTypingStatus($guest_id)]);
+    }
 }

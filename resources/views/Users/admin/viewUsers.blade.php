@@ -147,7 +147,7 @@
                             <div class="flex items-center gap-3">
 
                                 <img
-                                    src="{{ asset('users/images/'.$user->image) }}"
+                                    src="{{ $user->imageUrl() }}"
                                     alt=""
                                     class="object-cover w-12 h-12 rounded-full"
                                 >

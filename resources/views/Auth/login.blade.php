@@ -11,7 +11,9 @@
             margin-top: 10%;
         }    
     }
-    
+    #email:focus, #password:focus{ border-color:var(--green,#0B6D20); box-shadow:0 0 0 3px rgba(11,109,32,.12); }
+    #loginBtn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+    #loginBtn:focus-visible{ outline:2px solid var(--green-dark,#0B3D2E); outline-offset:2px; }
 </style>
 
 <section class="section" id="login">

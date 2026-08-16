@@ -13,6 +13,13 @@ class ChatMessage extends Model
         'guest_id',
         'sender_type',
         'sender_name',
-        'message'
+        'message',
+        'is_read',
+        'read_at',
+    ];
+
+    protected $casts = [
+        'is_read' => 'boolean',
+        'read_at' => 'datetime',
     ];
 }
