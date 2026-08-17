@@ -8,20 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Tailwind CDN defaults to following the OS color scheme with no
-        // way to override it — configuring darkMode:'class' here (must
-        // run before the CDN script parses, so this tag stays right
-        // after it, not before) makes `dark:` variants respond to a
-        // toggle instead, matching the same pattern the admin panel uses.
+        
         tailwind.config = { darkMode: 'class' };
 
         (function () {
-            // Was falling back to the OS/browser's dark-mode preference
-            // when no explicit choice had been made yet — meaning
-            // anyone whose system is set to dark mode saw a black
-            // student portal on their very first visit, despite never
-            // touching the toggle themselves. Defaults to light now;
-            // dark only happens if someone actually clicks the toggle.
+           
             const stored = localStorage.getItem('kiu_student_theme');
             const theme = stored === 'dark' ? 'dark' : 'light';
             document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -29,12 +20,6 @@
     </script>
     <style>
         :root{
-            /* Matched to the main site's brand tokens (Guest/assets/style.css
-               --green/--green-dark/--gold/--cream) — this student portal
-               previously used a slightly different green (#058e48) than
-               the marketing site (#0B6D20), so the whole platform looked
-               like two different shades of "brand green" depending which
-               part a student was on. Same values now, everywhere. */
             --kiu-green: #0B6D20;
             --kiu-green-deep: #0B3D2E;
             --kiu-gold: #C9A227;
@@ -56,10 +41,6 @@
         .sidebar-link.disabled{ color:#c3c3c3; cursor:not-allowed; }
         .sidebar-link.disabled:hover{ background:none; transform:none; }
         .soon-badge{ font-size:9px; background:#eee; color:#999; padding:2px 6px; border-radius:999px; margin-left:auto; }
-
-        /* Sidebar dropdown groups — native <details>/<summary>, no JS
-           needed for collapse/expand, and keyboard-accessible by
-           default (Enter/Space toggles a focused <summary> natively). */
         .sidebar-group{ margin-bottom:2px; }
         .sidebar-group summary{
             display:flex; align-items:center; justify-content:space-between; cursor:pointer;
