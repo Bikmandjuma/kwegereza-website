@@ -82,6 +82,7 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
     // Gamification (badges)
     Route::get('/badges', [\App\Http\Controllers\Web\BadgeController::class, 'index'])->name('owner.badges');
     Route::post('/badges', [\App\Http\Controllers\Web\BadgeController::class, 'store'])->name('owner.badges.store');
+    Route::put('/badges/{id}', [\App\Http\Controllers\Web\BadgeController::class, 'update'])->name('owner.badges.update');
     Route::delete('/badges/{id}', [\App\Http\Controllers\Web\BadgeController::class, 'destroy'])->name('owner.badges.destroy');
 
     // Feature Flags
@@ -161,6 +162,7 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
     Route::post('/chat/send', [ChatController::class, 'adminSend']);
     Route::post('chat/read', [ChatController::class,'markAsRead']);
     Route::get('chat/typing/{guest_id}', [ChatController::class,'typingStatus']);
+    Route::post('chat/admin-typing/{guest_id}', [ChatController::class,'reportAdminTyping']);
     //darsat
     Route::post('/storeDarsat', [AdminController::class, 'storeDarsat'])->name('owner.storeDarsat');
     Route::get('/viewDarsat', [AdminController::class, 'viewDarsat'])->name('owner.viewDarsat');
@@ -188,7 +190,12 @@ Route::group(['prefix'=>'owner' , 'middleware'=>'ownerAuth','throttle:100,1'],fu
 Route::get('/student/register', [\App\Http\Controllers\Web\StudentAuthController::class, 'registerForm'])->name('student.register');
 Route::post('/student/register', [\App\Http\Controllers\Web\StudentAuthController::class, 'submitRegister'])->name('student.register.submit');
 Route::get('/student/login', [\App\Http\Controllers\Web\StudentAuthController::class, 'loginForm'])->name('student.login');
-Route::post('/student/login', [\App\Http\Controllers\Web\StudentAuthController::class, 'submitLogin'])->name('student.login.submit');
+
+Route::get('/student/auth/google', [\App\Http\Controllers\Web\StudentGoogleAuthController::class, 'redirect'])->name('student.auth.google');
+Route::get('/student/auth/google/callback', [\App\Http\Controllers\Web\StudentGoogleAuthController::class, 'callback'])->name('student.auth.google.callback');
+Route::post('/student/login', [\App\Http\Controllers\Web\StudentAuthController::class, 'submitLogin'])
+    ->middleware('throttle:5,1')
+    ->name('student.login.submit');
 Route::get('/student/2fa/challenge', [\App\Http\Controllers\Web\TwoFactorController::class, 'challengeForm'])->name('student.2fa.challenge');
 Route::post('/student/2fa/challenge', [\App\Http\Controllers\Web\TwoFactorController::class, 'challengeSubmit'])->name('student.2fa.challenge.submit');
 Route::post('/student/logout', [\App\Http\Controllers\Web\StudentAuthController::class, 'logout'])->name('student.logout');
@@ -263,9 +270,39 @@ Route::group(['prefix' => 'student', 'middleware' => 'studentAuth'], function ()
     Route::post('/2fa/enable', [\App\Http\Controllers\Web\TwoFactorController::class, 'enable'])->name('student.2fa.enable');
     Route::get('/2fa/manage', [\App\Http\Controllers\Web\TwoFactorController::class, 'manage'])->name('student.2fa.manage');
     Route::post('/2fa/disable', [\App\Http\Controllers\Web\TwoFactorController::class, 'disable'])->name('student.2fa.disable');
+
+    // Group chat (male/female student group, auto-assigned by gender)
+    Route::get('/group-chat/page', [\App\Http\Controllers\Web\StudentGroupChatController::class, 'page'])->name('student.groupChat.page');
+    Route::get('/group-chat', [\App\Http\Controllers\Web\StudentGroupChatController::class, 'messages'])->name('student.groupChat.messages');
+    Route::post('/group-chat', [\App\Http\Controllers\Web\StudentGroupChatController::class, 'send'])->name('student.groupChat.send');
+    Route::post('/group-chat/messages/{message}/react', [\App\Http\Controllers\Web\StudentGroupChatController::class, 'react'])->name('student.groupChat.react');
+    Route::delete('/group-chat/messages/{message}', [\App\Http\Controllers\Web\StudentGroupChatController::class, 'destroy'])->name('student.groupChat.destroy');
+    Route::post('/group-chat/messages/{message}/report', [\App\Http\Controllers\Web\StudentGroupChatController::class, 'report'])->name('student.groupChat.report');
+
+    // Live classroom
+    Route::get('/live-classes/{id}', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'show'])->name('student.liveClass.show');
+    Route::get('/live-classes/{id}/participants', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'participants'])->name('student.liveClass.participants');
+    Route::post('/live-classes/{id}/join', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'join'])->name('student.liveClass.join');
+    Route::post('/live-classes/{id}/leave', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'leave'])->name('student.liveClass.leave');
+    Route::post('/live-classes/{id}/raise-hand', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'raiseHand'])->name('student.liveClass.raiseHand');
+    Route::post('/live-classes/{id}/lower-hand', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'lowerHand'])->name('student.liveClass.lowerHand');
+    Route::post('/live-classes/{id}/signal', [\App\Http\Controllers\Web\StudentLiveClassController::class, 'signal'])->name('student.liveClass.signal');
 });
 
 Route::get('/login', [WebAuthController::class, 'login_form'])->name('owner.login');
+
+/**
+ * Students don't have Sanctum API tokens yet (gap flagged in the Books
+ * phase) — real-time private channels still need a genuine auth
+ * endpoint, so this uses their actual existing session guard directly,
+ * via Laravel's own broadcasting auth controller, rather than inventing
+ * parallel token infrastructure just for this. See routes/channels.php's
+ * ['guards' => ['student']] option, which is what makes this route (not
+ * the Sanctum-based /api/broadcasting/auth) the one Laravel checks for
+ * the two student group channels.
+ */
+Route::post('/student/broadcasting/auth', [\Illuminate\Broadcasting\BroadcastController::class, 'authenticate'])
+    ->middleware(['web', 'studentAuth']);
 Route::post('/submit_login', [WebAuthController::class, 'submit_login'])->name('owner.submit.login');
 
 Route::get('/forgot-password', [WebAuthController::class, 'forgot_password'])->name('guest.forgot-password');
@@ -288,6 +325,7 @@ Route::get('/amatangazo', [GuestController::class, 'news'])->name('guest.news');
 Route::get('/amasomo-agenda', [GuestController::class, 'courses'])->name('guest.courses');
 Route::get('/amasomo-agenda/{slug}', [GuestController::class, 'courseShow'])->name('guest.course.show');
 Route::get('/ibikorwa', [GuestController::class, 'events'])->name('guest.events');
+Route::get('/current-live-class', [GuestController::class, 'currentLiveClass'])->name('guest.currentLiveClass');
 Route::get('/ibikorwa/{slug}', [GuestController::class, 'eventShow'])->name('guest.event.show');
 
 Route::get('/certificate/verify/{code?}', [\App\Http\Controllers\Web\PublicCertificateController::class, 'verify'])->name('certificate.verify');
@@ -304,6 +342,8 @@ Route::post('/faq/ask', [\App\Http\Controllers\Web\GuestFaqChatController::class
 Route::post('/chat/presence',[ChatController::class,'presence']);
 Route::get('/chat/messages/{guest_id}', [ChatController::class,'messages']);
 Route::post('/chat/send', [ChatController::class,'sendMessage']);
+Route::post('/chat/typing', [ChatController::class,'reportGuestTyping']);
+Route::get('/chat/admin-typing/{guest_id}', [ChatController::class,'adminTypingStatus']);
 Route::get('/live-visits', [GuestController::class, 'liveVisits'])->name('guest.live.visits');
 Route::get('/guest/ping', [GuestController::class, 'ping']);
 
@@ -359,3 +399,17 @@ Route::get('/storage-debug', function () {
     ];
 
 });
+/*
+|--------------------------------------------------------------------------
+| React admin app (SPA catch-all)
+|--------------------------------------------------------------------------
+| Everything under /admin/* is handled client-side by React Router
+| (basename="/admin" in App.jsx) — this single route just serves the
+| same Blade shell for any path under that prefix, and React takes over
+| from there. Placed at the very end of the file, after every other
+| route, so it can never shadow /api/*, /owner/* (the older Blade admin
+| panel), /student/*, or any guest route registered above it.
+*/
+Route::get('/admin/{any?}', function () {
+    return view('admin-app');
+})->where('any', '.*')->name('admin.app');

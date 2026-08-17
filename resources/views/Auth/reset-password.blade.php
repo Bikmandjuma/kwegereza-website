@@ -11,6 +11,9 @@
             margin-top: 10%;
         }    
     }
+    #password:focus, #password_confirmation:focus{ border-color:var(--green,#0B6D20); box-shadow:0 0 0 3px rgba(11,109,32,.12); }
+    #btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+    #btn:focus-visible{ outline:2px solid var(--green-dark,#0B3D2E); outline-offset:2px; }
 </style>
 
 <section class="section" id="login">
@@ -42,7 +45,7 @@
 
                 <!-- NEW PASSWORD -->
                 <div style="margin-bottom:16px;">
-                    <label style="display:block;font-weight:700;margin-bottom:6px;">
+                    <label for="password" style="display:block;font-weight:700;margin-bottom:6px;">
                         Umubare banga mushya
                     </label>
 
@@ -68,7 +71,7 @@
 
                 <!-- CONFIRM PASSWORD -->
                 <div style="margin-bottom:16px;">
-                    <label style="display:block;font-weight:700;margin-bottom:6px;">
+                    <label for="password_confirmation" style="display:block;font-weight:700;margin-bottom:6px;">
                         Emeza umubare-banga
                     </label>
 

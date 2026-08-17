@@ -134,6 +134,6 @@ class TwoFactorController extends Controller
         Auth::guard('student')->login($user, $remember);
         $request->session()->regenerate();
 
-        return redirect()->route('student.dashboard')->with('info', 'Ikaze ' . $user->firstname);
+        return redirect()->intended(route('student.dashboard'))->with('info', 'Ikaze ' . $user->firstname);
     }
 }

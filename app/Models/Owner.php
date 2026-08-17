@@ -13,8 +13,16 @@ class Owner extends Authenticatable{
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'owners';
-    protected $guarded = [];
 
+    // Was previously ALSO declaring `$guarded = []` alongside this
+    // $fillable list — dead code today (Eloquent uses $fillable as the
+    // operative restriction whenever it's set, so $guarded=[] never
+    // actually took effect), but a redundant pair of settings that look
+    // contradictory is exactly the kind of thing that invites the "which
+    // one actually governs?" confusion behind several real bugs found
+    // earlier (Owner::title itself was once missing from this very list;
+    // see the Darsat phase). Removed the dead declaration so there's one
+    // unambiguous source of truth.
     protected $fillable = [
         'firstname',
         'lastname',
@@ -22,6 +30,7 @@ class Owner extends Authenticatable{
         'phone',
         'email',
         'role',
+        'title',
         'image',
         'dob',
         'bio',
@@ -93,5 +102,18 @@ class Owner extends Authenticatable{
                 $q->where('slug', $slug);
             })
             ->exists();
+    }
+
+    /**
+     * Where broadcast (realtime) notifications for this specific owner are
+     * sent — Laravel calls this ON the notifiable itself, which is why it's
+     * here rather than on the Notification class: only $this (the actual
+     * recipient) reliably knows its own ID at broadcast time, whereas a
+     * shared Notification instance sent to many owners at once has no
+     * built-in way to know which recipient is "current".
+     */
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'private-owner.'.$this->id.'.notifications';
     }
 }

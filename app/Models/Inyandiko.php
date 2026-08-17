@@ -14,10 +14,12 @@ class Inyandiko extends Model
     protected $fillable = [
         'title', 'slug', 'category', 'author', 'summary', 'content',
         'image', 'file', 'status', 'created_by', 'updated_by', 'published_at',
+        'comments_enabled',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
+        'comments_enabled' => 'boolean',
     ];
 
     public function scopePublished($query)

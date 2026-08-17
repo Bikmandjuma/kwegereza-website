@@ -12,7 +12,7 @@
     @endif
 
     <div class="p-6 mb-4 bg-white shadow-lg rounded-3xl">
-        <h1 class="mb-4 text-xl font-bold" style="color:#094939">Kugaragara kwa Profile</h1>
+        <h1 class="mb-4 text-xl font-bold" style="color:#0B3D2E">Kugaragara kwa Profile</h1>
         <p class="mb-4 text-sm text-gray-600">
             Iyo bihagaritswe, izina ryawe risimbuzwa "Umunyeshuri (Anonymous)" mu bitekerezo (comments) ushyiraho ku nyandiko za rubanda.
         </p>
@@ -27,11 +27,11 @@
     </div>
 
     <div class="p-6 mb-4 bg-white shadow-lg rounded-3xl">
-        <h2 class="mb-2 text-lg font-bold" style="color:#094939">Amakuru Yanjye (Data Export)</h2>
+        <h2 class="mb-2 text-lg font-bold" style="color:#0B3D2E">Amakuru Yanjye (Data Export)</h2>
         <p class="mb-4 text-sm text-gray-600">
             Kuraho dosiye ya JSON irimo amakuru yose urubuga rufite kuri wewe — amasomo warangije, ibyemezo, ibimenyetso, n'ibindi.
         </p>
-        <a href="{{ route('student.privacy.export') }}" class="inline-block px-5 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#058e48">
+        <a href="{{ route('student.privacy.export') }}" class="inline-block px-5 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#0B6D20">
             <i class="fa-solid fa-download"></i> Kuraho Amakuru Yanjye
         </a>
     </div>

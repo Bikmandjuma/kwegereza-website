@@ -19,22 +19,23 @@
 @section('content')
 
 <style>
-:root{
-  --kiu-green: #058e48; --kiu-green-deep: #094939;
-  --kiu-gold-1: #c8a36c; --kiu-gold-2: #e2b45f; --kiu-cream: #f5ebe2;
-}
-.course-show-hero{ background: linear-gradient(135deg, var(--kiu-green), var(--kiu-green-deep)); padding:40px 20px 70px; text-align:center; }
+/* Local --kiu-* palette removed — page now uses the shared
+   brand variables (--green/--gold/--cream/etc.) from
+   Guest/assets/style.css, so this page's greens/golds match
+   the header, nav, and footer instead of a second, slightly
+   different shade. */
+.course-show-hero{ background: linear-gradient(135deg, var(--green), var(--green-dark)); padding:40px 20px 70px; text-align:center; }
 .course-show-hero h1{ color:#fff; font-weight:800; font-size:clamp(22px,4vw,30px); margin-bottom:8px; }
 .course-show-hero p{ color:rgba(255,255,255,.85); font-size:14px; }
-.course-show-body{ background:linear-gradient(180deg, var(--kiu-gold-1), var(--kiu-gold-2)); padding:0 0 60px; }
-.course-show-card{ max-width:700px; margin:-30px auto 0; background:var(--kiu-cream); border-radius:24px; padding:30px; box-shadow:0 16px 34px rgba(9,73,57,.25); }
+.course-show-body{ background:linear-gradient(180deg, var(--gold), var(--gold-light)); padding:0 0 60px; }
+.course-show-card{ max-width:700px; margin:-30px auto 0; background:var(--cream); border-radius:24px; padding:30px; box-shadow:0 16px 34px rgba(9,73,57,.25); }
 .course-progress-bar{ height:10px; background:#fff; border-radius:999px; overflow:hidden; margin:14px 0 20px; }
-.course-progress-fill{ height:100%; background:var(--kiu-green); }
+.course-progress-fill{ height:100%; background:var(--green); }
 .course-lesson-item{ display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(9,73,57,.1); }
 .course-lesson-item:last-child{ border-bottom:none; }
-.course-lesson-num{ width:28px; height:28px; border-radius:50%; background:var(--kiu-green-deep); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
-.course-lesson-num.done{ background:var(--kiu-green); }
-.course-enroll-btn{ display:block; width:100%; text-align:center; background:var(--kiu-green-deep); color:#fff; padding:12px; border-radius:14px; font-weight:700; border:none; cursor:pointer; margin-top:20px; text-decoration:none; }
+.course-lesson-num{ width:28px; height:28px; border-radius:50%; background:var(--green-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.course-lesson-num.done{ background:var(--green); }
+.course-enroll-btn{ display:block; width:100%; text-align:center; background:var(--green-dark); color:#fff; padding:12px; border-radius:14px; font-weight:700; border:none; cursor:pointer; margin-top:20px; text-decoration:none; }
 </style>
 
 <div class="course-show-hero">

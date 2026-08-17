@@ -20,30 +20,27 @@
 @section('content')
 
 <style>
-:root{
-  --kiu-green: #058e48;
-  --kiu-green-deep: #094939;
-  --kiu-gold-1: #c8a36c;
-  --kiu-gold-2: #e2b45f;
-  --kiu-cream: #f5ebe2;
-}
-
+/* Local --kiu-* palette removed — page now uses the shared
+   brand variables (--green/--gold/--cream/etc.) from
+   Guest/assets/style.css, so this page's greens/golds match
+   the header, nav, and footer instead of a second, slightly
+   different shade. */
 .iny-show-hero{
-  background: linear-gradient(135deg, var(--kiu-green) 0%, var(--kiu-green-deep) 100%);
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
   padding: 40px 20px 70px;
   text-align:center;
 }
 .iny-show-hero span.badge{
   display:inline-block; padding:5px 14px; border-radius:999px; font-size:11px; font-weight:800;
-  background: var(--kiu-gold-2); color: var(--kiu-green-deep); margin-bottom:14px;
+  background: var(--gold-light); color: var(--green-dark); margin-bottom:14px;
 }
 .iny-show-hero h1{ color:#fff; font-weight:800; font-size: clamp(22px,4vw,30px); margin-bottom:8px; }
 .iny-show-hero p{ color: rgba(255,255,255,0.85); font-size:14px; }
 
-.iny-show-body{ background: linear-gradient(180deg, var(--kiu-gold-1) 0%, var(--kiu-gold-2) 100%); padding: 0 0 60px; }
+.iny-show-body{ background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); padding: 0 0 60px; }
 
 .iny-show-card{
-  max-width: 800px; margin: -34px auto 0; background: var(--kiu-cream); border-radius: 24px;
+  max-width: 800px; margin: -34px auto 0; background: var(--cream); border-radius: 24px;
   padding: 34px; box-shadow: 0 16px 34px rgba(9,73,57,0.25);
 }
 
@@ -53,12 +50,12 @@
 
 .iny-show-card a.file-download{
   display:inline-flex; align-items:center; gap:8px; margin-top:22px; padding:12px 20px;
-  background: var(--kiu-green-deep); color:#fff; border-radius:14px; font-weight:700; text-decoration:none;
+  background: var(--green-dark); color:#fff; border-radius:14px; font-weight:700; text-decoration:none;
 }
 
 .iny-back{
   display:inline-flex; align-items:center; gap:8px; margin: 24px auto 0; padding: 10px 18px;
-  background: var(--kiu-cream); color: var(--kiu-green-deep); border-radius:12px; font-weight:700;
+  background: var(--cream); color: var(--green-dark); border-radius:12px; font-weight:700;
   text-decoration:none; box-shadow: 0 6px 14px rgba(9,73,57,0.18);
 }
 .iny-back-wrap{ text-align:center; }

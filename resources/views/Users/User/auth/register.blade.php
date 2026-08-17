@@ -3,7 +3,7 @@
 
 <style>
 .std-auth-wrap{
-  background: linear-gradient(180deg, #f5ebe2 0%, #fff 60%);
+  background: linear-gradient(180deg, #FDFAF3 0%, #fff 60%);
   padding: 50px 16px 70px;
 }
 .std-auth-card{
@@ -13,11 +13,11 @@
   border-radius: 22px;
   padding: 34px 30px;
   box-shadow: 0 16px 34px rgba(9,73,57,0.18);
-  border-top: 5px solid #e2b45f;
+  border-top: 5px solid #C9A227;
 }
 .std-auth-card h2{
   text-align: center;
-  color: #094939;
+  color: #0B3D2E;
   font-family: 'Playfair Display', serif;
   margin-bottom: 6px;
 }
@@ -26,15 +26,15 @@
 .std-auth-card input{
   width:100%; padding:11px 14px; border:1px solid #ddd; border-radius:12px; margin-bottom:14px; outline:none; font-size:14px;
 }
-.std-auth-card input:focus{ border-color:#058e48; }
+.std-auth-card input:focus{ border-color:#0B6D20; }
 .std-auth-card .row2{ display:flex; gap:10px; }
 .std-auth-card .row2 > div{ flex:1; }
 .std-auth-card button{
-  width:100%; padding:12px; background:#094939; color:#fff; border:none; border-radius:12px;
+  width:100%; padding:12px; background:#0B3D2E; color:#fff; border:none; border-radius:12px;
   font-weight:700; cursor:pointer; margin-top:6px;
 }
 .std-auth-card .switch{ text-align:center; margin-top:16px; font-size:13px; color:#666; }
-.std-auth-card .switch a{ color:#058e48; font-weight:700; text-decoration:none; }
+.std-auth-card .switch a{ color:#0B6D20; font-weight:700; text-decoration:none; }
 .std-auth-error{ background:#fee; color:#b30000; padding:10px 14px; border-radius:10px; margin-bottom:16px; font-size:13px; }
 </style>
 

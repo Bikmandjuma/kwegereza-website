@@ -11,11 +11,36 @@ use Illuminate\Support\Str;
 
 class StudentAuthController extends Controller
 {
-    public function registerForm()
+    /**
+     * Shared by loginForm/registerForm here and
+     * StudentGoogleAuthController::redirect() — a guest arriving from
+     * the "Ni mukanya" live-class popup carries a ?next= query param
+     * (the class join URL) rather than having been bounced here by
+     * StudentAuthMiddleware (which stores the intended URL itself via
+     * redirect()->guest()). This stores that same 'url.intended'
+     * session key manually, so all three auth entry points — normal
+     * login, normal registration, and Google — end up honoring the
+     * exact same redirect()->intended() call already in place after a
+     * successful login, without three separate ad-hoc mechanisms.
+     * Only accepts a local, same-app path — never an absolute/external
+     * URL — so this can't be turned into an open-redirect vector.
+     */
+    private function rememberIntendedFromQuery(Request $request): void
+    {
+        $next = $request->query('next');
+
+        if ($next && str_starts_with($next, '/') && ! str_starts_with($next, '//')) {
+            $request->session()->put('url.intended', $next);
+        }
+    }
+
+    public function registerForm(Request $request)
     {
         if (Auth::guard('student')->check()) {
             return redirect()->route('student.dashboard');
         }
+
+        $this->rememberIntendedFromQuery($request);
 
         if (!\App\Models\FeatureFlag::enabled('registration')) {
             return redirect()->route('student.login')->with('error', 'Kwiyandikisha ntabwo bihari ubu. Ongera ugerageze vuba.');
@@ -53,14 +78,16 @@ class StudentAuthController extends Controller
         Auth::guard('student')->login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('student.dashboard')->with('info', 'Ikaze kuri Kwegereza Islam Umuryango, ' . $user->firstname . '!');
+        return redirect()->intended(route('student.dashboard'))->with('info', 'Ikaze kuri Kwegereza Islam Umuryango, ' . $user->firstname . '!');
     }
 
-    public function loginForm()
+    public function loginForm(Request $request)
     {
         if (Auth::guard('student')->check()) {
             return redirect()->route('student.dashboard');
         }
+
+        $this->rememberIntendedFromQuery($request);
 
         return view('Users.User.auth.login');
     }
@@ -103,7 +130,7 @@ class StudentAuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('student.dashboard')
+            return redirect()->intended(route('student.dashboard'))
                 ->with('info', 'Ikaze ' . $user->firstname);
         }
 

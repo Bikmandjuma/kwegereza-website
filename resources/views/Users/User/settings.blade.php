@@ -4,10 +4,10 @@
 @section('content')
 <div class="p-4 md:p-6">
 
-    <h1 class="mb-6 text-2xl font-bold" style="color:#094939">Igenamiterere</h1>
+    <h1 class="mb-6 text-2xl font-bold" style="color:#0B3D2E">Igenamiterere</h1>
 
     <div class="max-w-xl p-6 bg-white shadow-lg rounded-3xl">
-        <h2 class="mb-4 font-bold" style="color:#094939">Hindura Ijambo ry'Ibanga</h2>
+        <h2 class="mb-4 font-bold" style="color:#0B3D2E">Hindura Ijambo ry'Ibanga</h2>
 
         <form action="{{ route('student.settings.password') }}" method="POST">
             @csrf
@@ -27,14 +27,14 @@
                 <input type="password" name="password_confirmation" required minlength="6" class="w-full px-4 py-3 border rounded-2xl">
             </div>
 
-            <button type="submit" class="px-6 py-3 font-semibold text-white rounded-xl" style="background:#094939">
+            <button type="submit" class="px-6 py-3 font-semibold text-white rounded-xl" style="background:#0B3D2E">
                 Hindura Ijambo ry'Ibanga
             </button>
         </form>
     </div>
 
     <div class="max-w-xl p-6 mt-6 bg-white shadow-lg rounded-3xl">
-        <h2 class="mb-2 font-bold" style="color:#094939">Notification Preferences</h2>
+        <h2 class="mb-2 font-bold" style="color:#0B3D2E">Notification Preferences</h2>
         <p class="text-sm text-gray-400">
             Iyi nzira ntiyakozwe ubu — igihe sisitemu y'imenyesha (notifications) izaba yashyizweho, uzashobora
             guhitamo hano uburyo wifuza kumenyeshwa.

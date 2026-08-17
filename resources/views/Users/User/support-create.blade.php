@@ -5,7 +5,7 @@
 <div class="max-w-lg p-4 mx-auto md:p-6">
 
     <div class="p-6 bg-white shadow-lg rounded-3xl">
-        <h1 class="mb-4 text-xl font-bold" style="color:#094939">Tanga Ikibazo Gishya</h1>
+        <h1 class="mb-4 text-xl font-bold" style="color:#0B3D2E">Tanga Ikibazo Gishya</h1>
 
         <form action="{{ route('student.support.store') }}" method="POST">
             @csrf
@@ -28,7 +28,7 @@
                 <textarea name="message" required rows="5" maxlength="3000"
                     class="w-full px-4 py-3 border rounded-2xl focus:ring-2"></textarea>
             </div>
-            <button type="submit" class="w-full py-3 font-semibold text-white rounded-2xl" style="background:#058e48;">
+            <button type="submit" class="w-full py-3 font-semibold text-white rounded-2xl" style="background:#0B6D20;">
                 Ohereza Ikibazo
             </button>
         </form>

@@ -1,5 +1,9 @@
 /* app.css or app.js - Make sure the import comes before any Tailwind directives */
-@import 'node_modules/toastr/build/toastr.min.css';
+/* Was '@import "node_modules/toastr/build/toastr.min.css"' — that literal
+   "node_modules/" prefix makes Vite treat it as a relative path from this
+   file's own folder (resources/css/node_modules/...), which doesn't exist,
+   instead of resolving it as the installed npm package it actually is. */
+@import 'toastr/build/toastr.min.css';
 
 /* Then your Tailwind directives */
 @tailwind base;

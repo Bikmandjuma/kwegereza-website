@@ -79,11 +79,11 @@
 html,body{
   width:100%;height:100%;overflow:hidden;
   font-family:'Inter','Segoe UI',system-ui,sans-serif;
-  background:#e5ddd5;
+  background:var(--soft, #f5f0e8);
 }
 
 /* ── PAGE WRAPPER ── */
-.chat-page{width:100%;height:100vh;display:flex;align-items:stretch;justify-content:center;background:#e5ddd5;}
+.chat-page{width:100%;height:100vh;display:flex;align-items:stretch;justify-content:center;background:var(--soft, #f5f0e8);}
 
 /* ════════════════════════════
    NAME SCREEN
@@ -91,7 +91,7 @@ html,body{
 .name-screen{
   position:fixed;inset:0;z-index:9999;
   display:flex;align-items:center;justify-content:center;padding:20px;
-  background:linear-gradient(160deg,#075e54 0%,#128c7e 50%,#25d366 100%);
+  background:linear-gradient(160deg,var(--green-dark, #0B3D2E) 0%,var(--green, #0B6D20) 50%,var(--green-light, #1a8a30) 100%);
 }
 .name-card{
   width:100%;max-width:420px;background:#fff;border-radius:20px;
@@ -101,13 +101,13 @@ html,body{
 .logo-wrap{position:relative;display:inline-block;margin-bottom:22px;}
 .logo-ring{
   width:76px;height:76px;border-radius:50%;
-  background:linear-gradient(135deg,#25d366,#128c7e);
+  background:linear-gradient(135deg,var(--green-light, #1a8a30),var(--green, #0B6D20));
   display:flex;align-items:center;justify-content:center;font-size:34px;
   box-shadow:0 6px 20px rgba(37,211,102,.35);
 }
 .online-dot{
   position:absolute;bottom:4px;right:4px;
-  width:16px;height:16px;background:#25d366;
+  width:16px;height:16px;background:var(--green-light, #1a8a30);
   border:2.5px solid #fff;border-radius:50%;
 }
 .name-card h2{font-size:26px;font-weight:700;color:#111827;margin-bottom:10px;letter-spacing:-.4px;}
@@ -119,11 +119,11 @@ html,body{
   padding:0 16px 0 42px;font-size:15px;outline:none;background:#f9fafb;
   color:#111827;transition:border-color .2s;
 }
-.name-card input:focus{border-color:#25d366;background:#fff;}
+.name-card input:focus{border-color:var(--green-light, #1a8a30);background:#fff;}
 .start-btn{
   display:flex;align-items:center;justify-content:center;gap:10px;
   width:100%;height:52px;margin-top:14px;border:none;border-radius:12px;
-  background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;
+  background:linear-gradient(135deg,var(--green-light, #1a8a30),var(--green, #0B6D20));color:#fff;
   font-size:15.5px;font-weight:600;cursor:pointer;
   box-shadow:0 4px 14px rgba(37,211,102,.35);
   transition:opacity .18s,transform .18s;
@@ -141,7 +141,7 @@ html,body{
   height:100dvh;
   margin:0 auto;
   display:flex;flex-direction:column;
-  background:#e5ddd5;position:relative;overflow:hidden;
+  background:var(--soft, #f5f0e8);position:relative;overflow:hidden;
 }
 /* WhatsApp tile bg */
 .chat-container::before{
@@ -155,7 +155,7 @@ html,body{
   position:relative;z-index:10;
   display:flex;align-items:center;gap:12px;
   padding:10px 16px;
-  background:#075e54;
+  background:var(--green-dark, #0B3D2E);
   box-shadow:0 2px 8px rgba(0,0,0,.18);
   flex-shrink:0;
   /* iOS notch safe area */
@@ -169,19 +169,19 @@ html,body{
 }
 .header-online-dot{
   position:absolute;bottom:1px;right:1px;
-  width:12px;height:12px;background:#25d366;
-  border:2px solid #075e54;border-radius:50%;
+  width:12px;height:12px;background:var(--green-light, #1a8a30);
+  border:2px solid var(--green-dark, #0B3D2E);border-radius:50%;
 }
 .header-info h3{
   font-size:16px;font-weight:600;color:#fff;
   display:flex;align-items:center;gap:8px;
 }
 .status-text{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,.75);margin-top:1px;}
-.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#25d366;flex-shrink:0;}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green-light, #1a8a30);flex-shrink:0;}
 .badge{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:20px;height:20px;padding:0 5px;border-radius:10px;
-  background:#25d366;color:#fff;font-size:11px;font-weight:700;line-height:1;
+  background:var(--green-light, #1a8a30);color:#fff;font-size:11px;font-weight:700;line-height:1;
 }
 
 /* ── MESSAGES AREA ── */
@@ -223,7 +223,7 @@ html,body{
   word-break:break-word;position:relative;max-width:100%;
 }
 .message.guest .bubble{
-  background:#dcf8c6;color:#111827;
+  background:var(--gold-light, #e8c870);color:#111827;
   border-bottom-right-radius:4px;
   box-shadow:0 1px 2px rgba(0,0,0,.12);
 }
@@ -239,8 +239,10 @@ html,body{
   padding:4px;font-size:42px;line-height:1.1;
 }
 .msg-time{font-size:11px;color:#9ca3af;margin-top:3px;padding:0 3px;}
-.message.guest .msg-time{text-align:right;}
+.message.guest .msg-time{text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:3px;}
 .message.admin .msg-time{text-align:left;}
+.msg-tick{display:inline-flex;align-items:center;color:#9ca3af;}
+.msg-tick.read{color:var(--green,#0B6D20);}
 
 /* ── TYPING INDICATOR ── */
 .typing-row{
@@ -305,19 +307,19 @@ html,body{
 .chat-input-bar input::placeholder{color:#9ca3af;}
 .emoji-btn{
   width:40px;height:40px;border:none;border-radius:50%;
-  background:transparent;color:#128c7e;font-size:20px;
+  background:transparent;color:var(--green, #0B6D20);font-size:20px;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   flex-shrink:0;transition:background .15s;
 }
 .emoji-btn:hover{background:rgba(18,140,126,.1);}
 .send-btn{
   width:44px;height:44px;border:none;border-radius:50%;
-  background:#075e54;color:#fff;font-size:16px;cursor:pointer;
+  background:var(--green-dark, #0B3D2E);color:#fff;font-size:16px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
   box-shadow:0 2px 8px rgba(7,94,84,.35);
   transition:background .18s,transform .13s;
 }
-.send-btn:hover{background:#128c7e;}
+.send-btn:hover{background:var(--green, #0B6D20);}
 .send-btn:active{transform:scale(.91);}
 
 /* ════════════════════════════
@@ -339,7 +341,7 @@ html,body{
   .message{max-width:85%;}
 }
 
-/* Mobile — full screen like real WhatsApp */
+/* Mobile — full screen, matching how most native chat apps behave */
 @media(max-width:480px){
   .chat-container{
     /* Stretch behind address bar */
@@ -384,6 +386,16 @@ html,body{
   .status-text{font-size:11px;}
   .chat-messages{padding:6px 8px 4px;}
   .sticker-picker{max-height:150px;}
+}
+
+/* Accessible focus states — only the name-screen input had one before */
+.start-btn:focus-visible,
+.send-btn:focus-visible,
+.emoji-btn:focus-visible,
+.sticker-picker .stk:focus-visible,
+.chat-input-bar input:focus-visible{
+  outline:2px solid var(--gold-light, #e8c870);
+  outline-offset:2px;
 }
 </style>
 
@@ -557,6 +569,11 @@ async function loadMessages(initialLoad = false) {
       }
     });
 
+    // Refresh read-state on already-rendered guest messages (see
+    // updateMessageStatuses' own comment for why this is separate from
+    // the append pass above).
+    updateMessageStatuses(messages);
+
     if (appended && atBottom) {
       box.scrollTop = box.scrollHeight;
     }
@@ -575,17 +592,62 @@ function appendMessage(msg, animate) {
   const row = document.createElement('div');
   row.className = 'message ' + msg.sender_type + (animate ? ' new-msg' : '');
   row.dataset.uid = uid;
+  if (msg.id) row.dataset.msgId = msg.id;
 
   // Detect if message is a sticker (single emoji)
   const isSticker = /^\p{Emoji_Presentation}{1,2}$/u.test(msg.message.trim());
 
+  // Message status ticks (spec §23: Sent / Delivered / Read) — only
+  // shown on the guest's OWN messages, matching every familiar chat
+  // app's convention of "only you see the status of what you sent".
+  const statusHtml = msg.sender_type === 'guest' ? renderStatusTick(msg) : '';
+
   row.innerHTML = `
     <div>
       <div class="bubble${isSticker ? ' is-sticker' : ''}">${escapeHtml(msg.message)}</div>
-      <div class="msg-time">${timeAgo(msg.created_at)}</div>
+      <div class="msg-time">${timeAgo(msg.created_at)}${statusHtml}</div>
     </div>`;
 
   document.getElementById('messages').appendChild(row);
+}
+
+/**
+ * Sent (single check) -> Read (double check, colored) — no separate
+ * "Delivered" tick yet since this widget has no reliable per-recipient
+ * delivery ack, only the eventual is_read/read_at flip once the admin
+ * actually opens the conversation. Two states honestly represented is
+ * better than a fake third state that never changes.
+ */
+function renderStatusTick(msg) {
+  if (msg.is_read) {
+    return ` <span class="msg-tick read" title="Yasomwe">
+      <svg width="14" height="10" viewBox="0 0 16 11" fill="none"><path d="M1 5.5L5 9.5L11 1.5M6 5.5L10 9.5L15 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>`;
+  }
+  return ` <span class="msg-tick sent" title="Yoherejwe">
+    <svg width="12" height="10" viewBox="0 0 12 11" fill="none"><path d="M1 5.5L5 9.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>`;
+}
+
+/**
+ * Polling only appends brand-new messages (see loadMessages) — it never
+ * touched already-rendered bubbles, so a guest message's tick would stay
+ * stuck on "Sent" forever even after the admin actually read it. This
+ * does a cheap, non-destructive pass: only touches the tick's class/title
+ * if the read state actually changed, so there's no flicker on the 2s poll.
+ */
+function updateMessageStatuses(messages) {
+  messages.forEach(msg => {
+    if (msg.sender_type !== 'guest' || !msg.id) return;
+    const row = document.querySelector(`.message[data-msg-id="${msg.id}"]`);
+    if (!row) return;
+    const tickEl = row.querySelector('.msg-tick');
+    if (!tickEl) return;
+    const currentlyRead = tickEl.classList.contains('read');
+    if (msg.is_read && !currentlyRead) {
+      tickEl.outerHTML = renderStatusTick(msg).trim();
+    }
+  });
 }
 
 function escapeHtml(s) {

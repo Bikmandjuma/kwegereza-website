@@ -102,57 +102,70 @@
 @endif
 
 <script>
+// This layout's markup doesn't actually include a chat-launcher button,
+// hamburger menu, or nav dropdown (those exist on the main Guest.cover
+// layout this was copied from, not here) — so `chatBtn.onclick = ...`
+// below was throwing "Cannot set properties of null" the instant this
+// script ran, on every single Auth page load. An uncaught error like
+// that stops the rest of the script block cold, so none of the
+// following handlers (closeBtn, window click-outside, the dropdown
+// toggle, the sheikh-links loop) were ever actually running either.
+// Guarding each one so this only wires up handlers for elements that
+// are genuinely present.
 const chatBtn = document.getElementById("chatBtn");
 const modal = document.getElementById("classModal");
 const closeBtn = document.querySelector(".closeBtn");
 const mobileMenu = document.getElementById("mobileMenu");
+const menuBtn = document.getElementById("menuBtn");
 const dropdown = document.querySelector(".dropdown > a");
 const menu = document.querySelector(".dropdown-menu");
 
+if (chatBtn && modal) {
+  chatBtn.onclick = () => {
+    modal.style.display = "flex";
+  };
+}
 
-chatBtn.onclick = () => {
-  modal.style.display = "flex";
-};
-
-closeBtn.onclick = () => {
-  modal.style.display = "none";
-};
-
-window.onclick = (e) => {
-  if (e.target === modal) {
+if (closeBtn && modal) {
+  closeBtn.onclick = () => {
     modal.style.display = "none";
-  }
-};
+  };
+}
 
-// ✅ CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
-document.addEventListener("click", function (e) {
-    if (
-        mobileMenu &&
-        menuBtn &&
-        !mobileMenu.contains(e.target) &&
-        !menuBtn.contains(e.target)
-    ) {
-        mobileMenu.style.display = "none";
+if (modal) {
+  window.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
     }
-});
+  };
+}
 
-dropdown.addEventListener("click", (e) => {
-  e.preventDefault();
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-});
+// CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
+if (mobileMenu && menuBtn) {
+  document.addEventListener("click", function (e) {
+      if (
+          !mobileMenu.contains(e.target) &&
+          !menuBtn.contains(e.target)
+      ) {
+          mobileMenu.style.display = "none";
+      }
+  });
+}
+
+if (dropdown && menu) {
+  dropdown.addEventListener("click", (e) => {
+    e.preventDefault();
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+  });
+}
 
 // SELECT ALL SHEIKH LINKS
 const sheikhLinks = document.querySelectorAll(".sheikh-link");
 
-// LOOP THROUGH THEM
 sheikhLinks.forEach(link => {
   link.addEventListener("click", function () {
-
     const name = this.getAttribute("data-name");
-
-    // SAVE TO LOCAL STORAGE
     localStorage.setItem("sheikh_name", name);
-
   });
 });
 

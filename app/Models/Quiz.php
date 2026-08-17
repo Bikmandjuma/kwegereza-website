@@ -46,6 +46,40 @@ class Quiz extends Model
     }
 
     /**
+     * Server-authoritative per-attempt deadline. `duration_minutes` has
+     * existed on this model since the scheduling migration but nothing
+     * anywhere ever checked it against submission time — isTakeableNow()
+     * only gates the overall schedule window (starts_at), not how long a
+     * single attempt is allowed to run once started. Found while building
+     * the Quiz API: a student could start a 10-minute quiz and submit it
+     * three days later with full marks, because nothing rejected a late
+     * submission server-side — exactly the failure mode spec section 12
+     * ("the timer must be server-authoritative... backend must prevent
+     * ...late submission") warns about. Null if the quiz is untimed.
+     */
+    public function attemptDeadlineFor(QuizAttempt $attempt): ?\Carbon\Carbon
+    {
+        if (! $this->duration_minutes || ! $attempt->started_at) {
+            return null;
+        }
+
+        return $attempt->started_at->copy()->addMinutes($this->duration_minutes);
+    }
+
+    /**
+     * A small grace period (network/client-clock drift between the
+     * student's JS countdown firing and the request actually arriving)
+     * rather than rejecting a submission that's a few seconds late through
+     * no fault of the student.
+     */
+    public function isAttemptStillWithinDeadline(QuizAttempt $attempt): bool
+    {
+        $deadline = $this->attemptDeadlineFor($attempt);
+
+        return ! $deadline || now()->lessThanOrEqualTo($deadline->copy()->addSeconds(30));
+    }
+
+    /**
      * Quizzes relevant to a given student: standalone (available to
      * everyone), attached to a course they're enrolled in, or attached to
      * a Darsat lesson they have progress on. Centralized here so the

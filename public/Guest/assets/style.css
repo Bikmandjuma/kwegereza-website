@@ -10,7 +10,12 @@
   --soft: #f5f0e8;
   --white: #ffffff;
   --shadow: 0 12px 40px rgba(11,61,46,0.13);
+  --shadow-lift: 0 20px 50px -12px rgba(11,61,46,0.28);
+  --shadow-glow: 0 0 0 1px rgba(201,162,39,0.3), 0 10px 34px -8px rgba(201,162,39,0.4);
   --radius: 20px;
+  --grad-green: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
+  --grad-gold: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -286,7 +291,7 @@ a { text-decoration: none; color: inherit; }
 }
 .hero-content h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 58px;
+  font-size: clamp(30px, 6vw, 58px);
   color: white;
   line-height: 1.15;
   margin-bottom: 18px;
@@ -943,3 +948,123 @@ footer a:hover { color:white; }
   font-size: 22px;
   cursor: pointer;
 }
+/* ══════════════════════════════════════════════════════════════
+   MODERNIZATION PASS — additive only, nothing above this line was
+   removed, so every existing page keeps working unchanged. This
+   block upgrades shared interactions/accessibility/responsiveness
+   site-wide from this one file (every Guest page loads it).
+   ══════════════════════════════════════════════════════════════ */
+
+/* Respect users who've asked for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Accessible focus states — the original file had none at all, so
+   keyboard/screen-reader users had no visible indicator of focus. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.dropdown > a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Smoother, springier lift on every card-like surface site-wide,
+   replacing the flatter ".3s" transforms with a nicer easing curve
+   and a touch more travel. Kept as an addend (higher specificity by
+   source order) rather than editing each ".foo-card:hover" rule. */
+.feature-card, .course-card, .video-card, .playlist-card,
+.audio-card, .book-card, .gallery-card, .daily-card {
+  transition: transform .35s var(--ease-spring), box-shadow .35s var(--ease-spring);
+}
+
+/* Buttons: consistent press feedback + slightly richer hover lift */
+.btn-primary, .btn-outline, .btn-donate, .btn-account, .join-form button, .search-box button {
+  transition: transform .2s var(--ease-spring), box-shadow .2s var(--ease-spring), background-color .2s ease;
+}
+.btn-primary:hover, .btn-donate:hover, .join-form button:hover, .search-box button:hover {
+  box-shadow: var(--shadow-glow);
+}
+.btn-primary:active, .btn-outline:active, .btn-donate:active, .btn-account:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Frosted-glass surface option — for use on new/updated hero and
+   overlay cards, without touching the existing opaque ".daily-card"
+   etc. so nothing currently on-screen changes appearance. */
+.glass-surface {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* Sticky navbar: subtle glass on scroll instead of flat white,
+   applied via a small JS toggle (see cover.blade.php) adding
+   ".is-scrolled" to .navbar. Falls back to the original solid
+   white if the class is never added, so this is purely additive. */
+.navbar.is-scrolled {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Mobile menu: slide-down instead of an abrupt display swap */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s var(--ease-spring), padding .35s var(--ease-spring);
+  padding: 0 28px;
+}
+.mobile-menu.open,
+.mobile-menu.active {
+  display: flex;
+  max-height: 480px;
+  padding: 8px 28px 20px;
+}
+
+/* Section headings: fluid sizing so a 30px heading doesn't stay
+   fixed-size and cramped on a 360px phone next to 40px of padding */
+.section-title h2 { font-size: clamp(22px, 4vw, 30px); }
+.join-banner h2 { font-size: clamp(24px, 5vw, 36px); }
+.hero-arabic { font-size: clamp(20px, 4vw, 32px); }
+
+/* Tighter section rhythm on small screens — the original file only
+   had two breakpoints (900px, 600px); this adds a real tablet step
+   and shrinks grid gaps proportionally instead of keeping desktop
+   gap sizes all the way down to phone widths. */
+@media (max-width: 1024px) {
+  .container { padding: 0 4px; }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 48px 16px; margin-top: -30px; }
+  .features-grid, .courses-grid, .videos-grid, .playlists-grid,
+  .audio-grid, .books-grid, .gallery-grid { gap: 16px; }
+  .hero { min-height: 78vh; padding: 48px 16px; }
+  .contact-box { padding: 28px 20px; }
+  .footer-inner { gap: 24px; }
+}
+
+@media (max-width: 480px) {
+  .nav-inner { padding: 10px 16px; }
+  .logo-text h2 { font-size: 15px; }
+  .logo-text p { font-size: 10px; }
+  .hero-btns { flex-direction: column; align-items: stretch; }
+  .hero-btns a, .hero-btns button { width: 100%; }
+  .join-form { flex-direction: column; }
+  .join-form input, .join-form button { width: 100%; }
+}
+
+/* Respect notches / home-indicators on modern phones */
+.topbar { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+footer { padding-bottom: max(32px, env(safe-area-inset-bottom)); }

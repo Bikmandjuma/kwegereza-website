@@ -16,6 +16,12 @@ class RolePermissionSeeder extends Seeder
             'roles'        => ['view', 'create', 'update', 'delete'],
             'permissions'  => ['view', 'create', 'update', 'delete'],
             'darsat'       => ['view', 'create', 'update', 'delete'],
+            'students'     => ['view', 'manage'],
+            'support'      => ['view', 'manage'],
+            'account_deletion' => ['manage'],
+            'backups'      => ['view', 'create', 'delete'],
+            'system_monitoring' => ['view'],
+            'group_chat'   => ['leaders', 'moderate'],
             'books'        => ['view', 'create', 'update', 'delete'],
             'inyandiko'    => ['view', 'create', 'update', 'delete'],
             'amatangazo'   => ['view', 'create', 'update', 'delete'],
@@ -83,6 +89,7 @@ class RolePermissionSeeder extends Seeder
                 'chat.view', 'chat.reply',
                 'darsat.view', 'darsat.create', 'darsat.update',
                 'live_class.create', 'live_class.manage', 'live_class.speak_permission',
+                'group_chat.leaders',
             ])->pluck('id')
         );
 

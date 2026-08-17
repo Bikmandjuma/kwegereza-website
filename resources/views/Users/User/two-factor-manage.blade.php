@@ -6,12 +6,12 @@
 
     <div class="p-6 bg-white shadow-lg rounded-3xl">
         <div class="flex items-center gap-3 mb-4">
-            <div class="flex items-center justify-center text-white rounded-2xl w-14 h-14" style="background:#058e48;">
+            <div class="flex items-center justify-center text-white rounded-2xl w-14 h-14" style="background:#0B6D20;">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
             <div>
-                <h1 class="text-xl font-bold" style="color:#094939">{{ __('twofa.heading') }}</h1>
-                <span class="inline-block px-2 py-0.5 mt-1 text-xs font-bold text-white rounded-full" style="background:#058e48;">{{ __('twofa.status_enabled') }}</span>
+                <h1 class="text-xl font-bold" style="color:#0B3D2E">{{ __('twofa.heading') }}</h1>
+                <span class="inline-block px-2 py-0.5 mt-1 text-xs font-bold text-white rounded-full" style="background:#0B6D20;">{{ __('twofa.status_enabled') }}</span>
             </div>
         </div>
 

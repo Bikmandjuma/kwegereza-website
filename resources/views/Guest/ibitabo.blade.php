@@ -8,18 +8,27 @@
 
 <style>
 :root {
-  --bg: #f0f4f1;
-  --surface: #ffffff;
-  --card: #f7faf8;
-  --border: #dce8e0;
-  --green: #16a34a;
-  --green-dim: #166534;
-  --amber: #f59e0b;
-  --text: #0f2d1c;
-  --muted: #6b8070;
-  --soft: #4a6357;
-  --radius: 16px;
-  --shadow: 0 4px 24px rgba(11,61,46,.10);
+  /* Prefixed with bp- (book-pane) — this page previously redeclared
+     --green/--text/--soft/--radius/--shadow at :root scope with DIFFERENT
+     values than the shared Guest/assets/style.css tokens of the same
+     name. Since :root custom properties cascade globally, that silently
+     overrode the site's brand green (and other tokens) for the header,
+     nav, and footer specifically WHILE this page was open — a real bug
+     where this one page's colors leaked into shared chrome. Prefixing
+     everything here keeps this page's own (perfectly good) reading-UI
+     palette without touching global state. */
+  --bp-bg: #f0f4f1;
+  --bp-surface: #ffffff;
+  --bp-card: #f7faf8;
+  --bp-border: #dce8e0;
+  --bp-green: #16a34a;
+  --bp-green-dim: #166534;
+  --bp-amber: #f59e0b;
+  --bp-text: #0f2d1c;
+  --bp-muted: #6b8070;
+  --bp-soft: #4a6357;
+  --bp-radius: 16px;
+  --bp-shadow: 0 4px 24px rgba(11,61,46,.10);
 }
 
 *, *::before, *::after{
@@ -29,9 +38,9 @@
 }
 
 body{
-  background:var(--bg);
+  background:var(--bp-bg);
   font-family:'Outfit',sans-serif;
-  color:var(--text);
+  color:var(--bp-text);
 }
 
 .bp-page{
@@ -51,7 +60,7 @@ body{
   gap:18px;
   margin-bottom:28px;
   padding-bottom:22px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid var(--bp-border);
 }
 
 .bp-header-left h1{
@@ -65,7 +74,7 @@ body{
   align-items:center;
   gap:8px;
   margin-top:8px;
-  color:var(--muted);
+  color:var(--bp-muted);
   font-size:13px;
 }
 
@@ -73,7 +82,7 @@ body{
   width:28px;
   height:28px;
   border-radius:50%;
-  background:linear-gradient(135deg,var(--green-dim),var(--green));
+  background:linear-gradient(135deg,var(--bp-green-dim),var(--bp-green));
   display:flex;
   align-items:center;
   justify-content:center;
@@ -89,9 +98,9 @@ body{
 }
 
 .bp-pill{
-  background:var(--card);
-  border:1px solid var(--border);
-  color:var(--soft);
+  background:var(--bp-card);
+  border:1px solid var(--bp-border);
+  color:var(--bp-soft);
   font-size:11px;
   font-weight:600;
   padding:4px 12px;
@@ -101,7 +110,7 @@ body{
 .bp-pill.green{
   background:rgba(34,197,94,.12);
   border-color:rgba(34,197,94,.3);
-  color:var(--green);
+  color:var(--bp-green);
 }
 
 .bp-header-right{
@@ -118,8 +127,8 @@ body{
 
 .bp-search input{
   width:100%;
-  background:var(--card);
-  border:1.5px solid var(--border);
+  background:var(--bp-card);
+  border:1.5px solid var(--bp-border);
   padding:11px 40px 11px 16px;
   border-radius:40px;
   outline:none;
@@ -130,7 +139,7 @@ body{
   right:15px;
   top:50%;
   transform:translateY(-50%);
-  color:var(--muted);
+  color:var(--bp-muted);
 }
 
 .bp-actions{
@@ -152,14 +161,14 @@ body{
 }
 
 .btn-act.amber{
-  background:var(--amber);
+  background:var(--bp-amber);
   color:#1a1200;
 }
 
 .btn-act.ghost{
-  background:var(--card);
-  color:var(--soft);
-  border:1.5px solid var(--border);
+  background:var(--bp-card);
+  color:var(--bp-soft);
+  border:1.5px solid var(--bp-border);
 }
 
 .bp-layout{
@@ -169,9 +178,9 @@ body{
 }
 
 .bp-sidebar{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
+  background:var(--bp-surface);
+  border:1px solid var(--bp-border);
+  border-radius:var(--bp-radius);
   padding:14px 10px;
   max-height:82vh;
   overflow-y:auto;
@@ -181,7 +190,7 @@ body{
   font-size:10px;
   font-weight:700;
   letter-spacing:.1em;
-  color:var(--muted);
+  color:var(--bp-muted);
   text-transform:uppercase;
   margin-bottom:12px;
 }
@@ -195,8 +204,13 @@ body{
   border:2px solid transparent;
 }
 
+.thumb-item:focus-visible{
+  outline:2px solid var(--bp-amber);
+  outline-offset:2px;
+}
+
 .thumb-item.active{
-  border-color:var(--amber);
+  border-color:var(--bp-amber);
 }
 
 .thumb-item canvas{
@@ -217,11 +231,11 @@ body{
 }
 
 .bp-viewer{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
+  background:var(--bp-surface);
+  border:1px solid var(--bp-border);
+  border-radius:var(--bp-radius);
   overflow:hidden;
-  box-shadow:var(--shadow);
+  box-shadow:var(--bp-shadow);
 }
 
 .vw-toolbar{
@@ -229,12 +243,12 @@ body{
   align-items:center;
   justify-content:space-between;
   padding:14px 18px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid var(--bp-border);
 }
 
 .vw-indicator{
-  background:var(--card);
-  border:1px solid var(--border);
+  background:var(--bp-card);
+  border:1px solid var(--bp-border);
   padding:7px 16px;
   border-radius:30px;
   font-size:13px;
@@ -250,13 +264,13 @@ body{
   width:36px;
   height:36px;
   border-radius:50%;
-  background:var(--card);
-  border:1px solid var(--border);
+  background:var(--bp-card);
+  border:1px solid var(--bp-border);
   display:flex;
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  color:var(--soft);
+  color:var(--bp-soft);
 }
 
 .vw-stage{
@@ -280,7 +294,7 @@ body{
   align-items:center;
   justify-content:space-between;
   padding:14px 18px;
-  border-top:1px solid var(--border);
+  border-top:1px solid var(--bp-border);
 }
 
 .vw-nav-btn{
@@ -289,7 +303,7 @@ body{
   gap:8px;
   padding:10px 22px;
   border-radius:10px;
-  background:var(--green-dim);
+  background:var(--bp-green-dim);
   color:#fff;
   border:none;
   cursor:pointer;
@@ -298,21 +312,21 @@ body{
 .vw-progress{
   flex:1;
   height:4px;
-  background:var(--border);
+  background:var(--bp-border);
   border-radius:4px;
   margin:0 16px;
 }
 
 .vw-progress-fill{
   height:100%;
-  background:linear-gradient(90deg,var(--green-dim),var(--green));
+  background:linear-gradient(90deg,var(--bp-green-dim),var(--bp-green));
   width:0%;
 }
 
 .bp-recommended{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
+  background:var(--bp-surface);
+  border:1px solid var(--bp-border);
+  border-radius:var(--bp-radius);
   padding:18px 16px;
   max-height:82vh;
   overflow-y:auto;
@@ -355,13 +369,23 @@ body{
 
 .rec-author{
   font-size:11px;
-  color:var(--muted);
+  color:var(--bp-muted);
 }
 
 .rec-slides{
   font-size:11px;
-  color:var(--green);
+  color:var(--bp-green);
   margin-top:6px;
+}
+
+/* Accessible focus states — none existed anywhere in this file before */
+.bp-search input:focus-visible,
+.btn-act:focus-visible,
+.vw-icon-btn:focus-visible,
+.vw-nav-btn:focus-visible,
+.rec-book:focus-visible {
+  outline: 2px solid var(--bp-amber);
+  outline-offset: 2px;
 }
 
 @media(max-width:900px){
@@ -370,6 +394,51 @@ body{
     grid-template-columns:1fr;
   }
 
+  .bp-header-right{
+    align-items:stretch;
+    width:100%;
+  }
+
+  .bp-search{
+    width:100%;
+  }
+
+  .bp-actions{
+    flex-wrap:wrap;
+  }
+
+  .vw-stage{
+    min-height:380px;
+    padding:12px;
+  }
+
+  .bp-sidebar{
+    max-height:220px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .bp-wrap{ width:100%; padding:0 12px; }
+  .bp-page{ padding:20px 0 40px; }
+
+  .btn-act{ padding:9px 14px; font-size:12.5px; }
+
+  .vw-toolbar{ padding:10px 12px; flex-wrap:wrap; gap:8px; }
+  .vw-nav{ padding:10px 12px; }
+  .vw-nav-btn{ padding:9px 14px; font-size:13px; }
+  .vw-nav-btn span{ display:none; }
+  .vw-progress{ margin:0 10px; }
+
+  .vw-stage{ min-height:320px; padding:8px; }
+
+}
+
+/* Respect reduced-motion preference for any future transitions added
+   to this reader UI. */
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
 </style>
 
@@ -453,7 +522,7 @@ pages
 <a class="btn-act amber"
 id="headerDownload"
 href="{{ $booksData[0]['pdf'] ?? '#' }}"
-download>
+onclick="return trackAndDownload(event, this)">
 
 <i class="fas fa-download"></i>
 <span>Download PDF</span>
@@ -485,7 +554,7 @@ download>
 <a class="vw-icon-btn"
 id="toolbarDownload"
 href="{{ $books[0]['pdf'] }}"
-download>
+onclick="return trackAndDownload(event, this)">
 
 <i class="fas fa-download"></i>
 
@@ -508,7 +577,7 @@ id="btnPrev"
 onclick="prevPage()">
 
 <i class="fas fa-arrow-left"></i>
-<span>Previous</span>
+<span>Ibanziriza</span>
 
 </button>
 
@@ -521,7 +590,7 @@ id="progressFill"></div>
 id="btnNext"
 onclick="nextPage()">
 
-<span>Next</span>
+<span>Gukurikira</span>
 <i class="fas fa-arrow-right"></i>
 
 </button>
@@ -553,6 +622,36 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 // const BOOKS = @json($books);
 const BOOKS = @json($booksData);
 
+/**
+ * Records the download (POST /api/books/{id}/download — public route,
+ * no CSRF needed since it's under routes/api.php's `api` middleware
+ * group) before actually handing the visitor the file. Falls back to
+ * a plain navigation to the raw PDF URL if the tracking call fails for
+ * any reason, so a backend hiccup never blocks someone from getting
+ * the book they came here for.
+ */
+function trackAndDownload(event, linkEl) {
+    event.preventDefault();
+    const bookId = linkEl.dataset.bookId;
+    const fallbackUrl = linkEl.getAttribute('href');
+
+    if (!bookId) {
+        window.open(fallbackUrl, '_blank');
+        return false;
+    }
+
+    fetch(`/api/books/${bookId}/download`, { method: 'POST', headers: { Accept: 'application/json' } })
+        .then((r) => r.ok ? r.json() : Promise.reject())
+        .then((res) => {
+            window.open(res.data?.download_url || fallbackUrl, '_blank');
+        })
+        .catch(() => {
+            window.open(fallbackUrl, '_blank');
+        });
+
+    return false;
+}
+
 let currentBook = 0;
 let currentPage = 1;
 let pdfDoc = null;
@@ -582,11 +681,35 @@ async function loadBook(index){
     document.getElementById('bookViews').innerText =
         book.views;
 
+    // Was never actually called anywhere in the app — the `views`
+    // column has existed since the earliest Books migration with
+    // nothing incrementing it. Fire-and-forget: a failed view-count
+    // ping should never block someone from reading the book.
+    fetch(`/api/books/${book.id}/view`, { method: 'POST', headers: { Accept: 'application/json' } })
+        .then((r) => r.ok ? r.json() : null)
+        .then((res) => {
+            if (res?.data?.views !== undefined) {
+                book.views = res.data.views;
+                document.getElementById('bookViews').innerText = res.data.views;
+            }
+        })
+        .catch(() => {});
+
     document.getElementById('headerDownload').href =
         book.pdf;
 
     document.getElementById('toolbarDownload').href =
         book.pdf;
+
+    // Was firing straight at the raw file URL via a plain `download`
+    // attribute — completely bypassing /api/books/{id}/download, the
+    // endpoint that actually increments Book.downloads and writes a
+    // BookDownload row. The tracking infrastructure (and the "most
+    // downloaded books" analytics reading from it) was correct; this
+    // page just never called it. Both buttons now carry the book id so
+    // the shared trackAndDownload() handler knows which book to record.
+    document.getElementById('headerDownload').dataset.bookId = book.id;
+    document.getElementById('toolbarDownload').dataset.bookId = book.id;
 
     document.getElementById('headerDownload').style.display =
         book.downloadable === false ? 'none' : '';
@@ -728,6 +851,14 @@ async function buildThumbs(){
         div.className =
             'thumb-item' + (i === 1 ? ' active' : '');
 
+        // Was mouse-only (div.onclick with no keyboard path at all) —
+        // same gap found on the homepage's feature cards: unreachable by
+        // keyboard or screen reader. Making these real, focusable,
+        // Enter/Space-activatable controls.
+        div.setAttribute('role', 'button');
+        div.setAttribute('tabindex', '0');
+        div.setAttribute('aria-label', `Ipaji ${i}`);
+
         div.onclick = () => {
 
             currentPage = i;
@@ -735,6 +866,13 @@ async function buildThumbs(){
             renderPage(currentPage);
 
         };
+
+        div.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                div.click();
+            }
+        });
 
         div.innerHTML =
             `<div class="thumb-num">${i}</div>`;

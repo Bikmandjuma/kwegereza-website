@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class StudentCourseController extends Controller
 {
-    public function __construct(private GamificationService $gamification)
+    public function __construct(private GamificationService $gamification, private \App\Services\CertificateService $certificates)
     {
     }
     public function myCourses()
@@ -61,10 +61,7 @@ class StudentCourseController extends Controller
                 ->where('user_id', $user->id)
                 ->update(['completed_at' => now()]);
 
-            Certificate::firstOrCreate(
-                ['user_id' => $user->id, 'course_id' => $course->id],
-                ['title' => 'Certificate of Completion — ' . $course->title]
-            );
+            $this->certificates->issueForCourseCompletion($user, $course->id, $course->title);
         }
 
         $gamification = $this->gamification->recordActivityAndCheckBadges($user);

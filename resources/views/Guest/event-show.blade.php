@@ -7,17 +7,23 @@
 @section('content')
 
 <style>
-:root{ --kiu-green:#058e48; --kiu-green-deep:#094939; --kiu-gold-1:#c8a36c; --kiu-gold-2:#e2b45f; --kiu-cream:#f5ebe2; }
-.event-show-hero{ background: linear-gradient(135deg, var(--kiu-green), var(--kiu-green-deep)); padding:40px 20px 70px; text-align:center; }
+/* Local --kiu-* palette removed — page now uses the shared
+   brand variables (--green/--gold/--cream/etc.) from
+   Guest/assets/style.css, so this page's greens/golds match
+   the header, nav, and footer instead of a second, slightly
+   different shade. */
+.event-show-hero{ background: var(--grad-green); padding:clamp(28px,6vw,40px) 20px 70px; text-align:center; }
 .event-show-hero h1{ color:#fff; font-weight:800; font-size:clamp(20px,4vw,28px); margin-bottom:8px; }
-.event-show-body{ background:linear-gradient(180deg, var(--kiu-gold-1), var(--kiu-gold-2)); padding:0 0 60px; }
-.event-show-card{ max-width:640px; margin:-30px auto 0; background:var(--kiu-cream); border-radius:24px; padding:30px; box-shadow:0 16px 34px rgba(9,73,57,.25); }
+.event-show-body{ background:var(--grad-gold); padding:0 0 60px; }
+.event-show-card{ max-width:640px; margin:-30px auto 0; background:var(--cream); border-radius:24px; padding:clamp(20px,5vw,30px); box-shadow:var(--shadow-lift); animation:fadeUp .5s var(--ease-spring) both; }
 .event-show-card img.cover{ width:100%; border-radius:16px; margin-bottom:20px; max-height:280px; object-fit:cover; }
-.event-meta-row{ display:flex; align-items:center; gap:10px; padding:8px 0; font-size:14px; color:#094939; font-weight:600; }
-.event-btn{ display:block; width:100%; text-align:center; padding:12px; border-radius:14px; font-weight:700; border:none; cursor:pointer; margin-top:20px; text-decoration:none; }
-.event-btn.register{ background:var(--kiu-green-deep); color:#fff; }
+.event-meta-row{ display:flex; align-items:center; gap:10px; padding:8px 0; font-size:14px; color:var(--green-dark); font-weight:600; }
+.event-btn{ display:block; width:100%; text-align:center; padding:12px; border-radius:14px; font-weight:700; border:none; cursor:pointer; margin-top:20px; text-decoration:none; transition:transform .2s var(--ease-spring), filter .2s; }
+.event-btn:hover{ transform:translateY(-1px); filter:brightness(1.08); }
+.event-btn.register{ background:var(--green-dark); color:#fff; }
 .event-btn.unregister{ background:#e11d48; color:#fff; }
-.event-btn.full{ background:#999; color:#fff; }
+.event-btn.full{ background:#999; color:#fff; cursor:default; }
+.event-btn.full:hover{ transform:none; filter:none; }
 </style>
 
 <div class="event-show-hero">

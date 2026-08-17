@@ -177,7 +177,15 @@ class WebAuthController extends Controller
     // }
 
     public function verify_otp(Request $request){
-        return view('auth.verify-otp', [
+        // Was 'auth.verify-otp' (lowercase) while every sibling call in
+        // this controller uses 'Auth.xxx' — the actual folder is
+        // resources/views/Auth (capital A). On case-sensitive
+        // filesystems (standard Linux production servers) this would
+        // throw "View [auth.verify-otp] not found" the moment a guest
+        // reached this page, even though it works fine on
+        // case-insensitive local dev machines (macOS/Windows), which is
+        // exactly the kind of bug that only surfaces after deploy.
+        return view('Auth.verify-otp', [
             'email' => $request->email
         ]);
     }

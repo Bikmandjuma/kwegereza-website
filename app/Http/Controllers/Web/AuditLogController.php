@@ -21,7 +21,13 @@ class AuditLogController extends Controller
         $logs = AuditLog::with('owner')
             ->when($entityType, fn($q) => $q->where('entity_type', 'like', "%{$entityType}%"))
             ->when($action, fn($q) => $q->where('action', $action))
+            // See the API controller's identical fix for why id DESC is
+            // needed alongside latest() — otherwise same-timestamp rows
+            // (a seeder run, bulk import, or just a fast burst of
+            // requests) sort ambiguously and a real entry can silently
+            // fall behind older ones on the same page.
             ->latest()
+            ->orderByDesc('id')
             ->paginate(25)
             ->withQueryString();
 

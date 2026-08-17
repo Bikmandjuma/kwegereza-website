@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
-    public function __construct()
+    public function __construct(private \App\Services\CertificateService $certificates)
     {
         $this->middleware('permission:certificates.view')->only(['index']);
         $this->middleware('permission:certificates.issue')->only(['store']);
@@ -18,7 +18,7 @@ class CertificateController extends Controller
 
     public function index()
     {
-        $certificates = Certificate::with(['user', 'course'])->latest('issued_at')->paginate(15);
+        $certificates = $this->certificates->paginate(15);
         $users = User::orderBy('firstname')->get();
         $courses = Course::orderBy('title')->get();
 
@@ -37,12 +37,12 @@ class CertificateController extends Controller
             'course_id' => 'nullable|exists:courses,id',
         ]);
 
-        Certificate::create([
-            'user_id'   => $request->user_id,
-            'course_id' => $request->course_id ?: null,
-            'title'     => $request->title,
-            'issued_by' => auth('owner')->id(),
-        ]);
+        $this->certificates->issue(
+            User::findOrFail($request->user_id),
+            $request->title,
+            $request->course_id ?: null,
+            auth('owner')->id()
+        );
 
         return back()->with('success', 'Icyemezo cyatanzwe.');
     }

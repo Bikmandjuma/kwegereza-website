@@ -6,32 +6,29 @@
 @section('content')
 
 <style>
-:root{
-  --kiu-green: #058e48;
-  --kiu-green-deep: #094939;
-  --kiu-gold-1: #c8a36c;
-  --kiu-gold-2: #e2b45f;
-  --kiu-cream: #f5ebe2;
-}
-
+/* Local --kiu-* palette removed — page now uses the shared
+   brand variables (--green/--gold/--cream/etc.) from
+   Guest/assets/style.css, so this page's greens/golds match
+   the header, nav, and footer instead of a second, slightly
+   different shade. */
 .iny-hero{
-  background: linear-gradient(135deg, var(--kiu-green) 0%, var(--kiu-green-deep) 100%);
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
   padding: 42px 20px 60px;
   text-align: center;
 }
 .iny-hero h1{ color:#fff; font-weight:800; font-size: clamp(22px,4vw,32px); margin-bottom:8px; }
 .iny-hero p{ color: rgba(255,255,255,0.85); font-size:14px; }
 .iny-divider{ height:4px; width:90px; margin:14px auto 0; border-radius:4px;
-  background: linear-gradient(90deg, var(--kiu-gold-1), var(--kiu-gold-2)); }
+  background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
 
-.iny-body{ background: linear-gradient(180deg, var(--kiu-gold-1) 0%, var(--kiu-gold-2) 100%); padding: 0 0 50px; }
+.iny-body{ background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); padding: 0 0 50px; }
 
 .iny-search{ max-width:420px; margin: 26px auto 0; position:relative; padding: 0 16px; }
 .iny-search input{
   width:100%; padding:12px 18px 12px 42px; border-radius:999px; border:none; outline:none;
-  background: var(--kiu-cream); box-shadow: 0 6px 18px rgba(9,73,57,0.18); font-size:14px; color: var(--kiu-green-deep);
+  background: var(--cream); box-shadow: 0 6px 18px rgba(9,73,57,0.18); font-size:14px; color: var(--green-dark);
 }
-.iny-search i{ position:absolute; left:32px; top:50%; transform:translateY(-50%); color: var(--kiu-green); }
+.iny-search i{ position:absolute; left:32px; top:50%; transform:translateY(-50%); color: var(--green); }
 
 .iny-grid{
   max-width:1100px; margin:24px auto 0; padding:0 16px;
@@ -39,7 +36,7 @@
 }
 
 .iny-card{
-  background: var(--kiu-cream); border-radius:20px; padding:20px;
+  background: var(--cream); border-radius:20px; padding:20px;
   box-shadow: 0 10px 25px rgba(9,73,57,0.18); transition: transform .25s, box-shadow .25s;
   display:flex; flex-direction:column;
 }
@@ -47,7 +44,7 @@
 
 .iny-card .thumb{
   width:100%; height:140px; border-radius:14px; overflow:hidden; margin-bottom:14px;
-  background: linear-gradient(135deg, var(--kiu-green), var(--kiu-green-deep));
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
   display:flex; align-items:center; justify-content:center;
 }
 .iny-card .thumb img{ width:100%; height:100%; object-fit:cover; }
@@ -56,21 +53,21 @@
 .iny-badge{
   display:inline-block; align-self:flex-start; padding:4px 12px; border-radius:999px;
   font-size:11px; font-weight:800; letter-spacing:.5px; margin-bottom:10px;
-  background: var(--kiu-gold-2); color: var(--kiu-green-deep);
+  background: var(--gold-light); color: var(--green-dark);
 }
 
-.iny-card h3{ color: var(--kiu-green-deep); font-weight:800; font-size:17px; margin:4px 0 6px; }
+.iny-card h3{ color: var(--green-dark); font-weight:800; font-size:17px; margin:4px 0 6px; }
 .iny-card p{ color:#4a4a4a; font-size:13.5px; line-height:1.5; margin-bottom:14px; flex-grow:1; }
 
 .iny-card a.read-more{
   display:inline-flex; align-items:center; gap:6px; align-self:flex-start;
-  color:#fff; background: var(--kiu-green-deep); padding:8px 16px; border-radius:12px;
+  color:#fff; background: var(--green-dark); padding:8px 16px; border-radius:12px;
   font-size:13px; font-weight:700; text-decoration:none;
 }
 
 .iny-empty{
-  grid-column: 1/-1; text-align:center; background: var(--kiu-cream); border-radius:20px;
-  padding:40px 20px; color: var(--kiu-green-deep); font-weight:600;
+  grid-column: 1/-1; text-align:center; background: var(--cream); border-radius:20px;
+  padding:40px 20px; color: var(--green-dark); font-weight:600;
 }
 .iny-hide{ display:none !important; }
 </style>
@@ -108,7 +105,7 @@
         <h3>{{ $item->title }}</h3>
 
         @if($item->author)
-          <p style="margin-bottom:4px;font-weight:600;color:var(--kiu-green-deep)">{{ $item->author }}</p>
+          <p style="margin-bottom:4px;font-weight:600;color:var(--green-dark)">{{ $item->author }}</p>
         @endif
 
         @if($item->summary)

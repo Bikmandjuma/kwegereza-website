@@ -93,5 +93,6 @@ class Kernel extends HttpKernel
         'studentAuth' => \App\Http\Middleware\StudentAuthMiddleware::class,
         'track.visit' => \App\Http\Middleware\TrackVisit::class,
         'permission' => \App\Http\Middleware\EnsurePermission::class,
+        'permission.api' => \App\Http\Middleware\EnsureApiPermission::class,
     ];
 }

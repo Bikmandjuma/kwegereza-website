@@ -6,17 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseLesson;
 use App\Models\DarsatTable;
-use App\Traits\HandlesFileUploads;
+use App\Services\CourseService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
 
 class CourseController extends Controller
 {
-    use HandlesFileUploads;
-
-    public function __construct()
+    public function __construct(private CourseService $courses)
     {
         $this->middleware('permission:courses.view')->only(['index', 'show']);
         $this->middleware('permission:courses.create')->only(['store', 'storeLesson']);
@@ -26,38 +21,21 @@ class CourseController extends Controller
 
     public function index()
     {
-        $courses = Course::withCount('lessons')->withCount('enrollments')->latest()->paginate(10);
+        $courses = $this->courses->paginate(10);
 
         return view('Users.admin.courses', compact('courses'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'status'      => 'required|in:draft,published',
         ]);
 
-        $baseSlug = Str::slug($request->title);
-        $slug = $baseSlug;
-        $i = 1;
-        while (Course::where('slug', $slug)->exists()) {
-            $slug = $baseSlug . '-' . $i++;
-        }
-
-        $thumbnail = $this->storeUploadedFile($request->file('thumbnail'), 'courses/thumbnails');
-
-        Course::create([
-            'title'        => $request->title,
-            'slug'         => $slug,
-            'description'  => $request->description,
-            'thumbnail'    => $thumbnail,
-            'status'       => $request->status,
-            'created_by'   => auth('owner')->id(),
-            'published_at' => $request->status === 'published' ? now() : null,
-        ]);
+        $this->courses->create($data, $request->file('thumbnail'), auth('owner')->id());
 
         return redirect()->route('owner.courses')->with('success', 'Isomo ryagenda ryashyizweho.');
     }
@@ -66,37 +44,21 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'status'      => 'required|in:draft,published',
         ]);
 
-        $thumbnail = $course->thumbnail;
-
-        if ($request->hasFile('thumbnail')) {
-            $this->deleteUploadedFile($course->thumbnail, 'courses/thumbnails');
-            $thumbnail = $this->storeUploadedFile($request->file('thumbnail'), 'courses/thumbnails');
-        }
-
-        $course->update([
-            'title'        => $request->title,
-            'description'  => $request->description,
-            'thumbnail'    => $thumbnail,
-            'status'       => $request->status,
-            'updated_by'   => auth('owner')->id(),
-            'published_at' => $request->status === 'published' ? ($course->published_at ?? now()) : null,
-        ]);
+        $this->courses->update($course, $data, $request->file('thumbnail'), auth('owner')->id());
 
         return redirect()->route('owner.courses')->with('success', 'Isomo ryagenda ryahinduwe.');
     }
 
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
-        $this->deleteUploadedFile($course->thumbnail, 'courses/thumbnails');
-        $course->delete();
+        $this->courses->delete(Course::findOrFail($id));
 
         return redirect()->route('owner.courses')->with('success', 'Isomo ryagenda ryasibwe.');
     }
@@ -106,7 +68,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::with('lessons.darsat')->findOrFail($id);
+        $course = $this->courses->findWithLessons($id);
         $darsatOptions = DarsatTable::published()->orderBy('title')->get();
 
         return view('Users.admin.course-builder', compact('course', 'darsatOptions'));
@@ -116,25 +78,17 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($courseId);
 
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'content'     => 'nullable|string',
             'darsat_id'   => 'nullable|exists:darsat_tables,id',
             'is_required' => 'nullable|boolean',
         ]);
+        $data['darsat_id'] = $data['darsat_id'] ?: null;
+        $data['is_required'] = $request->boolean('is_required', true);
 
-        $nextOrder = ($course->lessons()->max('order') ?? 0) + 1;
-
-        CourseLesson::create([
-            'course_id'   => $course->id,
-            'title'       => $request->title,
-            'description' => $request->description,
-            'content'     => $request->content,
-            'darsat_id'   => $request->darsat_id ?: null,
-            'order'       => $nextOrder,
-            'is_required' => $request->boolean('is_required', true),
-        ]);
+        $this->courses->createLesson($course, $data);
 
         return back()->with('success', 'Isomo ryongewe ku nzira y\'amasomo.');
     }
@@ -143,28 +97,24 @@ class CourseController extends Controller
     {
         $lesson = CourseLesson::findOrFail($lessonId);
 
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'content'     => 'nullable|string',
             'darsat_id'   => 'nullable|exists:darsat_tables,id',
             'is_required' => 'nullable|boolean',
         ]);
+        $data['darsat_id'] = $data['darsat_id'] ?: null;
+        $data['is_required'] = $request->boolean('is_required', true);
 
-        $lesson->update([
-            'title'       => $request->title,
-            'description' => $request->description,
-            'content'     => $request->content,
-            'darsat_id'   => $request->darsat_id ?: null,
-            'is_required' => $request->boolean('is_required', true),
-        ]);
+        $this->courses->updateLesson($lesson, $data);
 
         return back()->with('success', 'Isomo ryahinduwe.');
     }
 
     public function destroyLesson($lessonId)
     {
-        CourseLesson::findOrFail($lessonId)->delete();
+        $this->courses->deleteLesson(CourseLesson::findOrFail($lessonId));
 
         return back()->with('success', 'Isomo ryakuweho.');
     }
@@ -176,11 +126,7 @@ class CourseController extends Controller
     {
         $request->validate(['order' => 'required|array']);
 
-        foreach ($request->order as $index => $lessonId) {
-            CourseLesson::where('id', $lessonId)
-                ->where('course_id', $courseId)
-                ->update(['order' => $index + 1]);
-        }
+        $this->courses->reorderLessons((int) $courseId, $request->order);
 
         return response()->json(['ok' => true]);
     }

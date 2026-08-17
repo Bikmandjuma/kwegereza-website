@@ -30,6 +30,30 @@ return [
 
     'connections' => [
 
+        /**
+         * Added — the project used Pusher (a third-party hosted service)
+         * even though the spec calls for Reverb specifically ("Use Laravel
+         * Reverb + Echo... Do not introduce a separate Node backend").
+         * Reverb speaks the same protocol as Pusher, so the existing
+         * pusher-js/laravel-echo frontend packages work unchanged — only
+         * this connection + the Echo client's target host/port change.
+         */
+        'reverb' => [
+            'driver' => 'reverb',
+            'key' => env('REVERB_APP_KEY'),
+            'secret' => env('REVERB_APP_SECRET'),
+            'app_id' => env('REVERB_APP_ID'),
+            'options' => [
+                'host' => env('REVERB_HOST'),
+                'port' => env('REVERB_PORT', 443),
+                'scheme' => env('REVERB_SCHEME', 'https'),
+                'useTLS' => env('REVERB_SCHEME', 'https') === 'https',
+            ],
+            'client_options' => [
+                // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+            ],
+        ],
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),

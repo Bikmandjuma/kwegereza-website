@@ -31,4 +31,20 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google OAuth (student "Continue with Google" sign-in)
+    |--------------------------------------------------------------------------
+    | These three env values MUST be filled in with real credentials from
+    | Google Cloud Console (APIs & Services > Credentials > OAuth client ID,
+    | type "Web application") before this feature will actually work — this
+    | project has no way to provision that itself. redirect must exactly
+    | match one of the "Authorized redirect URIs" configured there.
+    */
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', '/student/auth/google/callback'),
+    ],
+
 ];

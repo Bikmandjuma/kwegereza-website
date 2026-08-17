@@ -4,7 +4,7 @@
 @section('content')
 <div class="p-4 md:p-6">
 
-    <h1 class="mb-6 text-2xl font-bold" style="color:#094939">Ibyo Nkunda (My Favorites)</h1>
+    <h1 class="mb-6 text-2xl font-bold" style="color:#0B3D2E">Ibyo Nkunda (My Favorites)</h1>
 
     @php $hasAny = $grouped['darsat']->count() + $grouped['books']->count() + $grouped['inyandiko']->count() + $grouped['amatangazo']->count(); @endphp
 
@@ -16,7 +16,7 @@
 
         @if($grouped['darsat']->count())
         <div class="mb-8">
-            <h2 class="mb-3 font-bold" style="color:#094939">Amasomo</h2>
+            <h2 class="mb-3 font-bold" style="color:#0B3D2E">Amasomo</h2>
             <div class="grid gap-4 md:grid-cols-2">
                 @foreach($grouped['darsat'] as $d)
                 <div class="flex items-center justify-between p-4 bg-white shadow rounded-2xl">
@@ -24,7 +24,7 @@
                         <p class="font-semibold">{{ $d->title }}</p>
                         <p class="text-xs text-gray-400">{{ $d->type }}</p>
                     </div>
-                    <a href="{{ route('guest.teacher-darsa', $d->teachers) }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#058e48">Reba</a>
+                    <a href="{{ route('guest.teacher-darsa', $d->teachers) }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#0B6D20">Reba</a>
                 </div>
                 @endforeach
             </div>
@@ -33,7 +33,7 @@
 
         @if($grouped['books']->count())
         <div class="mb-8">
-            <h2 class="mb-3 font-bold" style="color:#094939">Ibitabo</h2>
+            <h2 class="mb-3 font-bold" style="color:#0B3D2E">Ibitabo</h2>
             <div class="grid gap-4 md:grid-cols-2">
                 @foreach($grouped['books'] as $b)
                 <div class="flex items-center justify-between p-4 bg-white shadow rounded-2xl">
@@ -41,7 +41,7 @@
                         <p class="font-semibold">{{ $b->title }}</p>
                         <p class="text-xs text-gray-400">{{ $b->author }}</p>
                     </div>
-                    <a href="{{ route('guest.books') }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#058e48">Reba</a>
+                    <a href="{{ route('guest.books') }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#0B6D20">Reba</a>
                 </div>
                 @endforeach
             </div>
@@ -50,7 +50,7 @@
 
         @if($grouped['inyandiko']->count())
         <div class="mb-8">
-            <h2 class="mb-3 font-bold" style="color:#094939">Inyandiko</h2>
+            <h2 class="mb-3 font-bold" style="color:#0B3D2E">Inyandiko</h2>
             <div class="grid gap-4 md:grid-cols-2">
                 @foreach($grouped['inyandiko'] as $i)
                 <div class="flex items-center justify-between p-4 bg-white shadow rounded-2xl">
@@ -58,7 +58,7 @@
                         <p class="font-semibold">{{ $i->title }}</p>
                         <p class="text-xs text-gray-400">{{ $i->category }}</p>
                     </div>
-                    <a href="{{ route('guest.inyandiko.show', $i->slug) }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#058e48">Soma</a>
+                    <a href="{{ route('guest.inyandiko.show', $i->slug) }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#0B6D20">Soma</a>
                 </div>
                 @endforeach
             </div>
@@ -67,7 +67,7 @@
 
         @if($grouped['amatangazo']->count())
         <div class="mb-8">
-            <h2 class="mb-3 font-bold" style="color:#094939">Amatangazo</h2>
+            <h2 class="mb-3 font-bold" style="color:#0B3D2E">Amatangazo</h2>
             <div class="grid gap-4 md:grid-cols-2">
                 @foreach($grouped['amatangazo'] as $a)
                 <div class="flex items-center justify-between p-4 bg-white shadow rounded-2xl">
@@ -75,7 +75,7 @@
                         <p class="font-semibold">{{ $a->title }}</p>
                         <p class="text-xs text-gray-400">{{ $a->presenter }}</p>
                     </div>
-                    <a href="{{ route('guest.news') }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#058e48">Reba</a>
+                    <a href="{{ route('guest.news') }}" class="px-3 py-1.5 text-xs font-bold text-white rounded-lg" style="background:#0B6D20">Reba</a>
                 </div>
                 @endforeach
             </div>

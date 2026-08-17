@@ -14,6 +14,13 @@ class ChatPresence extends Model
     protected $fillable = [
         'guest_id',
         'last_seen',
-        'typing'
+        'typing',
+        'admin_typing'
+    ];
+
+    protected $casts = [
+        'last_seen' => 'datetime',
+        'typing' => 'boolean',
+        'admin_typing' => 'boolean',
     ];
 }

@@ -583,6 +583,20 @@ input[type=range]{
 }
 .pl-info .pl-meta{ font-size:10.5px; color:var(--ink-soft); margin-top:3px; }
 
+/* Accessible focus states — only the search input had one before;
+   every other interactive control (filters, playlist items, player
+   controls, back button) had none, so keyboard users had no visible
+   indicator anywhere else on this page. */
+.filter-btn:focus-visible,
+.back-btn:focus-visible,
+.ctrl-btn:focus-visible,
+.pl-item:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold-500);
+  outline-offset: 2px;
+}
+
 /* ================= RESPONSIVE ================= */
 @media(max-width:900px){
   .theater-grid{ grid-template-columns:1fr; }
@@ -694,6 +708,7 @@ input[type=range]{
     @foreach($darsat as $lesson)
       @php $typeSlug = strtolower(str_replace(' ', '-', $lesson->type)); @endphp
       <div class="lesson-card lesson-item"
+           data-id="{{ $lesson->id }}"
            data-type="audio {{ $typeSlug }}"
            data-title="{{ $lesson->title }}"
            data-lesson-type="{{ $lesson->type }}"
@@ -1109,6 +1124,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const durationTxt = durationPill ? durationPill.textContent : '';
       const row = document.createElement("div");
       row.className = "pl-item" + (item === activeItem ? " active" : "");
+      row.setAttribute("role", "button");
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("aria-label", item.dataset.title);
       row.innerHTML = `
         <div class="pl-thumb ${isVideo ? 'thumb-video' : 'thumb-audio'}">${isVideo ? playIconSVG : ''}</div>
         <div class="pl-info">
@@ -1117,6 +1135,12 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       `;
       row.addEventListener("click", () => openTheater(item));
+      row.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openTheater(item);
+        }
+      });
       playlistItems.appendChild(row);
     });
   }
@@ -1129,6 +1153,21 @@ document.addEventListener("DOMContentLoaded", function () {
     playerDesc.innerText = item.dataset.desc || "";
     playerTags.innerHTML = tagsMarkupFor(item);
     playerTeacherSub.innerText = "Inyigisho ya " + item.dataset.lessonType;
+
+    // Was never called anywhere — the backend route/controller for this
+    // (student.darsat.play, bumping times_played + last_played_at) has
+    // existed the whole time, just completely unwired from the actual
+    // player. Only fires for logged-in students (route requires the
+    // student guard); silently does nothing for guests browsing this
+    // same public page.
+    @auth('student')
+    if (item.dataset.id) {
+      fetch(`/student/darsat/${item.dataset.id}/play`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
+      }).catch(() => {});
+    }
+    @endauth
 
     if (isVideo){
       stopCurrentAudio();

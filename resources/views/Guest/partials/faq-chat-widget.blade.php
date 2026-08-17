@@ -1,10 +1,8 @@
 {{-- Floating Guest FAQ Chat — guest-facing pages only, never inside authenticated dashboards --}}
 <style>
-:root{
-  --kiu-chat-green: #058e48;
-  --kiu-chat-green-deep: #094939;
-  --kiu-chat-gold: #e2b45f;
-}
+/* Uses the shared brand variables (--green/--green-dark/--gold) from
+   Guest/assets/style.css instead of a third, slightly different local
+   green (this file previously defined its own --kiu-chat-green). */
 
 #kiuFaqLauncher{
   position: fixed;
@@ -13,7 +11,7 @@
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--kiu-chat-green), var(--kiu-chat-green-deep));
+  background: linear-gradient(135deg, var(--green, #0B6D20), var(--green-dark, #094939));
   color: #fff;
   display: flex;
   align-items: center;
@@ -23,9 +21,21 @@
   box-shadow: 0 10px 24px rgba(9,73,57,0.35);
   z-index: 9998;
   border: none;
-  transition: transform .2s;
+  transition: transform .25s cubic-bezier(0.16,1,0.3,1), box-shadow .25s;
+  animation: kiuFaqPulse 2.6s ease-in-out infinite;
 }
-#kiuFaqLauncher:hover{ transform: scale(1.06); }
+#kiuFaqLauncher:hover{ transform: scale(1.08); box-shadow: 0 14px 32px rgba(9,73,57,0.45); }
+#kiuFaqLauncher:focus-visible{ outline: 2px solid var(--gold-light, #e2b45f); outline-offset: 3px; }
+#kiuFaqLauncher.has-opened{ animation: none; }
+
+@keyframes kiuFaqPulse {
+  0%, 100% { box-shadow: 0 10px 24px rgba(9,73,57,0.35), 0 0 0 0 rgba(11,109,32,0.35); }
+  50% { box-shadow: 0 10px 24px rgba(9,73,57,0.35), 0 0 0 10px rgba(11,109,32,0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #kiuFaqLauncher { animation: none; }
+}
 
 #kiuFaqWindow{
   position: fixed;
@@ -42,11 +52,14 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 9999;
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition: opacity .22s ease-out, transform .22s cubic-bezier(0.16,1,0.3,1);
 }
-#kiuFaqWindow.open{ display: flex; }
+#kiuFaqWindow.open{ display: flex; opacity: 1; transform: translateY(0) scale(1); }
 
 #kiuFaqHeader{
-  background: linear-gradient(135deg, var(--kiu-chat-green), var(--kiu-chat-green-deep));
+  background: linear-gradient(135deg, var(--green, #0B6D20), var(--green-dark, #094939));
   color: #fff;
   padding: 14px 16px;
   display: flex;
@@ -82,7 +95,7 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 .kiu-faq-msg.user{
-  background: var(--kiu-chat-green);
+  background: var(--green, #0B6D20);
   color: #fff;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
@@ -103,9 +116,11 @@
   padding: 9px 14px;
   font-size: 13px;
   outline: none;
+  transition: border-color .2s, box-shadow .2s;
 }
+#kiuFaqInput:focus{ border-color: var(--green, #0B6D20); box-shadow: 0 0 0 3px rgba(11,109,32,0.12); }
 #kiuFaqSend{
-  background: var(--kiu-chat-green-deep);
+  background: var(--green-dark, #094939);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -113,7 +128,10 @@
   height: 38px;
   cursor: pointer;
   font-size: 14px;
+  transition: transform .2s cubic-bezier(0.16,1,0.3,1), filter .2s;
 }
+#kiuFaqSend:hover{ filter: brightness(1.1); transform: scale(1.06); }
+#kiuFaqSend:focus-visible, #kiuFaqClose:focus-visible{ outline: 2px solid var(--gold-light, #e2b45f); outline-offset: 2px; }
 
 @media (max-width: 480px){
   #kiuFaqWindow{ right: 16px; left: 16px; width: auto; }
@@ -158,7 +176,10 @@
   const input = document.getElementById('kiuFaqInput');
   const sendBtn = document.getElementById('kiuFaqSend');
 
-  launcher.addEventListener('click', () => win.classList.toggle('open'));
+  launcher.addEventListener('click', () => {
+    win.classList.toggle('open');
+    launcher.classList.add('has-opened');
+  });
   closeBtn.addEventListener('click', () => win.classList.remove('open'));
 
   function addMessage(text, who) {

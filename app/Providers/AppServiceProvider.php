@@ -38,5 +38,12 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\Inyandiko::observe(\App\Observers\AuditObserver::class);
         \App\Models\Book::observe(\App\Observers\AuditObserver::class);
         \App\Models\DarsatTable::observe(\App\Observers\AuditObserver::class);
+        // Confirmed missing during the Audit Logs phase: Course and Quiz
+        // are exactly the same kind of admin-managed content as
+        // Amatangazo/Inyandiko/Book/DarsatTable above (all audited), but
+        // were never added here — meaning content management's two
+        // largest features had zero audit trail while their siblings did.
+        \App\Models\Course::observe(\App\Observers\AuditObserver::class);
+        \App\Models\Quiz::observe(\App\Observers\AuditObserver::class);
     }
 }

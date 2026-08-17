@@ -8,16 +8,13 @@
 <style>
 
 /* ===== Palette sampled directly from the KIU announcement reference image ===== */
-:root{
-  --kiu-green:        #058e48;
-  --kiu-green-deep:    #094939;
-  --kiu-gold-1:       #c8a36c;
-  --kiu-gold-2:       #e2b45f;
-  --kiu-cream:        #f5ebe2;
-}
-
+/* Local --kiu-* palette removed — page now uses the shared
+   brand variables (--green/--gold/--cream/etc.) from
+   Guest/assets/style.css, so this page's greens/golds match
+   the header, nav, and footer instead of a second, slightly
+   different shade. */
 .amatangazo-hero{
-  background: linear-gradient(135deg, var(--kiu-green) 0%, var(--kiu-green-deep) 100%);
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
   padding: 42px 20px 60px;
   text-align: center;
   position: relative;
@@ -52,13 +49,13 @@
   width: 90px;
   margin: 14px auto 0;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--kiu-gold-1), var(--kiu-gold-2));
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
   position: relative;
 }
 
 /* GOLD GRADIENT SECTION BEHIND THE CARDS, like the reference image */
 .amatangazo-body{
-  background: linear-gradient(180deg, var(--kiu-gold-1) 0%, var(--kiu-gold-2) 100%);
+  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%);
   padding: 0 0 50px;
 }
 
@@ -84,15 +81,15 @@
   border-radius: 999px;
   border: none;
   outline:none;
-  background: var(--kiu-cream);
+  background: var(--cream);
   box-shadow: 0 6px 18px rgba(9,73,57,0.18);
   font-size:14px;
-  color: var(--kiu-green-deep);
+  color: var(--green-dark);
 }
 
 .amatangazo-search i{
   position:absolute; left:16px; top:50%; transform:translateY(-50%);
-  color: var(--kiu-green);
+  color: var(--green);
 }
 
 .amatangazo-tabs{
@@ -112,13 +109,13 @@
   border-radius: 999px;
   font-weight:700;
   font-size:13px;
-  color: var(--kiu-green-deep);
+  color: var(--green-dark);
   cursor:pointer;
   transition:.25s;
 }
 
 .amatangazo-tab.active{
-  background: var(--kiu-green-deep);
+  background: var(--green-dark);
   color:#fff;
   box-shadow: 0 4px 12px rgba(9,73,57,0.35);
 }
@@ -134,7 +131,7 @@
 
 /* CARD — cream, matching the reference "IMICO IBONEYE" panel */
 .amatangazo-card{
-  background: var(--kiu-cream);
+  background: var(--cream);
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 10px 25px rgba(9,73,57,0.18);
@@ -154,7 +151,7 @@
   border-radius:14px;
   overflow:hidden;
   margin-bottom:14px;
-  background: linear-gradient(135deg, var(--kiu-green), var(--kiu-green-deep));
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
   display:flex; align-items:center; justify-content:center;
 }
 
@@ -178,11 +175,11 @@
 }
 
 .amatangazo-badge.live{ background:#b30000; color:#fff; }
-.amatangazo-badge.upcoming{ background: var(--kiu-gold-2); color: var(--kiu-green-deep); }
-.amatangazo-badge.done{ background: var(--kiu-green); color:#fff; }
+.amatangazo-badge.upcoming{ background: var(--gold-light); color: var(--green-dark); }
+.amatangazo-badge.done{ background: var(--green); color:#fff; }
 
 .amatangazo-card h3{
-  color: var(--kiu-green-deep);
+  color: var(--green-dark);
   font-weight: 800;
   font-size: 17px;
   margin: 4px 0 6px;
@@ -197,10 +194,10 @@
 .amatangazo-empty{
   grid-column: 1 / -1;
   text-align:center;
-  background: var(--kiu-cream);
+  background: var(--cream);
   border-radius: 20px;
   padding: 40px 20px;
-  color: var(--kiu-green-deep);
+  color: var(--green-dark);
   font-weight:600;
 }
 
@@ -214,8 +211,8 @@
 .amatangazo-page-btn{
   padding: 9px 16px;
   border: none;
-  background: var(--kiu-cream);
-  color: var(--kiu-green-deep);
+  background: var(--cream);
+  color: var(--green-dark);
   border-radius: 12px;
   cursor:pointer;
   font-weight:700;
@@ -223,7 +220,7 @@
 }
 
 .amatangazo-page-btn.active{
-  background: var(--kiu-green-deep);
+  background: var(--green-dark);
   color:#fff;
 }
 

@@ -4,14 +4,14 @@
 @section('content')
 <div class="p-4 md:p-6">
 
-    <h1 class="mb-6 text-2xl font-bold" style="color:#094939">Umwirondoro</h1>
+    <h1 class="mb-6 text-2xl font-bold" style="color:#0B3D2E">Umwirondoro</h1>
 
     <div class="max-w-xl p-6 bg-white shadow-lg rounded-3xl">
 
         @if($user->image)
             <img src="{{ \App\Support\FileUrl::resolve($user->image, 'students', 'uploads/students') ?? asset('Guest/images/logo.png') }}" class="object-cover w-20 h-20 mb-4 rounded-full">
         @else
-            <div class="flex items-center justify-center w-20 h-20 mb-4 text-2xl font-bold text-white rounded-full" style="background:#058e48">
+            <div class="flex items-center justify-center w-20 h-20 mb-4 text-2xl font-bold text-white rounded-full" style="background:#0B6D20">
                 {{ strtoupper(substr($user->firstname ?? 'U', 0, 1)) }}
             </div>
         @endif
@@ -23,7 +23,7 @@
                 <div>
                     <label class="block mb-1 text-sm font-semibold text-gray-700">Izina</label>
                     <input type="text" name="firstname" value="{{ old('firstname', $user->firstname) }}" required
-                        class="w-full px-4 py-3 border rounded-2xl focus:ring-2" style="--tw-ring-color:#058e48">
+                        class="w-full px-4 py-3 border rounded-2xl focus:ring-2" style="--tw-ring-color:#0B6D20">
                 </div>
                 <div>
                     <label class="block mb-1 text-sm font-semibold text-gray-700">Irindi zina</label>
@@ -60,7 +60,7 @@
                 <input type="file" name="image" accept="image/*" class="w-full px-4 py-3 border rounded-2xl">
             </div>
 
-            <button type="submit" class="px-6 py-3 font-semibold text-white rounded-xl" style="background:#094939">
+            <button type="submit" class="px-6 py-3 font-semibold text-white rounded-xl" style="background:#0B3D2E">
                 Bika Impinduka
             </button>
         </form>

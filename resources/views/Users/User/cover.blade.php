@@ -7,22 +7,52 @@
     <link rel="icon" href="{{ URL::to('/') }}/Guest/images/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        
+        tailwind.config = { darkMode: 'class' };
+
+        (function () {
+           
+            const stored = localStorage.getItem('kiu_student_theme');
+            const theme = stored === 'dark' ? 'dark' : 'light';
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        })();
+    </script>
     <style>
         :root{
-            --kiu-green: #058e48;
-            --kiu-green-deep: #094939;
-            --kiu-gold: #e2b45f;
-            --kiu-cream: #f5ebe2;
+            --kiu-green: #0B6D20;
+            --kiu-green-deep: #0B3D2E;
+            --kiu-gold: #C9A227;
+            --kiu-cream: #FDFAF3;
         }
         body{ background:#f6f8f7; font-family: 'Nunito', sans-serif; }
+        .dark body{ background:#0d1512; color:#e5e7eb; }
+        .dark aside, .dark #kiuTopbar, .dark #mobileDrawer > div{ background:#111c17; border-color:rgba(255,255,255,.08); }
+        .dark .sidebar-link{ color:#9ca3af; }
+        .dark .sidebar-link:hover, .dark .sidebar-link.active{ background:rgba(201,162,39,.12); color:#e8c870; }
+        .dark .sidebar-group summary{ color:#6b7280; }
         .sidebar-link{
             display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
-            color:#4b5563; font-size:14px; font-weight:600; transition:.2s;
+            color:#4b5563; font-size:14px; font-weight:600; transition:background-color .2s, color .2s, transform .15s;
         }
         .sidebar-link:hover, .sidebar-link.active{ background: var(--kiu-cream); color: var(--kiu-green-deep); }
+        .sidebar-link:hover{ transform:translateX(2px); }
+        .sidebar-link:focus-visible{ outline:2px solid var(--kiu-gold); outline-offset:2px; }
         .sidebar-link.disabled{ color:#c3c3c3; cursor:not-allowed; }
-        .sidebar-link.disabled:hover{ background:none; }
+        .sidebar-link.disabled:hover{ background:none; transform:none; }
         .soon-badge{ font-size:9px; background:#eee; color:#999; padding:2px 6px; border-radius:999px; margin-left:auto; }
+        .sidebar-group{ margin-bottom:2px; }
+        .sidebar-group summary{
+            display:flex; align-items:center; justify-content:space-between; cursor:pointer;
+            padding:9px 14px; font-size:11px; font-weight:700; text-transform:uppercase;
+            letter-spacing:.04em; color:#9ca3af; border-radius:10px; list-style:none;
+        }
+        .sidebar-group summary::-webkit-details-marker{ display:none; }
+        .sidebar-group summary:hover{ color:var(--kiu-green-deep); background:#f6f8f7; }
+        .sidebar-group summary:focus-visible{ outline:2px solid var(--kiu-gold); outline-offset:2px; }
+        .sidebar-group summary .chevron{ transition:transform .2s; font-size:10px; }
+        .sidebar-group[open] summary .chevron{ transform:rotate(180deg); }
+        .sidebar-group .sidebar-link{ margin-left:10px; font-size:13.5px; }
     </style>
 </head>
 <body>
@@ -37,127 +67,110 @@
                 <p class="text-sm font-bold" style="color:var(--kiu-green-deep)">K.I.U</p>
                 <p class="text-[11px] text-gray-400">Umunyeshuri</p>
             </div>
-            <a href="{{ route('student.notifications') }}" class="relative ml-auto text-lg" style="color:var(--kiu-green-deep)">
-                <i class="fa-solid fa-bell"></i>
-                <span id="kiuUnreadBadge" class="absolute hidden items-center justify-center w-4 h-4 text-[9px] font-bold text-white rounded-full -top-1 -right-1" style="background:#e11d48"></span>
-            </a>
         </div>
 
         <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
-            <a href="{{ route('student.dashboard') }}" class="sidebar-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-gauge w-5"></i> Dashboard
-            </a>
-            <a href="{{ route('guest.teachers') }}" class="sidebar-link">
-                <i class="fa-solid fa-graduation-cap w-5"></i> Darsat
-            </a>
-            <a href="{{ route('student.courses') }}" class="sidebar-link {{ request()->routeIs('student.courses') ? 'active' : '' }}">
-                <i class="fa-solid fa-diagram-project w-5"></i> Amasomo Agenda
-            </a>
-            <a href="{{ route('student.events') }}" class="sidebar-link {{ request()->routeIs('student.events') ? 'active' : '' }}">
-                <i class="fa-solid fa-calendar-days w-5"></i> Ibikorwa Byanjye
-            </a>
-            <a href="{{ auth('student')->user()->two_factor_enabled ? route('student.2fa.manage') : route('student.2fa.setup') }}" class="sidebar-link {{ request()->routeIs('student.2fa.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-shield-halved w-5"></i> Umutekano (2FA)
-            </a>
-            <a href="{{ route('student.support') }}" class="sidebar-link {{ request()->routeIs('student.support*') ? 'active' : '' }}">
-                <i class="fa-solid fa-headset w-5"></i> Ubufasha
-            </a>
-            <a href="{{ route('student.privacy') }}" class="sidebar-link {{ request()->routeIs('student.privacy*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-lock w-5"></i> Ubuzima Bwite
-            </a>
-            <a href="{{ route('guest.books') }}" class="sidebar-link">
-                <i class="fa-solid fa-book w-5"></i> Ibitabo
-            </a>
-            <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="sidebar-link">
-                <i class="fa-solid fa-pen-nib w-5"></i> Inyandiko
-            </a>
-            <a href="{{ route('guest.news') }}" class="sidebar-link">
-                <i class="fa-solid fa-bullhorn w-5"></i> Amatangazo
-            </a>
-            <span class="sidebar-link disabled">
-                <i class="fa-solid fa-video w-5"></i> Amasomo ya Video
-                <span class="soon-badge">Coming soon</span>
-            </span>
-            <span class="sidebar-link disabled">
-                <i class="fa-solid fa-headphones w-5"></i> Amasomo y'Amajwi
-                <span class="soon-badge">Coming soon</span>
-            </span>
-            <a href="{{ route('guest.twandikire') }}" class="sidebar-link">
-                <i class="fa-solid fa-comments w-5"></i> Ubutumwa
-            </a>
-            <a href="{{ route('student.progress') }}" class="sidebar-link {{ request()->routeIs('student.progress') ? 'active' : '' }}">
-                <i class="fa-solid fa-chart-simple w-5"></i> Aho Ngeze mu Masomo
-            </a>
-            <a href="{{ route('student.favorites') }}" class="sidebar-link {{ request()->routeIs('student.favorites') ? 'active' : '' }}">
-                <i class="fa-solid fa-heart w-5"></i> Ibyo Nkunda
-            </a>
-            <a href="{{ route('student.quizzes.history') }}" class="sidebar-link {{ request()->routeIs('student.quizzes.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-list-check w-5"></i> Ibizamini Byanjye
-            </a>
-            <a href="{{ route('student.certificates') }}" class="sidebar-link {{ request()->routeIs('student.certificates*') ? 'active' : '' }}">
-                <i class="fa-solid fa-award w-5"></i> Ibyemezo Byanjye
-            </a>
-            <a href="{{ route('student.badges') }}" class="sidebar-link {{ request()->routeIs('student.badges') ? 'active' : '' }}">
-                <i class="fa-solid fa-fire w-5"></i> Ibimenyetso
-            </a>
-
-            <div class="pt-3 mt-3 border-t">
-                <a href="{{ route('student.profile') }}" class="sidebar-link {{ request()->routeIs('student.profile') ? 'active' : '' }}">
-                    <i class="fa-solid fa-user w-5"></i> Umwirondoro
-                </a>
-                <a href="{{ route('student.settings') }}" class="sidebar-link {{ request()->routeIs('student.settings') ? 'active' : '' }}">
-                    <i class="fa-solid fa-gear w-5"></i> Igenamiterere
-                </a>
-                <form action="{{ route('student.logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="w-full sidebar-link" style="color:#b30000">
-                        <i class="fa-solid fa-right-from-bracket w-5"></i> Sohoka
-                    </button>
-                </form>
-            </div>
+            @include('partials.student-sidebar-nav')
         </nav>
     </aside>
 
-    <!-- MOBILE TOP BAR -->
-    <div class="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-white border-b shadow-sm lg:hidden">
-        <div class="flex items-center gap-2">
+    <!-- TOPBAR — visible at every breakpoint now, not just mobile.
+         Notification bell, theme toggle, and account menu moved here
+         from the sidebar header, matching the same topbar pattern the
+         admin panel uses. -->
+    <div id="kiuTopbar" class="fixed top-0 right-0 left-0 lg:left-64 z-40 flex items-center justify-between gap-2 px-4 py-3 bg-white border-b shadow-sm">
+        <div class="flex items-center gap-2 lg:hidden">
+            <button onclick="document.getElementById('mobileDrawer').classList.toggle('hidden')" class="text-xl" style="color:var(--kiu-green-deep)">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <img src="{{ URL::to('/') }}/Guest/images/logo.png" class="w-8 h-8" alt="Logo">
-            <span class="text-sm font-bold" style="color:var(--kiu-green-deep)">K.I.U</span>
         </div>
-        <button onclick="document.getElementById('mobileDrawer').classList.toggle('hidden')" class="text-xl" style="color:var(--kiu-green-deep)">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+        <span class="hidden lg:block"></span>
+
+        <div class="flex items-center gap-1">
+            <!-- Theme toggle -->
+            <button onclick="kiuToggleTheme()" aria-label="Hindura imiterere y'umucyo" class="flex items-center justify-center w-9 h-9 text-gray-500 rounded-xl hover:bg-gray-100">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="hidden fa-solid fa-sun dark:inline"></i>
+            </button>
+
+            <!-- Notifications -->
+            <a href="{{ route('student.notifications') }}" class="relative flex items-center justify-center w-9 h-9 text-gray-500 rounded-xl hover:bg-gray-100" aria-label="Ubutumwa">
+                <i class="fa-solid fa-bell"></i>
+                <span id="kiuUnreadBadge" class="absolute hidden items-center justify-center w-4 h-4 text-[9px] font-bold text-white rounded-full top-1 right-1" style="background:#e11d48"></span>
+            </a>
+
+            <!-- Account menu: image + name -> Umwirondoro / Igenamiterere / Sohoka -->
+            <div class="relative" id="kiuAccountMenuWrap">
+                <button onclick="kiuToggleAccountMenu()" class="flex items-center gap-2 py-1 pl-1 pr-2 rounded-xl hover:bg-gray-100" id="kiuAccountMenuBtn">
+                    @if(auth('student')->user()->image)
+                        <img src="{{ \App\Support\FileUrl::resolve(auth('student')->user()->image, 'students', 'uploads/students') ?? asset('Guest/images/logo.png') }}" class="object-cover w-8 h-8 rounded-full">
+                    @else
+                        <span class="flex items-center justify-center w-8 h-8 text-xs font-bold text-white rounded-full" style="background:var(--kiu-green-deep)">
+                            {{ strtoupper(substr(auth('student')->user()->firstname ?? 'U', 0, 1)) }}
+                        </span>
+                    @endif
+                    <span class="hidden text-sm font-semibold sm:block" style="color:var(--kiu-green-deep)">{{ auth('student')->user()->firstname }}</span>
+                    <i class="text-xs text-gray-400 fa-solid fa-chevron-down"></i>
+                </button>
+
+                <div id="kiuAccountMenu" class="absolute right-0 z-50 hidden w-52 py-1.5 mt-2 bg-white border shadow-lg rounded-2xl">
+                    <div class="px-3.5 py-2.5 border-b">
+                        <p class="text-sm font-semibold truncate" style="color:var(--kiu-green-deep)">{{ auth('student')->user()->firstname }} {{ auth('student')->user()->lastname }}</p>
+                        <p class="text-xs text-gray-400 truncate">{{ auth('student')->user()->email ?? auth('student')->user()->phone }}</p>
+                    </div>
+                    <a href="{{ route('student.profile') }}" class="flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <i class="w-4 fa-solid fa-user text-gray-400"></i> Umwirondoro
+                    </a>
+                    <a href="{{ route('student.settings') }}" class="flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <i class="w-4 fa-solid fa-lock text-gray-400"></i> Ijambo ry'ibanga
+                    </a>
+                    <form action="{{ route('student.logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="flex items-center w-full gap-2.5 px-3.5 py-2 text-sm text-left text-red-600 hover:bg-red-50">
+                            <i class="w-4 fa-solid fa-right-from-bracket"></i> Sohoka
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script>
+        function kiuToggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('kiu_student_theme', isDark ? 'dark' : 'light');
+        }
+        function kiuToggleAccountMenu() {
+            document.getElementById('kiuAccountMenu').classList.toggle('hidden');
+        }
+        document.addEventListener('click', function (e) {
+            const wrap = document.getElementById('kiuAccountMenuWrap');
+            if (wrap && !wrap.contains(e.target)) {
+                document.getElementById('kiuAccountMenu').classList.add('hidden');
+            }
+        });
+
+        // Was only ever registered on the public Guest pages — a student
+        // whose very first visit to the site is straight to their login
+        // page (never touching a Guest page first) would have no service
+        // worker at all in the student portal, so the push-notification
+        // prompt below would hang forever awaiting
+        // navigator.serviceWorker.ready. Registering here too is a safe,
+        // idempotent no-op if it's already registered from a Guest page.
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
+    </script>
+
     <div id="mobileDrawer" class="fixed inset-0 z-50 hidden bg-black/50 lg:hidden" onclick="if(event.target===this) this.classList.add('hidden')">
-        <div class="w-64 h-full p-4 bg-white">
-            <a href="{{ route('student.dashboard') }}" class="sidebar-link"><i class="fa-solid fa-gauge w-5"></i> Dashboard</a>
-            <a href="{{ route('guest.teachers') }}" class="sidebar-link"><i class="fa-solid fa-graduation-cap w-5"></i> Darsat</a>
-            <a href="{{ route('student.courses') }}" class="sidebar-link"><i class="fa-solid fa-diagram-project w-5"></i> Amasomo Agenda</a>
-            <a href="{{ route('student.events') }}" class="sidebar-link"><i class="fa-solid fa-calendar-days w-5"></i> Ibikorwa Byanjye</a>
-            <a href="{{ auth('student')->user()->two_factor_enabled ? route('student.2fa.manage') : route('student.2fa.setup') }}" class="sidebar-link"><i class="fa-solid fa-shield-halved w-5"></i> Umutekano (2FA)</a>
-            <a href="{{ route('student.support') }}" class="sidebar-link"><i class="fa-solid fa-headset w-5"></i> Ubufasha</a>
-            <a href="{{ route('student.privacy') }}" class="sidebar-link"><i class="fa-solid fa-user-lock w-5"></i> Ubuzima Bwite</a>
-            <a href="{{ route('guest.books') }}" class="sidebar-link"><i class="fa-solid fa-book w-5"></i> Ibitabo</a>
-            <a href="{{ route('guest.inyandiko_zabamenyi') }}" class="sidebar-link"><i class="fa-solid fa-pen-nib w-5"></i> Inyandiko</a>
-            <a href="{{ route('guest.news') }}" class="sidebar-link"><i class="fa-solid fa-bullhorn w-5"></i> Amatangazo</a>
-            <a href="{{ route('guest.twandikire') }}" class="sidebar-link"><i class="fa-solid fa-comments w-5"></i> Ubutumwa</a>
-            <a href="{{ route('student.progress') }}" class="sidebar-link"><i class="fa-solid fa-chart-simple w-5"></i> Aho Ngeze mu Masomo</a>
-            <a href="{{ route('student.favorites') }}" class="sidebar-link"><i class="fa-solid fa-heart w-5"></i> Ibyo Nkunda</a>
-            <a href="{{ route('student.quizzes.history') }}" class="sidebar-link"><i class="fa-solid fa-list-check w-5"></i> Ibizamini Byanjye</a>
-            <a href="{{ route('student.certificates') }}" class="sidebar-link"><i class="fa-solid fa-award w-5"></i> Ibyemezo Byanjye</a>
-            <a href="{{ route('student.badges') }}" class="sidebar-link"><i class="fa-solid fa-fire w-5"></i> Ibimenyetso</a>
-            <a href="{{ route('student.profile') }}" class="sidebar-link"><i class="fa-solid fa-user w-5"></i> Umwirondoro</a>
-            <a href="{{ route('student.settings') }}" class="sidebar-link"><i class="fa-solid fa-gear w-5"></i> Igenamiterere</a>
-            <form action="{{ route('student.logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full sidebar-link" style="color:#b30000"><i class="fa-solid fa-right-from-bracket w-5"></i> Sohoka</button>
-            </form>
+        <div class="w-72 h-full p-4 bg-white overflow-y-auto">
+            @include('partials.student-sidebar-nav')
         </div>
     </div>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 pt-16 lg:pt-0 lg:ml-64">
+    <main class="flex-1 pt-16 lg:ml-64">
         @if(session('success'))
             <div class="p-3 m-4 font-medium text-green-700 bg-green-100 rounded-xl">{{ session('success') }}</div>
         @endif
@@ -225,5 +238,8 @@ if (document.querySelector('.kiu-quiz-countdown')) {
 
 @include('partials.quiz-alert-popup')
 @include('partials.push-notification-prompt')
+@if(\App\Models\FeatureFlag::enabled('guest_chat'))
+@include('partials.kwegereza-chat-widget')
+@endif
 </body>
 </html>

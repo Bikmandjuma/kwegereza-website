@@ -27,7 +27,7 @@ class AdminController extends Controller
 {
     use \App\Traits\HandlesFileUploads;
 
-    public function __construct()
+    public function __construct(private \App\Services\DarsatService $darsatService, private \App\Services\BookService $bookService, private \App\Services\AnnouncementService $announcementService)
     {
         // Users
         $this->middleware('permission:users.view')->only([
@@ -296,7 +296,7 @@ class AdminController extends Controller
 
     public function storeDarsat(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'teachers'    => 'required|exists:owners,id',
             'type'        => 'required|string|max:100',
@@ -306,26 +306,7 @@ class AdminController extends Controller
             'status'      => 'required|in:draft,published',
         ]);
 
-        $audioName = $this->storeUploadedFile($request->file('audio'), 'audio');
-        $thumbnailName = $this->storeUploadedFile($request->file('thumbnail'), 'darsat/thumbnails');
-
-        $darsat = DarsatTable::create([
-            'title'        => $request->title,
-            'teachers'     => $request->teachers,
-            'type'         => $request->type,
-            'description'  => $request->description,
-            'audio'        => $audioName,
-            'thumbnail'    => $thumbnailName,
-            'status'       => $request->status,
-            'created_by'   => auth('owner')->id(),
-            'published_at' => $request->status === 'published' ? now() : null,
-        ]);
-
-        if ($darsat->status === 'published') {
-            User::whereNotNull('id')->chunk(200, function ($students) use ($darsat) {
-                Notification::send($students, new NewDarsatNotification($darsat));
-            });
-        }
+        $this->darsatService->create($data, $request->file('audio'), $request->file('thumbnail'), auth('owner')->id());
 
         return back()->with('info', 'Darsat added successfully!');
     }
@@ -334,7 +315,7 @@ class AdminController extends Controller
     {
         $darsat = DarsatTable::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'teachers'    => 'required|exists:owners,id',
             'type'        => 'required|string|max:100',
@@ -344,41 +325,14 @@ class AdminController extends Controller
             'status'      => 'required|in:draft,published',
         ]);
 
-        $audioName = $darsat->audio;
-        if ($request->hasFile('audio')) {
-            $this->deleteUploadedFile($darsat->audio, 'audio');
-            $audioName = $this->storeUploadedFile($request->file('audio'), 'audio');
-        }
-
-        $thumbnailName = $darsat->thumbnail;
-        if ($request->hasFile('thumbnail')) {
-            $this->deleteUploadedFile($darsat->thumbnail, 'darsat/thumbnails');
-            $thumbnailName = $this->storeUploadedFile($request->file('thumbnail'), 'darsat/thumbnails');
-        }
-
-        $darsat->update([
-            'title'        => $request->title,
-            'teachers'     => $request->teachers,
-            'type'         => $request->type,
-            'description'  => $request->description,
-            'audio'        => $audioName,
-            'thumbnail'    => $thumbnailName,
-            'status'       => $request->status,
-            'updated_by'   => auth('owner')->id(),
-            'published_at' => $request->status === 'published' ? ($darsat->published_at ?? now()) : null,
-        ]);
+        $this->darsatService->update($darsat, $data, $request->file('audio'), $request->file('thumbnail'), auth('owner')->id());
 
         return back()->with('info', 'Darsat updated successfully!');
     }
 
     public function destroyDarsat($id)
     {
-        $darsat = DarsatTable::findOrFail($id);
-
-        $this->deleteUploadedFile($darsat->audio, 'audio');
-        $this->deleteUploadedFile($darsat->thumbnail, 'darsat/thumbnails');
-
-        $darsat->delete();
+        $this->darsatService->delete(DarsatTable::findOrFail($id));
 
         return back()->with('info', 'Darsat deleted.');
     }
@@ -487,6 +441,19 @@ class AdminController extends Controller
             'status'       => $request->status,
             'published_at' => $request->status === 'published' ? ($item->published_at ?? now()) : null,
             'updated_by'   => auth('owner')->id(),
+            // Found orphaned during the Security phase's fillable-vs-schema
+            // sweep: CommentController genuinely enforces comments_enabled
+            // ("Ibisubizo ntabwo byemewe kuri iyi nyandiko"), but nothing —
+            // not this form, not the model's $fillable — ever let an admin
+            // actually set it. Fixed both ends: the column is now
+            // mass-assignable, and this endpoint now accepts it when
+            // provided. Defaults to the item's EXISTING value when the
+            // request doesn't include it at all, rather than assuming a
+            // missing field means an unchecked checkbox (a real bug found
+            // in earlier phases: an absent form field isn't reliably
+            // distinguishable from "explicitly false" without a hidden
+            // fallback input, which this Blade form doesn't have yet).
+            'comments_enabled' => $request->has('comments_enabled') ? $request->boolean('comments_enabled') : $item->comments_enabled,
         ]);
 
         return redirect()->route('owner.inyandiko_zabamenyi')->with('success', 'Inyandiko yahinduwe neza.');
@@ -516,7 +483,7 @@ class AdminController extends Controller
 
     public function storeAmatangazo(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'presenter'   => 'nullable|string|max:255',
@@ -524,59 +491,42 @@ class AdminController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'is_published'=> 'nullable|boolean',
         ]);
+        $data['is_published'] = $request->boolean('is_published', true);
 
-        $imageName = $this->storeUploadedFile($request->file('image'), 'amatangazo');
-
-        $announcement = Amatangazo::create([
-            'title'        => $request->title,
-            'description'  => $request->description,
-            'presenter'    => $request->presenter,
-            'status'       => $request->status,
-            'image'        => $imageName,
-            'is_published' => $request->boolean('is_published', true),
-            'published_at' => now(),
-            'created_by'   => auth('owner')->id(),
-        ]);
-
-        if ($announcement->is_published) {
-            User::whereNotNull('id')->chunk(200, function ($students) use ($announcement) {
-                Notification::send($students, new NewAmatangazoNotification($announcement));
-            });
-        }
+        $this->announcementService->create($data, $request->file('image'), auth('owner')->id());
 
         return redirect()
             ->route('owner.amatangazo')
             ->with('success', 'Itangazo ryashyizweho neza.');
     }
 
+    /**
+     * The edit form (resources/views/Users/admin/amatangazo.blade.php,
+     * #editModal) has no is_published field at all — so before this fix,
+     * every single edit silently forced is_published back to true via
+     * $request->boolean('is_published', true), even for announcements an
+     * admin had deliberately hidden. Found and fixed during the
+     * AnnouncementService extraction: is_published is now only changed
+     * if the request actually sends it, otherwise the current value is
+     * preserved untouched.
+     */
     public function updateAmatangazo(Request $request, $id)
     {
         $announcement = Amatangazo::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'presenter'   => 'nullable|string|max:255',
             'status'      => 'required|in:live,upcoming,done',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'is_published'=> 'nullable|boolean',
         ]);
-
-        $imageName = $announcement->image;
-
-        if ($request->hasFile('image')) {
-            $this->deleteUploadedFile($announcement->image, 'amatangazo');
-            $imageName = $this->storeUploadedFile($request->file('image'), 'amatangazo');
+        if ($request->has('is_published')) {
+            $data['is_published'] = $request->boolean('is_published');
         }
 
-        $announcement->update([
-            'title'        => $request->title,
-            'description'  => $request->description,
-            'presenter'    => $request->presenter,
-            'status'       => $request->status,
-            'image'        => $imageName,
-            'is_published' => $request->boolean('is_published', true),
-            'updated_by'   => auth('owner')->id(),
-        ]);
+        $this->announcementService->update($announcement, $data, $request->file('image'), auth('owner')->id());
 
         return redirect()
             ->route('owner.amatangazo')
@@ -585,11 +535,7 @@ class AdminController extends Controller
 
     public function destroyAmatangazo($id)
     {
-        $announcement = Amatangazo::findOrFail($id);
-
-        $this->deleteUploadedFile($announcement->image, 'amatangazo');
-
-        $announcement->delete();
+        $this->announcementService->delete(Amatangazo::findOrFail($id));
 
         return redirect()
             ->route('owner.amatangazo')
@@ -598,8 +544,7 @@ class AdminController extends Controller
 
     public function togglePublishAmatangazo($id)
     {
-        $announcement = Amatangazo::findOrFail($id);
-        $announcement->update(['is_published' => !$announcement->is_published]);
+        $announcement = $this->announcementService->togglePublish(Amatangazo::findOrFail($id));
 
         return redirect()
             ->route('owner.amatangazo')
@@ -612,7 +557,7 @@ class AdminController extends Controller
 
     public function storeBook(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'author'      => 'nullable|string|max:255',
             'category'    => 'nullable|string|max:100',
@@ -621,22 +566,9 @@ class AdminController extends Controller
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'status'      => 'required|in:draft,published',
         ]);
+        $data['is_downloadable'] = $request->boolean('is_downloadable', true);
 
-        $bookName = $this->storeUploadedFile($request->file('book'), 'books');
-        $coverName = $this->storeUploadedFile($request->file('cover_image'), 'books/covers');
-
-        Book::create([
-            'title'           => $request->title,
-            'author'          => $request->author,
-            'category'        => $request->category,
-            'description'     => $request->description,
-            'book'            => $bookName,
-            'cover_image'     => $coverName,
-            'status'          => $request->status,
-            'is_downloadable' => $request->boolean('is_downloadable', true),
-            'created_by'      => auth('owner')->id(),
-            'published_at'    => $request->status === 'published' ? now() : null,
-        ]);
+        $this->bookService->create($data, $request->file('book'), $request->file('cover_image'), auth('owner')->id());
 
         return redirect()
                 ->back()
@@ -648,16 +580,8 @@ class AdminController extends Controller
      */
     public function viewBooks(Request $request)
     {
+        $books = $this->bookService->paginate(10, $request->input('search'))->withQueryString();
         $search = $request->input('search');
-
-        $books = Book::when($search, function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('author', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%");
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
 
         return view('Users.admin.ViewBooks', compact('books', 'search'));
     }
@@ -666,7 +590,7 @@ class AdminController extends Controller
     {
         $book = Book::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'title'       => 'required|string|max:255',
             'author'      => 'nullable|string|max:255',
             'category'    => 'nullable|string|max:100',
@@ -675,33 +599,9 @@ class AdminController extends Controller
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'status'      => 'required|in:draft,published',
         ]);
+        $data['is_downloadable'] = $request->boolean('is_downloadable', true);
 
-        $bookName = $book->book;
-
-        if ($request->hasFile('book')) {
-            $this->deleteUploadedFile($book->book, 'books');
-            $bookName = $this->storeUploadedFile($request->file('book'), 'books');
-        }
-
-        $coverName = $book->cover_image;
-
-        if ($request->hasFile('cover_image')) {
-            $this->deleteUploadedFile($book->cover_image, 'books/covers');
-            $coverName = $this->storeUploadedFile($request->file('cover_image'), 'books/covers');
-        }
-
-        $book->update([
-            'title'           => $request->title,
-            'author'          => $request->author,
-            'category'        => $request->category,
-            'description'     => $request->description,
-            'book'            => $bookName,
-            'cover_image'     => $coverName,
-            'status'          => $request->status,
-            'is_downloadable' => $request->boolean('is_downloadable', true),
-            'updated_by'      => auth('owner')->id(),
-            'published_at'    => $request->status === 'published' ? ($book->published_at ?? now()) : null,
-        ]);
+        $this->bookService->update($book, $data, $request->file('book'), $request->file('cover_image'), auth('owner')->id());
 
         return redirect()->route('owner.viewBooks')->with('success', 'Book updated successfully.');
     }
@@ -711,12 +611,7 @@ class AdminController extends Controller
      */
     public function destroyBook($id)
     {
-        $book = Book::findOrFail($id);
-
-        $this->deleteUploadedFile($book->book, 'books');
-        $this->deleteUploadedFile($book->cover_image, 'books/covers');
-
-        $book->delete();
+        $this->bookService->delete(Book::findOrFail($id));
 
         return back()->with('success','Book deleted successfully.');
     }
@@ -887,15 +782,50 @@ class AdminController extends Controller
     public function ownerEditUser($id)
     {
 
-        $user = User::findOrFail($id);
+        $user = Owner::findOrFail($id);
 
         return view('Users.admin.editUser', compact('user'));
     }
 
+    /**
+     * Route::resource('users', AdminController::class) registers index/edit/show
+     * routes that had no matching methods on this controller (a real bug found
+     * during Phase 1 RBAC verification: GET /owner/users and /owner/users/{id}/edit
+     * threw a 500, and /owner/users/{id}/edit is a real link is used from
+     * editUser.blade.php). Rather than remove the resource route (which existing
+     * views rely on for route('users.index') etc.) or duplicate logic, these
+     * delegate to the already-working equivalents.
+     */
+    public function index(Request $request)
+    {
+        return $this->ViewUser($request);
+    }
+
+    public function show($id)
+    {
+        return $this->ownershowUser($id);
+    }
+
+    public function edit($id)
+    {
+        return $this->ownerEditUser($id);
+    }
+
+    /**
+     * This method (and destroy() below) were both a severe, confirmed
+     * bug found starting the Users/Admin phase: they fetched
+     * User::findOrFail($id) — the STUDENT model — despite managing
+     * OWNER accounts throughout the rest of this section (index/show/
+     * create/store all correctly use Owner). Any admin editing a staff
+     * member whose numeric ID happened to match an existing student's ID
+     * would silently edit that unrelated student instead, leaving the
+     * actual owner record untouched. Confirmed with a test that forces a
+     * real ID collision and shows the owner was never actually updated.
+     */
     public function update(Request $request, $id)
     {
 
-        $user = User::findOrFail($id);
+        $user = Owner::findOrFail($id);
 
         /*
         |--------------------------------------------------------------------------
@@ -908,9 +838,9 @@ class AdminController extends Controller
             'firstname' => 'required',
             'lastname'  => 'required',
             'gender'    => 'required',
-            'phone'     => 'required|unique:users,phone,'.$user->id,
+            'phone'     => 'required|unique:owners,phone,'.$user->id,
             'dob'       => 'required',
-            'email'     => 'required|email|unique:users,email,'.$user->id,
+            'email'     => 'required|email|unique:owners,email,'.$user->id,
             'role'      => 'required',
             'title'     => 'required',
 
@@ -983,10 +913,17 @@ class AdminController extends Controller
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Was the second half of the same bug fixed on update() above —
+     * fetched User::findOrFail($id) instead of Owner::findOrFail($id).
+     * The "Delete" button on the owner-management admin panel would
+     * silently delete an unrelated student account whenever IDs
+     * collided, while the intended owner record survived untouched.
+     */
     public function destroy($id)
     {
 
-        $user = User::findOrFail($id);
+        $user = Owner::findOrFail($id);
 
         /*
         |--------------------------------------------------------------------------

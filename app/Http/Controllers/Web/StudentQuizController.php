@@ -63,6 +63,12 @@ class StudentQuizController extends Controller
 
         $quiz = $attempt->quiz;
 
+        if (! $quiz->isAttemptStillWithinDeadline($attempt)) {
+            $attempt->update(['submitted_at' => now(), 'score' => 0, 'total_points' => $quiz->totalPoints(), 'percentage' => 0, 'passed' => false]);
+
+            return redirect()->route('student.quizzes.result', $attempt->id)->with('error', 'Igihe cy\'ikizamini cyarangiye. Ntibyakiriwe.');
+        }
+
         $score = 0;
         $totalPoints = 0;
 

@@ -74,6 +74,7 @@
         placeholder="Type a message…"
         autocomplete="off"
         onkeypress="if(event.key==='Enter'){sendAdminMessage()}"
+        oninput="onAdminTyping()"
       >
       <button class="send-btn" onclick="sendAdminMessage()">
         <i class="fa fa-paper-plane"></i>
@@ -642,6 +643,31 @@ async function checkTyping() {
     ind.style.display = data.typing ? 'flex' : 'none';
     if (data.typing && atBottom) box.scrollTop = box.scrollHeight;
   } catch(e) {}
+}
+
+/* ═══════════════════════ TYPING (admin → guest widget bubble) ═══════════════════════
+   The guest widget (twandikire.blade.php) has always polled
+   /chat/admin-typing/{guestId} to show its own "admin arandika" bubble —
+   but nothing here ever reported it, so that bubble has never once
+   appeared for a real guest. Mirrors onGuestTyping() on the guest side. */
+let adminTypingTimeout;
+function onAdminTyping() {
+  if (!selectedGuest) return;
+  clearTimeout(adminTypingTimeout);
+
+  fetch(`/owner/chat/admin-typing/${selectedGuest}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+    body: JSON.stringify({ typing: true })
+  }).catch(()=>{});
+
+  adminTypingTimeout = setTimeout(() => {
+    fetch(`/owner/chat/admin-typing/${selectedGuest}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+      body: JSON.stringify({ typing: false })
+    }).catch(()=>{});
+  }, 2000);
 }
 
 /* ═══════════════════════ MOBILE BACK ═══════════════════════ */

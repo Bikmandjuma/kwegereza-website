@@ -48,8 +48,45 @@ class StudentSupportController extends Controller
             'message'           => $request->message,
         ]);
 
+        $this->notifyOwnersOfNewTicket($ticket);
+
         return redirect()->route('student.support.show', $ticket->id)
             ->with('success', 'Ikibazo cyawe cyoherejwe. Turagusubiza vuba.');
+    }
+
+    /**
+     * The first owner-facing notification anywhere in the app — every
+     * existing Notification class was student-facing only. Notifies every
+     * owner who actually holds support.view (not every owner in the
+     * system), matching the RBAC boundary rather than broadcasting past it.
+     *
+     * Wrapped in try/catch: found via the Realtime infrastructure phase
+     * that if the broadcast/WebSocket server is ever unreachable, the
+     * unhandled connection exception from the 'broadcast' channel
+     * propagated up and failed the ENTIRE ticket-creation request with a
+     * 500 — meaning a temporary realtime outage would have broken a core
+     * feature (submitting a support ticket) that has nothing to do with
+     * realtime. The database notification and the ticket itself must
+     * never depend on the broadcast transport being up.
+     */
+    private function notifyOwnersOfNewTicket(SupportTicket $ticket): void
+    {
+        $recipients = \App\Models\Owner::whereHas('roles.permissions', function ($q) {
+            $q->where('slug', 'support.view');
+        })->orWhereHas('roles', fn ($q) => $q->where('is_super', true))->get();
+
+        if ($recipients->isEmpty()) {
+            return;
+        }
+
+        try {
+            \Illuminate\Support\Facades\Notification::send($recipients, new \App\Notifications\NewSupportTicketNotification($ticket));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Support ticket notification failed to fully dispatch (likely the broadcast/WebSocket server being unreachable) — the ticket itself was still created.', [
+                'ticket_id' => $ticket->id,
+                'exception' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function show($id)

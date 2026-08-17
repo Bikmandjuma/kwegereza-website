@@ -11,7 +11,7 @@ class Book extends Model
 
     protected $fillable = [
         'title', 'author', 'category', 'description', 'book', 'cover_image',
-        'status', 'is_downloadable', 'views', 'created_by', 'updated_by', 'published_at',
+        'status', 'is_downloadable', 'views', 'downloads', 'created_by', 'updated_by', 'published_at',
     ];
 
     protected $casts = [
@@ -22,6 +22,11 @@ class Book extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published');
+    }
+
+    public function downloadLogs()
+    {
+        return $this->hasMany(BookDownload::class);
     }
 
     public function coverUrl(): ?string

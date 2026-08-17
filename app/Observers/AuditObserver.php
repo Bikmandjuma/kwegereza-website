@@ -22,13 +22,37 @@ class AuditObserver
         $this->log('created', $model, null, $this->clean($model->getAttributes()));
     }
 
+    /**
+     * Every student page load runs UpdateLastActive, which updates
+     * last_active_at unconditionally — before this fix, that meant every
+     * single request from every active student generated its own audit
+     * log entry, purely from a routine timestamp with no actual
+     * meaningful change behind it. Confirmed with a real test (spreading
+     * requests a realistic number of seconds apart, not back-to-back —
+     * fast, same-second test requests can accidentally hide this, since
+     * Eloquent's dirty-checking correctly skips firing 'updated' when a
+     * second-precision column doesn't actually change value): 5 ordinary
+     * page loads produced 5 separate audit rows. Left unfixed, this would
+     * grow unbounded in production and drown out genuinely meaningful
+     * entries (an admin editing a Book, say) in noise. Purely cosmetic
+     * fields like this are excluded from triggering a log entry, while
+     * still catching them if they change ALONGSIDE something meaningful.
+     */
+    private const TRIVIAL_ONLY_FIELDS = ['last_active_at', 'updated_at'];
+
     public function updated(Model $model): void
     {
+        $changes = $this->clean($model->getChanges());
+
+        if (empty(array_diff(array_keys($changes), self::TRIVIAL_ONLY_FIELDS))) {
+            return;
+        }
+
         $this->log(
             'updated',
             $model,
             $this->clean($model->getOriginal()),
-            $this->clean($model->getChanges())
+            $changes
         );
     }
 

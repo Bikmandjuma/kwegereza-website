@@ -10,19 +10,41 @@ use Illuminate\Support\Facades\Auth;
 
 class StudentEventController extends Controller
 {
+    /**
+     * Events phase: same race-condition pattern found and fixed in
+     * Certificates — the previous version checked isFull() then called
+     * firstOrCreate() as two separate steps, with no lock between them.
+     * Two students registering for the last spot at nearly the same
+     * moment could both pass the capacity check before either commits,
+     * both then successfully register, silently overbooking the event.
+     * Fixed by moving the capacity check and the insert inside one
+     * locked transaction, so concurrent registration attempts serialize
+     * at the database level instead of racing in PHP.
+     */
     public function register($slug)
     {
         $event = Event::published()->where('slug', $slug)->firstOrFail();
         $user = Auth::guard('student')->user();
 
-        if ($event->isFull()) {
+        $result = \Illuminate\Support\Facades\DB::transaction(function () use ($event, $user) {
+            $locked = Event::where('id', $event->id)->lockForUpdate()->first();
+            $currentCount = $locked->registrations()->count();
+
+            if ($locked->capacity !== null && $currentCount >= $locked->capacity) {
+                return 'full';
+            }
+
+            EventRegistration::firstOrCreate(
+                ['event_id' => $locked->id, 'user_id' => $user->id],
+                ['registered_at' => now()]
+            );
+
+            return 'ok';
+        });
+
+        if ($result === 'full') {
             return back()->with('error', 'Iki gikorwa cyuzuye. Ntibishoboka kongera kwiyandikisha.');
         }
-
-        EventRegistration::firstOrCreate(
-            ['event_id' => $event->id, 'user_id' => $user->id],
-            ['registered_at' => now()]
-        );
 
         return back()->with('success', 'Wiyandikishije kuri iki gikorwa!');
     }

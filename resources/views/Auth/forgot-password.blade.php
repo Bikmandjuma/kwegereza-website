@@ -18,26 +18,31 @@
     border-radius: 50%;
     display: inline-block;
     animation: spin 1s linear infinite;
+    vertical-align: middle;
 }
 
 @keyframes spin {
     100% { transform: rotate(360deg); }
 }
+
+#email:focus{ border-color:var(--green,#0B6D20); box-shadow:0 0 0 3px rgba(11,109,32,.12); }
+#submitBtn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+#submitBtn:focus-visible{ outline:2px solid var(--green,#0B6D20); outline-offset:2px; }
 </style>
 
 <section class="section">
 
     <div class="container" style="max-width:400px;">
 
-        <div style="background:white;padding:36px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.1);">
+        <div style="background:white;padding:36px;border-radius:var(--radius,20px);box-shadow:var(--shadow,0 12px 40px rgba(11,61,46,.13));border-top:5px solid var(--gold,#C9A227);">
 
-            <h2 style="text-align:center;">Wibagiwe umubare-banga</h2>
+            <h2 style="text-align:center;font-family:'Playfair Display',serif;color:var(--green-dark,#0B3D2E);margin-bottom:20px;">Wibagiwe umubare-banga</h2>
 
             <form id="forgotForm" action="{{ route('guest.submit-forgot-password') }}" method="POST">
                 @csrf
 
                 <div style="margin-bottom:16px;">
-                    <label>Imeyili</label>
+                    <label for="email" style="display:block;font-weight:700;margin-bottom:6px;">Imeyili</label>
 
                     <input
                         type="email"
@@ -45,21 +50,27 @@
                         id="email"
                         value="{{ old('email') }}"
                         placeholder="Andika imeyili yawe"
-                        style="width:100%;padding:12px;border-radius:999px;border:1px solid #ccc;"
+                        style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid #ccc;outline:none;font-size:14px;transition:border-color .2s, box-shadow .2s;"
                     >
 
                     @error('email')
-                        <small style="color:red">{{ $message }}</small>
+                        <small style="color:#dc2626;display:block;margin-top:6px;">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <button id="submitBtn"
                         type="submit"
-                        style="width:100%;padding:14px;background:#d4af37;color:#000;border:none;border-radius:999px;font-weight:bold;">
+                        style="width:100%;padding:14px;background:var(--gold,#C9A227);color:var(--green-dark,#0B3D2E);border:none;border-radius:999px;font-weight:700;font-size:16px;cursor:pointer;transition:transform .2s, filter .2s;">
 
                     <span id="btnText">Ohereza emeyili</span>
                     <span id="btnSpinner" style="display:none;" class="spinner"></span>
                 </button>
+
+                <div style="text-align:center;margin-top:18px;font-size:13px;">
+                    <a href="{{ route('owner.login') }}" style="color:var(--green,#0B6D20);font-weight:700;">
+                        &larr; Garuka ku kwinjira
+                    </a>
+                </div>
 
             </form>
 
@@ -98,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
             color:white;
             font-size:18px;
             z-index:9999;">
-            Redirecting...
+            Turakwohereza...
         </div>
     `;
     document.body.appendChild(loader);

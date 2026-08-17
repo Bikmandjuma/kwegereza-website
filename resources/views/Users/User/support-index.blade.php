@@ -5,8 +5,8 @@
 <div class="p-4 md:p-6">
 
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold" style="color:#094939">Ubufasha (Support Tickets)</h1>
-        <a href="{{ route('student.support.create') }}" class="px-5 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#058e48">
+        <h1 class="text-2xl font-bold" style="color:#0B3D2E">Ubufasha (Support Tickets)</h1>
+        <a href="{{ route('student.support.create') }}" class="px-5 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#0B6D20">
             <i class="fa-solid fa-plus"></i> Tanga Ikibazo Gishya
         </a>
     </div>
@@ -25,7 +25,7 @@
             <a href="{{ route('student.support.show', $ticket->id) }}" class="flex items-center justify-between p-5 bg-white shadow-lg rounded-3xl">
                 <div>
                     <p class="mb-1 text-xs font-bold text-gray-400">{{ $ticket->ticket_number }}</p>
-                    <h2 class="font-bold" style="color:#094939">{{ $ticket->subject }}</h2>
+                    <h2 class="font-bold" style="color:#0B3D2E">{{ $ticket->subject }}</h2>
                     <p class="mt-1 text-xs text-gray-400">{{ $ticket->created_at->diffForHumans() }}</p>
                 </div>
                 <span class="px-3 py-1 text-xs font-bold rounded-full

@@ -2,16 +2,13 @@
 @section('content')
 
 <style>
-:root{
-  --kiu-green: #058e48;
-  --kiu-green-deep: #094939;
-  --kiu-gold-1: #c8a36c;
-  --kiu-gold-2: #e2b45f;
-  --kiu-cream: #f5ebe2;
-}
-
+/* Local --kiu-* palette removed — page now uses the shared
+   brand variables (--green/--gold/--cream/etc.) from
+   Guest/assets/style.css, so this page's greens/golds match
+   the header, nav, and footer instead of a second, slightly
+   different shade. */
 .search-hero{
-  background: linear-gradient(135deg, var(--kiu-green) 0%, var(--kiu-green-deep) 100%);
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
   padding: 40px 20px 60px;
   text-align: center;
 }
@@ -36,7 +33,7 @@
 #liveSuggest a:last-child{ border-bottom:none; }
 #liveSuggest a span.tag{ font-size:10px; font-weight:800; color:#058e48; text-transform:uppercase; }
 
-.search-body{ background: linear-gradient(180deg, var(--kiu-gold-1) 0%, var(--kiu-gold-2) 100%); padding: 30px 16px 60px; }
+.search-body{ background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); padding: 30px 16px 60px; }
 
 .search-tabs{
   max-width: 900px; margin: 0 auto 24px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
@@ -51,7 +48,7 @@
 .search-section h2{ color:#094939; font-weight:800; font-size:16px; margin-bottom:12px; }
 
 .search-card{
-  background: var(--kiu-cream); border-radius:16px; padding:16px 18px; margin-bottom:12px;
+  background: var(--cream); border-radius:16px; padding:16px 18px; margin-bottom:12px;
   box-shadow: 0 6px 16px rgba(9,73,57,0.15); display:flex; justify-content:space-between; align-items:center; gap:12px;
 }
 .search-card h3{ color:#094939; font-size:15px; font-weight:700; margin-bottom:2px; }
@@ -61,7 +58,7 @@
 }
 
 .search-empty{
-  text-align:center; background: var(--kiu-cream); border-radius:20px; padding:40px 20px; color:#094939; font-weight:600;
+  text-align:center; background: var(--cream); border-radius:20px; padding:40px 20px; color:#094939; font-weight:600;
   max-width:900px; margin:0 auto;
 }
 </style>
