@@ -9,6 +9,18 @@ use App\Models\ChatPresence;
 
 class ChatController extends Controller
 {
+    public function __construct()
+    {
+        // Guest-facing methods (sendMessage, messages, presence) are
+        // intentionally left ungated here — they run on public routes with
+        // no 'ownerAuth' middleware at all, so there is no owner to check a
+        // permission against. Only the leader/admin side of Twandikire is
+        // gated, per the spec: "Only users with chat.reply permission can
+        // respond."
+        $this->middleware('permission:chat.view')->only(['ownerchatroom', 'conversations', 'adminMessages']);
+        $this->middleware('permission:chat.reply')->only(['adminSend', 'markAsRead']);
+    }
+
     public function sendMessage(Request $request)
     {
         $request->validate([

@@ -14,151 +14,149 @@ use App\Models\Payment;
 use App\Models\DarsatTable;
 use Illuminate\Support\Str;
 use App\Models\Book;
+use App\Models\Amatangazo;
+use App\Models\Inyandiko;
+use App\Notifications\NewAmatangazoNotification;
+use App\Notifications\NewDarsatNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use App\Models\GuestVisit;
+use App\Services\DashboardChartService;
 
 class AdminController extends Controller
 {
-    public function home(){
-        $all_count_users = collect(User::all())->count();
-        $count_users = collect(User::all()->where('firstname','!=',null))->count();
-        $partial_count_users = collect(User::all()->where('firstname',null))->count();
-        $paidUsersCount = Payment::all()->count();
-    	
-        $user_joined_today_count = User::whereDate('created_at', now()->toDateString())->where('firstname','!=',null)->count();
-        
-        $onlineUsersCount = User::where('last_active_at', '>=', now()->subMinutes(5))->count();
+    use \App\Traits\HandlesFileUploads;
 
-        // $percent_online_user_count = ( $onlineUsersCount * 100 ) / $count_users;
-        // $percent_today_count_users = ( $user_joined_today_count * 100 ) / $count_users; 
+    public function __construct()
+    {
+        // Users
+        $this->middleware('permission:users.view')->only([
+            'view_all_users', 'view_all_users_joined_today', 'search_users_payment',
+            'ViewUser', 'ownershowUser', 'show', 'index', 'display_paid_users',
+        ]);
+        $this->middleware('permission:users.create')->only(['AddUser', 'create', 'store']);
+        $this->middleware('permission:users.update')->only([
+            'ownerEditUser', 'edit', 'update', 'assign_payment_ToUser', 'submit_payment_ToUser',
+        ]);
+        $this->middleware('permission:users.delete')->only(['destroy']);
 
-         if ($count_users > 0) {
-            // Calculate percentages
-            $percent_online_user_count = ($onlineUsersCount * 100) / $count_users;
-            $percent_today_count_users = ($user_joined_today_count * 100) / $count_users;
-            $percentPaidUsersCount = ($paidUsersCount * 100) / $count_users;
-        } else {
-            // Default values if $count_users is zero
-            $percent_online_user_count = 0;
-            $percent_today_count_users = 0;
-            $percentPaidUsersCount = 0;
-        }
+        // Darsat
+        $this->middleware('permission:darsat.view')->only(['darsat', 'viewDarsat']);
+        $this->middleware('permission:darsat.create')->only(['storeDarsat']);
+        $this->middleware('permission:darsat.update')->only(['updateDarsat']);
+        $this->middleware('permission:darsat.delete')->only(['destroyDarsat']);
 
-        #start of visit count
-        $todaysVisitCount = Visit::whereDate('date', Carbon::today())->sum('count');    
-        $yesterdaysVisitCount = Visit::whereDate('date', Carbon::yesterday())->sum('count');
-        $allVisitCount = Visit::all()->sum('count');
-        #end of visit count
+        // Inyandiko
+        $this->middleware('permission:inyandiko.view')->only(['inyandiko_zabamenyi']);
+        $this->middleware('permission:inyandiko.create')->only(['storeInyandiko']);
+        $this->middleware('permission:inyandiko.update')->only(['updateInyandiko']);
+        $this->middleware('permission:inyandiko.delete')->only(['destroyInyandiko']);
 
-        return view('Users.admin.home',[
-            'allUsersCount' => $all_count_users,
-            'partialCountUsers' => $partial_count_users,
-            'user_joined_today_count' => $user_joined_today_count,
-            'online_user_count' => $onlineUsersCount,
-            'percent_online_user_count' => substr(number_format($percent_online_user_count, 2, '.', ''), 0, -1).'%',
-            'percent_user_joined_today' => substr(number_format($percent_today_count_users, 2, '.', ''), 0, -1).'%',
-            'todaysVisitCount' => $todaysVisitCount,
-            'yesterdaysVisitCount' => $yesterdaysVisitCount,
-            'allVisitCount' => $allVisitCount,
-            'paidUsersCount' => $paidUsersCount,
-            'percentPaidUsersCount' => $percentPaidUsersCount,
-    	]);
+        // Amatangazo
+        $this->middleware('permission:amatangazo.view')->only(['amatangazo']);
+        $this->middleware('permission:amatangazo.create')->only(['storeAmatangazo']);
+        $this->middleware('permission:amatangazo.update')->only(['updateAmatangazo', 'togglePublishAmatangazo']);
+        $this->middleware('permission:amatangazo.delete')->only(['destroyAmatangazo']);
+
+        // Books
+        $this->middleware('permission:books.view')->only(['ibitabo', 'viewBooks']);
+        $this->middleware('permission:books.create')->only(['storeBook']);
+        $this->middleware('permission:books.update')->only(['updateBook']);
+        $this->middleware('permission:books.delete')->only(['destroyBook']);
+
+        // Deliberately NOT gated: home (dashboard), refresh_counts, and the
+        // self-service profile actions — every logged-in owner needs those
+        // regardless of role, or nobody could ever reach the page that lets
+        // them see they have no permissions.
     }
 
-    public function refresh_counts(){
-        $all_count_users = collect(User::all())->count();
-        $count_users = collect(User::all()->where('firstname','!=',null))->count();
-        $partial_count_users = collect(User::all()->where('firstname',null))->count();
-        
+    public function home(DashboardChartService $charts){
+        $allSystemUsersCount = User::count();
+        $teachersCount = Owner::whereIn('title', ['sheikh', 'ustadh'])->count();
+        $allDarsatCount = DarsatTable::count();
+        $booksCount = Book::count();
+
+        $todaysVisitCount = Visit::whereDate('date', Carbon::today())->sum('count');
+        $amatangazoCount = Amatangazo::count();
         $onlineUsersCount = User::where('last_active_at', '>=', now()->subMinutes(5))->count();
+        $onlineGuestCount = GuestVisit::where('last_visit_at', '>=', now()->subMinutes(5))->count();
 
-        // $percent_online_user_count = ( $onlineUsersCount * 100 ) / $count_users;
+        // Opportunistically record today's peak online count for the
+        // "online users over time" chart — see DashboardChartService's
+        // class doc for why this is a lazy snapshot rather than a cron job.
+        $charts->recordTodaysSnapshot($onlineUsersCount);
 
-        #start User_joined_today
-        // $user_joined_today_count = User::whereDate('created_at', now()->toDateString())->count();
-        // $percent_user_joined_today = ( $user_joined_today_count * 100 ) / $count_users;
-        #end User_joined_today
-        if ($count_users > 0) {
-            $percent_online_user_count = ($onlineUsersCount * 100) / $count_users;
-        } else {
-            $percent_online_user_count = 0;
-        }
+        return view('Users.admin.home', [
+            'allSystemUsersCount' => $allSystemUsersCount,
+            'teachersCount'       => $teachersCount,
+            'allDarsatCount'      => $allDarsatCount,
+            'booksCount'          => $booksCount,
+            'todaysVisitCount'    => $todaysVisitCount,
+            'amatangazoCount'     => $amatangazoCount,
+            'onlineUsersCount'    => $onlineUsersCount,
+            'onlineGuestCount'    => $onlineGuestCount,
+        ]);
+    }
 
-        #start User_joined_today
-        $user_joined_today_count = User::whereDate('created_at', now()->toDateString())->where('firstname','!=',null)->count();
-        // $percent_user_joined_today = ( $user_joined_today_count * 100 ) / $count_users;
-        if ($count_users > 0) {
-            $percent_user_joined_today = ($user_joined_today_count * 100) / $count_users;
-        } else {
-            $percent_user_joined_today = 0;
-        }
-
-        #start visit count
-        $todaysVisitCount = Visit::whereDate('date', Carbon::today())->sum('count');    
-        $yesterdaysVisitCount = Visit::whereDate('date', Carbon::yesterday())->sum('count');
-
-        $allVisitCount = Visit::all()->sum('count');
-        #end of visit count
-
-        function todaysVisitCountFN($todaysVisitCount) {
-            if ($todaysVisitCount >= 1000000000) {
-                // For billions
-                return number_format($todaysVisitCount / 1000000000, 1) . 'B';
-            } elseif ($todaysVisitCount >= 1000000) {
-                // For millions
-                return number_format($todaysVisitCount / 1000000, 1) . 'M';
-            } elseif ($todaysVisitCount >= 1000) {
-                // For thousands
-                return number_format($todaysVisitCount / 1000, 1) . 'K';
-            } else {
-                // Return the number as is if it's less than 1000
-                return $todaysVisitCount;
-            }
-        }
-
-        function yesterdaysVisitCountFN($yesterdaysVisitCount) {
-            if ($yesterdaysVisitCount >= 1000000000) {
-                // For billions
-                return number_format($yesterdaysVisitCount / 1000000000, 1) . 'B';
-            } elseif ($yesterdaysVisitCount >= 1000000) {
-                // For millions
-                return number_format($yesterdaysVisitCount / 1000000, 1) . 'M';
-            } elseif ($yesterdaysVisitCount >= 1000) {
-                // For thousands
-                return number_format($yesterdaysVisitCount / 1000, 1) . 'K';
-            } else {
-                // Return the number as is if it's less than 1000
-                return $yesterdaysVisitCount;
-            }
-        }
-
-        function allVisitCountFN($allVisitCount) {
-            if ($allVisitCount >= 1000000000) {
-                // For billions
-                return number_format($allVisitCount / 1000000000, 1) . 'B';
-            } elseif ($allVisitCount >= 1000000) {
-                // For millions
-                return number_format($allVisitCount / 1000000, 1) . 'M';
-            } elseif ($allVisitCount >= 1000) {
-                // For thousands
-                return number_format($allVisitCount / 1000, 1) . 'K';
-            } else {
-                // Return the number as is if it's less than 1000
-                return $allVisitCount;
-            }
-        }
+    /**
+     * Paginated list of currently-online students, for the click-to-see-
+     * names modal on the dashboard's online-users indicator.
+     */
+    public function onlineUsersList(Request $request)
+    {
+        $users = User::where('last_active_at', '>=', now()->subMinutes(5))
+            ->orderByDesc('last_active_at')
+            ->paginate(10);
 
         return response()->json([
-            'allUsersCount' => $all_count_users,
-            'partialCountUsers' => $partial_count_users,
-            'online_user_count' => $onlineUsersCount,
-            'percent_online_user_count' => substr(number_format($percent_online_user_count, 2, '.', ''), 0, -1).'%',
-            'user_joined_today_count' => $user_joined_today_count,
-            'percent_user_joined_today' => substr(number_format($percent_user_joined_today, 2, '.', ''), 0, -1).'%',
-            'todaysVisitCount' => todaysVisitCountFN($todaysVisitCount),
-            'yesterdaysVisitCount' => yesterdaysVisitCountFN($yesterdaysVisitCount),
-            'allVisitCount' => allVisitCountFN($allVisitCount),
+            'users' => collect($users->items())->map(fn($u) => [
+                'name'            => trim(($u->firstname ?? '') . ' ' . ($u->lastname ?? '')) ?: 'Umunyeshuri',
+                'last_active_ago' => $u->last_active_at?->diffForHumans(),
+            ]),
+            'current_page' => $users->currentPage(),
+            'last_page'    => $users->lastPage(),
+            'total'        => $users->total(),
+        ]);
+    }
+
+    /**
+     * Real time-series data for the dashboard's 4 independent charts.
+     * ?metric=students|darsat|amatangazo|online_users
+     * ?period=day|week|month|year (default day)
+     */
+    public function dashboardChartData(Request $request, DashboardChartService $charts)
+    {
+        $request->validate([
+            'metric' => 'required|in:students,darsat,amatangazo,online_users',
+            'period' => 'nullable|in:day,week,month,year',
         ]);
 
+        return response()->json(
+            $charts->seriesFor($request->metric, $request->period ?? 'day')
+        );
+    }
+
+    /**
+     * Kept for backward compatibility with any cached/bookmarked link —
+     * returns the same 8 real metrics as home(), as JSON, for a
+     * lightweight periodic refresh of just the online-count card without
+     * a full page reload.
+     */
+    public function refresh_counts(){
+        $onlineUsersCount = User::where('last_active_at', '>=', now()->subMinutes(5))->count();
+        $onlineGuestCount = \App\Models\GuestVisit::where('last_visit_at', '>=', now()->subMinutes(5))->count();
+        $todaysVisitCount = Visit::whereDate('date', Carbon::today())->sum('count');
+
+        return response()->json([
+            'allSystemUsersCount' => User::count(),
+            'teachersCount'       => Owner::whereIn('title', ['sheikh', 'ustadh'])->count(),
+            'allDarsatCount'      => DarsatTable::count(),
+            'booksCount'          => Book::count(),
+            'todaysVisitCount'    => $todaysVisitCount,
+            'amatangazoCount'     => Amatangazo::count(),
+            'onlineUsersCount'    => $onlineUsersCount,
+            'onlineGuestCount'    => $onlineGuestCount,
+        ]);
     }
 
     public function display_paid_users(Request $request){
@@ -296,232 +294,94 @@ class AdminController extends Controller
         return view('Users.admin.darsat', compact('users'));
     }
 
-    // public function storeDarsat(Request $request)
-    // {
-    //     $request->validate([
-    //         'title'    => 'required|string|max:255',
-    //         'teachers' => 'required|exists:owners,id',
-    //         'type'     => 'required|string|max:100',
-    //         'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200|unique:darsat_tables,audio',
-    //     ]);
-
-    //     // dd($request);
-
-    //     $audioName = null;
-
-    //     if ($request->hasFile('audio')) {
-
-    //         // $audioName = $request->audio->getClientOriginalName();
-    //         $originalName = $request->file('audio')->getClientOriginalName();
-
-    //         if (DarsatTable::where('audio', 'like', '%_'.$originalName)->exists()) {
-    //             return back()
-    //                 ->withInput()
-    //                 ->withErrors([
-    //                     'audio' => 'This audio file has already been uploaded.'
-    //                 ]);
-    //         }
-    //         // $audioName = time().'_'.$request->audio->getClientOriginalName();
-
-    //         $request->audio->move(public_path('uploads/audio'), $audioName);
-    //     }
-
-    //     DarsatTable::create([
-    //         'title'    => $request->title,
-    //         'teachers' => $request->teachers,
-    //         'type'     => $request->type,
-    //         'audio'    => $audioName,
-    //     ]);
-
-    //     return redirect()
-    //         ->back()
-    //         ->with('info', 'Darsat added successfully !');
-    // }
-
-    // public function storeDarsat(Request $request){
-    //     $request->validate([
-    //         'title'    => 'required|string|max:255',
-    //         'teachers' => 'required|exists:owners,id',
-    //         'type'     => 'required|string|max:100',
-    //         'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
-    //     ]);
-
-    //     $audioName = null;
-
-    //     if ($request->hasFile('audio')) {
-
-    //         // Original file name
-    //         $originalName = $request->file('audio')->getClientOriginalName();
-
-    //         // Check if a file with the same original name has already been uploaded
-    //         if (DarsatTable::where('audio', 'like', '%_'.$originalName)->exists()) {
-    //             return back()
-    //                 ->withInput()
-    //                 ->withErrors([
-    //                     'audio' => 'This audio file has already been uploaded.'
-    //                     // 'audio' => 'Iyi audio iri muri mububiko !'
-
-    //                 ]);
-    //         }
-
-    //         // Create a unique file name
-    //         $audioName = time() . '_' . $originalName;
-
-    //         // Move file
-    //         $request->file('audio')->move(
-    //             public_path('uploads/audio'),
-    //             $audioName
-    //         );
-    //     }
-
-    //     DarsatTable::create([
-    //         'title'    => $request->title,
-    //         'teachers' => $request->teachers,
-    //         'type'     => $request->type,
-    //         'audio'    => $audioName,
-    //     ]);
-
-    //     return redirect()
-    //         ->back()
-    //         ->with('info', 'Darsat added successfully!');
-    // }
-
-    // public function storeDarsat(Request $request)
-    // {
-    //     $request->validate([
-    //         'title'    => 'required|string|max:255',
-    //         'teachers' => 'required|exists:owners,id',
-    //         'type'     => 'required|string|max:100',
-    //         'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
-    //     ]);
-
-    //     $audioName = null;
-
-    //     if ($request->hasFile('audio')) {
-
-    //         $file = $request->file('audio');
-
-    //         // Original filename without extension
-    //         $originalName = pathinfo(
-    //             $file->getClientOriginalName(),
-    //             PATHINFO_FILENAME
-    //         );
-
-    //         // File extension
-    //         $extension = strtolower($file->getClientOriginalExtension());
-
-    //         // Clean filename (replace spaces & special characters with underscores)
-    //         $cleanName = Str::slug($originalName, '_');
-
-    //         // Check if the same audio has already been uploaded
-    //         $existingAudio = DarsatTable::where('audio', 'like', '%_' . $cleanName . '.' . $extension)
-    //             ->exists();
-
-    //         if ($existingAudio) {
-    //             return back()
-    //                 ->withInput()
-    //                 ->withErrors([
-    //                     'audio' => 'This audio file has already been uploaded.',
-    //                     // 'audio' => 'Iyi audio iri muri mubiko!'
-    //                 ]);
-    //         }
-
-    //         // Create unique filename
-    //         $audioName = time() . '_' . $cleanName . '.' . $extension;
-
-    //         // Ensure upload directory exists
-    //         $destination = public_path('uploads/audio');
-
-    //         if (!is_dir($destination)) {
-    //             mkdir($destination, 0755, true);
-    //         }
-
-    //         // Move uploaded file
-    //         $file->move($destination, $audioName);
-    //     }
-
-    //     DarsatTable::create([
-    //         'title'    => $request->title,
-    //         'teachers' => $request->teachers,
-    //         'type'     => $request->type,
-    //         'audio'    => $audioName,
-    //     ]);
-
-    //     return back()->with('info', 'Darsat added successfully!');
-    // }
-
     public function storeDarsat(Request $request)
     {
         $request->validate([
-            'title'    => 'required|string|max:255',
-            'teachers' => 'required|exists:owners,id',
-            'type'     => 'required|string|max:100',
-            'audio'    => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
+            'title'       => 'required|string|max:255',
+            'teachers'    => 'required|exists:owners,id',
+            'type'        => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'audio'       => 'required|mimes:mp3,wav,ogg,m4a|max:51200',
+            'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'status'      => 'required|in:draft,published',
         ]);
 
-        $audioPath = null;
+        $audioName = $this->storeUploadedFile($request->file('audio'), 'audio');
+        $thumbnailName = $this->storeUploadedFile($request->file('thumbnail'), 'darsat/thumbnails');
 
-        if ($request->hasFile('audio')) {
+        $darsat = DarsatTable::create([
+            'title'        => $request->title,
+            'teachers'     => $request->teachers,
+            'type'         => $request->type,
+            'description'  => $request->description,
+            'audio'        => $audioName,
+            'thumbnail'    => $thumbnailName,
+            'status'       => $request->status,
+            'created_by'   => auth('owner')->id(),
+            'published_at' => $request->status === 'published' ? now() : null,
+        ]);
 
-            $file = $request->file('audio');
-
-            $originalName = pathinfo(
-                $file->getClientOriginalName(),
-                PATHINFO_FILENAME
-            );
-
-            // Extension
-            $extension = strtolower($file->getClientOriginalExtension());
-
-            // Clean filename
-            $cleanName = Str::slug($originalName, '_');
-
-            // Prevent duplicate uploads
-            $existing = DarsatTable::where('audio', 'like', '%'.$cleanName.'.'.$extension)
-                ->exists();
-
-            if ($existing) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'audio' => 'This audio file has already been uploaded.',
-                    ]);
-            }
-
-            // Final filename
-            $fileName = time().'_'.$cleanName.'.'.$extension;
-
-            // Store inside storage/app/public/audio
-            $audioPath = $file->storeAs(
-                'audio',
-                $fileName,
-                'public'
-            );
+        if ($darsat->status === 'published') {
+            User::whereNotNull('id')->chunk(200, function ($students) use ($darsat) {
+                Notification::send($students, new NewDarsatNotification($darsat));
+            });
         }
-
-        DarsatTable::create([
-            'title'    => $request->title,
-            'teachers' => $request->teachers,
-            'type'     => $request->type,
-            'audio'    => $audioPath,
-        ]);
 
         return back()->with('info', 'Darsat added successfully!');
     }
 
-    // public function viewDarsat()
-    // {
-    //     $users = Owner::whereIn('title', ['sheikh', 'ustadh'])
-    //         ->orderBy('firstname')
-    //         ->get();
+    public function updateDarsat(Request $request, $id)
+    {
+        $darsat = DarsatTable::findOrFail($id);
 
-    //     $darsat = DarsatTable::latest()->get()->groupBy('teachers');
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'teachers'    => 'required|exists:owners,id',
+            'type'        => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'audio'       => 'nullable|mimes:mp3,wav,ogg,m4a|max:51200',
+            'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'status'      => 'required|in:draft,published',
+        ]);
 
-    //     return view('Users.admin.ViewDarsat', compact(
-    //         'users',
-    //         'darsat'
-    //     ));
-    // }
+        $audioName = $darsat->audio;
+        if ($request->hasFile('audio')) {
+            $this->deleteUploadedFile($darsat->audio, 'audio');
+            $audioName = $this->storeUploadedFile($request->file('audio'), 'audio');
+        }
+
+        $thumbnailName = $darsat->thumbnail;
+        if ($request->hasFile('thumbnail')) {
+            $this->deleteUploadedFile($darsat->thumbnail, 'darsat/thumbnails');
+            $thumbnailName = $this->storeUploadedFile($request->file('thumbnail'), 'darsat/thumbnails');
+        }
+
+        $darsat->update([
+            'title'        => $request->title,
+            'teachers'     => $request->teachers,
+            'type'         => $request->type,
+            'description'  => $request->description,
+            'audio'        => $audioName,
+            'thumbnail'    => $thumbnailName,
+            'status'       => $request->status,
+            'updated_by'   => auth('owner')->id(),
+            'published_at' => $request->status === 'published' ? ($darsat->published_at ?? now()) : null,
+        ]);
+
+        return back()->with('info', 'Darsat updated successfully!');
+    }
+
+    public function destroyDarsat($id)
+    {
+        $darsat = DarsatTable::findOrFail($id);
+
+        $this->deleteUploadedFile($darsat->audio, 'audio');
+        $this->deleteUploadedFile($darsat->thumbnail, 'darsat/thumbnails');
+
+        $darsat->delete();
+
+        return back()->with('info', 'Darsat deleted.');
+    }
 
     public function viewDarsat(){
         $users = Owner::whereIn('title', ['sheikh', 'ustadh'])
@@ -539,12 +399,211 @@ class AdminController extends Controller
         ));
     }
 
-    public function inyandiko_zabamenyi(){
-        return view('Users.admin.inyandiko_zabamenyi');
+    /**
+     * Inyandiko CRUD
+     */
+    public function inyandiko_zabamenyi()
+    {
+        $inyandiko = Inyandiko::latest()->paginate(10);
+
+        return view('Users.admin.inyandiko_zabamenyi', compact('inyandiko'));
     }
 
-    public function amatangazo(){
-        return view('Users.admin.amatangazo');
+    public function storeInyandiko(Request $request)
+    {
+        $request->validate([
+            'title'    => 'required|string|max:255',
+            'category' => 'nullable|string|max:100',
+            'author'   => 'nullable|string|max:255',
+            'summary'  => 'nullable|string|max:500',
+            'content'  => 'nullable|string',
+            'status'   => 'required|in:draft,published',
+            'image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'file'     => 'nullable|mimes:pdf,doc,docx|max:20480',
+        ]);
+
+        $imageName = $this->storeUploadedFile($request->file('image'), 'inyandiko');
+        $fileName = $this->storeUploadedFile($request->file('file'), 'inyandiko/files');
+
+        $baseSlug = Str::slug($request->title);
+        $slug = $baseSlug;
+        $i = 1;
+        while (Inyandiko::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $i++;
+        }
+
+        Inyandiko::create([
+            'title'        => $request->title,
+            'slug'         => $slug,
+            'category'     => $request->category,
+            'author'       => $request->author,
+            'summary'      => $request->summary,
+            'content'      => $request->content,
+            'image'        => $imageName,
+            'file'         => $fileName,
+            'status'       => $request->status,
+            'published_at' => $request->status === 'published' ? now() : null,
+            'created_by'   => auth('owner')->id(),
+        ]);
+
+        return redirect()->route('owner.inyandiko_zabamenyi')->with('success', 'Inyandiko yashyizweho neza.');
+    }
+
+    public function updateInyandiko(Request $request, $id)
+    {
+        $item = Inyandiko::findOrFail($id);
+
+        $request->validate([
+            'title'    => 'required|string|max:255',
+            'category' => 'nullable|string|max:100',
+            'author'   => 'nullable|string|max:255',
+            'summary'  => 'nullable|string|max:500',
+            'content'  => 'nullable|string',
+            'status'   => 'required|in:draft,published',
+            'image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'file'     => 'nullable|mimes:pdf,doc,docx|max:20480',
+        ]);
+
+        $imageName = $item->image;
+        if ($request->hasFile('image')) {
+            $this->deleteUploadedFile($item->image, 'inyandiko');
+            $imageName = $this->storeUploadedFile($request->file('image'), 'inyandiko');
+        }
+
+        $fileName = $item->file;
+        if ($request->hasFile('file')) {
+            $this->deleteUploadedFile($item->file, 'inyandiko/files');
+            $fileName = $this->storeUploadedFile($request->file('file'), 'inyandiko/files');
+        }
+
+        $item->update([
+            'title'        => $request->title,
+            'category'     => $request->category,
+            'author'       => $request->author,
+            'summary'      => $request->summary,
+            'content'      => $request->content,
+            'image'        => $imageName,
+            'file'         => $fileName,
+            'status'       => $request->status,
+            'published_at' => $request->status === 'published' ? ($item->published_at ?? now()) : null,
+            'updated_by'   => auth('owner')->id(),
+        ]);
+
+        return redirect()->route('owner.inyandiko_zabamenyi')->with('success', 'Inyandiko yahinduwe neza.');
+    }
+
+    public function destroyInyandiko($id)
+    {
+        $item = Inyandiko::findOrFail($id);
+
+        $this->deleteUploadedFile($item->image, 'inyandiko');
+        $this->deleteUploadedFile($item->file, 'inyandiko/files');
+
+        $item->delete();
+
+        return redirect()->route('owner.inyandiko_zabamenyi')->with('success', 'Inyandiko yasibwe.');
+    }
+
+    /**
+     * Amatangazo CRUD
+     */
+    public function amatangazo()
+    {
+        $amatangazo = Amatangazo::latest()->paginate(10);
+
+        return view('Users.admin.amatangazo', compact('amatangazo'));
+    }
+
+    public function storeAmatangazo(Request $request)
+    {
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'presenter'   => 'nullable|string|max:255',
+            'status'      => 'required|in:live,upcoming,done',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'is_published'=> 'nullable|boolean',
+        ]);
+
+        $imageName = $this->storeUploadedFile($request->file('image'), 'amatangazo');
+
+        $announcement = Amatangazo::create([
+            'title'        => $request->title,
+            'description'  => $request->description,
+            'presenter'    => $request->presenter,
+            'status'       => $request->status,
+            'image'        => $imageName,
+            'is_published' => $request->boolean('is_published', true),
+            'published_at' => now(),
+            'created_by'   => auth('owner')->id(),
+        ]);
+
+        if ($announcement->is_published) {
+            User::whereNotNull('id')->chunk(200, function ($students) use ($announcement) {
+                Notification::send($students, new NewAmatangazoNotification($announcement));
+            });
+        }
+
+        return redirect()
+            ->route('owner.amatangazo')
+            ->with('success', 'Itangazo ryashyizweho neza.');
+    }
+
+    public function updateAmatangazo(Request $request, $id)
+    {
+        $announcement = Amatangazo::findOrFail($id);
+
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'presenter'   => 'nullable|string|max:255',
+            'status'      => 'required|in:live,upcoming,done',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ]);
+
+        $imageName = $announcement->image;
+
+        if ($request->hasFile('image')) {
+            $this->deleteUploadedFile($announcement->image, 'amatangazo');
+            $imageName = $this->storeUploadedFile($request->file('image'), 'amatangazo');
+        }
+
+        $announcement->update([
+            'title'        => $request->title,
+            'description'  => $request->description,
+            'presenter'    => $request->presenter,
+            'status'       => $request->status,
+            'image'        => $imageName,
+            'is_published' => $request->boolean('is_published', true),
+            'updated_by'   => auth('owner')->id(),
+        ]);
+
+        return redirect()
+            ->route('owner.amatangazo')
+            ->with('success', 'Itangazo ryahinduwe neza.');
+    }
+
+    public function destroyAmatangazo($id)
+    {
+        $announcement = Amatangazo::findOrFail($id);
+
+        $this->deleteUploadedFile($announcement->image, 'amatangazo');
+
+        $announcement->delete();
+
+        return redirect()
+            ->route('owner.amatangazo')
+            ->with('success', 'Itangazo ryasibwe.');
+    }
+
+    public function togglePublishAmatangazo($id)
+    {
+        $announcement = Amatangazo::findOrFail($id);
+        $announcement->update(['is_published' => !$announcement->is_published]);
+
+        return redirect()
+            ->route('owner.amatangazo')
+            ->with('success', $announcement->is_published ? 'Itangazo ryerekanwa.' : 'Itangazo ryahishwe.');
     }
 
     public function ibitabo(){
@@ -554,27 +613,29 @@ class AdminController extends Controller
     public function storeBook(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'book'  => 'required|mimes:pdf|max:51200',
+            'title'       => 'required|string|max:255',
+            'author'      => 'nullable|string|max:255',
+            'category'    => 'nullable|string|max:100',
+            'description' => 'nullable|string',
+            'book'        => 'required|mimes:pdf|max:51200',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'status'      => 'required|in:draft,published',
         ]);
 
-        $bookName = null;
-
-        if ($request->hasFile('book')) {
-
-            $file = $request->file('book');
-
-            $bookName = time().'_'.$file->getClientOriginalName();
-
-            $file->move(public_path('books'), $bookName);
-        }
+        $bookName = $this->storeUploadedFile($request->file('book'), 'books');
+        $coverName = $this->storeUploadedFile($request->file('cover_image'), 'books/covers');
 
         Book::create([
-
-            'title' => $request->title,
-
-            'book' => $bookName,
-
+            'title'           => $request->title,
+            'author'          => $request->author,
+            'category'        => $request->category,
+            'description'     => $request->description,
+            'book'            => $bookName,
+            'cover_image'     => $coverName,
+            'status'          => $request->status,
+            'is_downloadable' => $request->boolean('is_downloadable', true),
+            'created_by'      => auth('owner')->id(),
+            'published_at'    => $request->status === 'published' ? now() : null,
         ]);
 
         return redirect()
@@ -583,13 +644,66 @@ class AdminController extends Controller
     }
 
     /**
-     * View Books
+     * View Books (with optional search)
      */
-    public function viewBooks()
+    public function viewBooks(Request $request)
     {
-        $books = Book::latest()->paginate(10);
+        $search = $request->input('search');
 
-        return view('Users.admin.ViewBooks', compact('books'));
+        $books = Book::when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('author', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('Users.admin.ViewBooks', compact('books', 'search'));
+    }
+
+    public function updateBook(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'author'      => 'nullable|string|max:255',
+            'category'    => 'nullable|string|max:100',
+            'description' => 'nullable|string',
+            'book'        => 'nullable|mimes:pdf|max:51200',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'status'      => 'required|in:draft,published',
+        ]);
+
+        $bookName = $book->book;
+
+        if ($request->hasFile('book')) {
+            $this->deleteUploadedFile($book->book, 'books');
+            $bookName = $this->storeUploadedFile($request->file('book'), 'books');
+        }
+
+        $coverName = $book->cover_image;
+
+        if ($request->hasFile('cover_image')) {
+            $this->deleteUploadedFile($book->cover_image, 'books/covers');
+            $coverName = $this->storeUploadedFile($request->file('cover_image'), 'books/covers');
+        }
+
+        $book->update([
+            'title'           => $request->title,
+            'author'          => $request->author,
+            'category'        => $request->category,
+            'description'     => $request->description,
+            'book'            => $bookName,
+            'cover_image'     => $coverName,
+            'status'          => $request->status,
+            'is_downloadable' => $request->boolean('is_downloadable', true),
+            'updated_by'      => auth('owner')->id(),
+            'published_at'    => $request->status === 'published' ? ($book->published_at ?? now()) : null,
+        ]);
+
+        return redirect()->route('owner.viewBooks')->with('success', 'Book updated successfully.');
     }
 
     /**
@@ -599,11 +713,8 @@ class AdminController extends Controller
     {
         $book = Book::findOrFail($id);
 
-        if(file_exists(public_path('books/'.$book->book))){
-
-            unlink(public_path('books/'.$book->book));
-
-        }
+        $this->deleteUploadedFile($book->book, 'books');
+        $this->deleteUploadedFile($book->cover_image, 'books/covers');
 
         $book->delete();
 
@@ -717,12 +828,7 @@ class AdminController extends Controller
         $imageName = 'user.png';
 
         if ($request->hasFile('image')) {
-
-            $image = $request->file('image');
-
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-
-            $image->move(public_path('images/users'), $imageName);
+            $imageName = $this->storeUploadedFile($request->file('image'), 'images/users');
         }
 
         /*
@@ -819,12 +925,10 @@ class AdminController extends Controller
         $imageName = $user->image;
 
         if ($request->hasFile('image')) {
-
-            $image = $request->file('image');
-
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-
-            $image->move(public_path('images/users'), $imageName);
+            if ($user->image && $user->image !== 'user.png') {
+                $this->deleteUploadedFile($user->image, 'images/users');
+            }
+            $imageName = $this->storeUploadedFile($request->file('image'), 'images/users');
         }
 
         /*
@@ -891,13 +995,7 @@ class AdminController extends Controller
         */
 
         if ($user->image != 'user.png') {
-
-            $path = public_path('images/users/'.$user->image);
-
-            if (file_exists($path)) {
-
-                unlink($path);
-            }
+            $this->deleteUploadedFile($user->image, 'images/users');
         }
 
         /*

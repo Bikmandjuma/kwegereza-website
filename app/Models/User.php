@@ -55,8 +55,11 @@ class User extends Authenticatable implements JWTSubject{
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'email_verified_at'        => 'datetime',
+        'password'                 => 'hashed',
+        'last_active_at'           => 'datetime',
+        'two_factor_confirmed_at'  => 'datetime',
+        'deactivated_at'           => 'datetime',
     ];
 
      public function getJWTIdentifier()
@@ -67,5 +70,38 @@ class User extends Authenticatable implements JWTSubject{
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Learning progress (web/student side — see DarsatProgressController)
+     */
+    public function darsatProgress()
+    {
+        return $this->hasMany(DarsatProgress::class, 'user_id');
+    }
+
+    public function completedLessonsCount(): int
+    {
+        return $this->darsatProgress()->where('status', 'completed')->count();
+    }
+
+    public function inProgressLessonsCount(): int
+    {
+        return $this->darsatProgress()->where('status', 'in_progress')->count();
+    }
+
+    public function imageUrl(): string
+    {
+        if (!$this->image || $this->image === 'user.png') {
+            return asset('images/users/user.png');
+        }
+
+        return \App\Support\FileUrl::resolve($this->image, 'images/users', 'images/users')
+            ?? asset('images/users/user.png');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
     }
 }

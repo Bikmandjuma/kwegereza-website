@@ -56,7 +56,7 @@
 
                 <!-- IMAGE -->
                 <img
-                    src="{{ asset('users/images/'.$user->image) }}"
+                    src="{{ $user->imageUrl() }}"
                     alt=""
                     class="object-cover border-4 border-white shadow-2xl w-36 h-36 rounded-3xl"
                 >

@@ -1,4 +1,8 @@
 @extends('Guest.cover')
+
+@section('meta_title', "Kwegereza Islam Umuryango – Amasomo, Ibitabo n'Inyandiko za Islamu")
+@section('meta_description', "Iga ubumenyi bwa Islamu bushingiye kuri Qur'an na Sunnah: amasomo ya Darsat, ibitabo, inyandiko z'abamenyi, amatangazo n'ubufasha bw'Abayobozi b'Idini, byose ku rubuga rumwe.")
+
 @section('content')
 <style>
   .video-grid{

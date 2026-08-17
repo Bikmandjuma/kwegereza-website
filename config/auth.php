@@ -18,6 +18,16 @@ return [
             'provider' => 'owners',
         ],
 
+        // Session-based web guard for registered learners (students), built
+        // for browser use — completely separate from 'user'/'api' below,
+        // which are JWT and appear to serve an existing mobile client. Both
+        // point at the same `users` table/model, but a session login here
+        // does not create or consume a JWT, and vice versa.
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',

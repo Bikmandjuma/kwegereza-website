@@ -278,7 +278,11 @@ input[type=text]{
                       @endif
                       
                   </div>
-                    <!-- <span class="spec-badge">Hadith · Fiqh</span> -->
+                    @if($teacher->is_verified)
+                      <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#058e48;">
+                        <i class="fa-solid fa-circle-check"></i> Verified
+                      </span>
+                    @endif
               </div>
 
           </div>

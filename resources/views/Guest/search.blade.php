@@ -1,121 +1,218 @@
 @extends('Guest.cover')
-
 @section('content')
 
-@php
-    $hideFooter = true;
-@endphp
-
 <style>
-    #search_card{
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding-top: 20vh; /* 👈 always 20% from top */
-        padding-left: 16px;
-        padding-right: 16px;
-    }
+:root{
+  --kiu-green: #058e48;
+  --kiu-green-deep: #094939;
+  --kiu-gold-1: #c8a36c;
+  --kiu-gold-2: #e2b45f;
+  --kiu-cream: #f5ebe2;
+}
+
+.search-hero{
+  background: linear-gradient(135deg, var(--kiu-green) 0%, var(--kiu-green-deep) 100%);
+  padding: 40px 20px 60px;
+  text-align: center;
+}
+.search-hero h1{ color:#fff; font-weight:800; font-size: clamp(22px,4vw,30px); margin-bottom:16px; }
+
+.search-box{
+  max-width: 560px;
+  margin: 0 auto;
+  position: relative;
+}
+.search-box input{
+  width:100%; padding:14px 20px 14px 46px; border-radius:999px; border:none; outline:none;
+  font-size:15px; box-shadow: 0 8px 22px rgba(9,73,57,0.25);
+}
+.search-box i{ position:absolute; left:18px; top:50%; transform:translateY(-50%); color:#058e48; }
+
+#liveSuggest{
+  max-width: 560px; margin: 6px auto 0; background:#fff; border-radius:16px;
+  box-shadow: 0 10px 24px rgba(9,73,57,0.2); overflow:hidden; display:none; text-align:left;
+}
+#liveSuggest a{ display:flex; justify-content:space-between; padding:10px 18px; font-size:13px; color:#094939; text-decoration:none; border-bottom:1px solid #f1f1f1; }
+#liveSuggest a:last-child{ border-bottom:none; }
+#liveSuggest a span.tag{ font-size:10px; font-weight:800; color:#058e48; text-transform:uppercase; }
+
+.search-body{ background: linear-gradient(180deg, var(--kiu-gold-1) 0%, var(--kiu-gold-2) 100%); padding: 30px 16px 60px; }
+
+.search-tabs{
+  max-width: 900px; margin: 0 auto 24px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+}
+.search-tabs a{
+  padding:8px 18px; border-radius:999px; font-weight:700; font-size:13px; text-decoration:none;
+  background: rgba(255,255,255,0.4); color:#094939;
+}
+.search-tabs a.active{ background:#094939; color:#fff; }
+
+.search-section{ max-width: 900px; margin: 0 auto 26px; }
+.search-section h2{ color:#094939; font-weight:800; font-size:16px; margin-bottom:12px; }
+
+.search-card{
+  background: var(--kiu-cream); border-radius:16px; padding:16px 18px; margin-bottom:12px;
+  box-shadow: 0 6px 16px rgba(9,73,57,0.15); display:flex; justify-content:space-between; align-items:center; gap:12px;
+}
+.search-card h3{ color:#094939; font-size:15px; font-weight:700; margin-bottom:2px; }
+.search-card p{ color:#666; font-size:13px; }
+.search-card a.go{
+  background:#058e48; color:#fff; padding:8px 16px; border-radius:10px; font-size:13px; font-weight:700; text-decoration:none; white-space:nowrap;
+}
+
+.search-empty{
+  text-align:center; background: var(--kiu-cream); border-radius:20px; padding:40px 20px; color:#094939; font-weight:600;
+  max-width:900px; margin:0 auto;
+}
 </style>
 
-<!-- SEARCH SECTION (VISIBLE DIRECTLY, CENTERED) -->
-<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4" style="position: relative;" id="search_card">
+<div class="search-hero">
+  <h1>Shakisha kuri Kwegereza Islam Umuryango</h1>
 
-    <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-xl">
+  <form method="GET" action="{{ route('guest.search') }}" class="search-box">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" name="q" value="{{ $query }}" placeholder="Shakisha isomo, igitabo, inyandiko, itangazo cyangwa umwarimu...">
+  </form>
 
-        <!-- Title -->
-        <h3 class="text-xl font-bold text-center mb-4">
-            Shakisha
-        </h3>
+  <div id="liveSuggest"></div>
+</div>
 
-        <!-- Search Input -->
-        <div class="flex items-center border rounded-full overflow-hidden mb-4">
+<div class="search-body">
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Andika icyo ushaka..."
-                class="flex-1 px-4 py-3 outline-none"
-            >
+  <div class="search-tabs">
+    <a href="{{ route('guest.search', ['q' => $query, 'type' => 'all']) }}" class="{{ $type === 'all' ? 'active' : '' }}">Byose</a>
+    <a href="{{ route('guest.search', ['q' => $query, 'type' => 'darsat']) }}" class="{{ $type === 'darsat' ? 'active' : '' }}">Amasomo</a>
+    <a href="{{ route('guest.search', ['q' => $query, 'type' => 'books']) }}" class="{{ $type === 'books' ? 'active' : '' }}">Ibitabo</a>
+    <a href="{{ route('guest.search', ['q' => $query, 'type' => 'inyandiko']) }}" class="{{ $type === 'inyandiko' ? 'active' : '' }}">Inyandiko</a>
+    <a href="{{ route('guest.search', ['q' => $query, 'type' => 'amatangazo']) }}" class="{{ $type === 'amatangazo' ? 'active' : '' }}">Amatangazo</a>
+    <a href="{{ route('guest.search', ['q' => $query, 'type' => 'teachers']) }}" class="{{ $type === 'teachers' ? 'active' : '' }}">Abarimu</a>
+  </div>
 
-            <i class="fa fa-search px-4 text-gray-500"></i>
+  @if($query === '')
 
-        </div>
+    <div class="search-empty">Andika ikintu ushaka gushakisha hejuru.</div>
 
-        <!-- Search Results -->
-        <div id="searchResults"
-             class="text-sm text-gray-700 max-h-72 overflow-y-auto">
-        </div>
+  @elseif($totalCount === 0)
 
-    </div>
+    <div class="search-empty">Nta bisubizo bibonetse kuri "{{ $query }}". Gerageza andika ijambo rindi.</div>
+
+  @else
+
+    @if($darsat->count())
+      <div class="search-section">
+        <h2>Amasomo ({{ $darsat->count() }})</h2>
+        @foreach($darsat as $lesson)
+          <div class="search-card">
+            <div>
+              <h3>{{ $lesson->title }}</h3>
+              <p>{{ $lesson->type }} @if($lesson->teacher) · {{ $lesson->teacher->firstname }} {{ $lesson->teacher->lastname }} @endif</p>
+            </div>
+            <a href="{{ route('guest.teacher-darsa', $lesson->teachers) }}" class="go">Reba</a>
+          </div>
+        @endforeach
+      </div>
+    @endif
+
+    @if($books->count())
+      <div class="search-section">
+        <h2>Ibitabo ({{ $books->count() }})</h2>
+        @foreach($books as $book)
+          <div class="search-card">
+            <div>
+              <h3>{{ $book->title }}</h3>
+              <p>{{ $book->author ?: 'Kwegereza Islam Umuryango' }} @if($book->category) · {{ $book->category }} @endif</p>
+            </div>
+            <a href="{{ route('guest.books') }}" class="go">Reba</a>
+          </div>
+        @endforeach
+      </div>
+    @endif
+
+    @if($inyandiko->count())
+      <div class="search-section">
+        <h2>Inyandiko ({{ $inyandiko->count() }})</h2>
+        @foreach($inyandiko as $item)
+          <div class="search-card">
+            <div>
+              <h3>{{ $item->title }}</h3>
+              <p>{{ $item->category }} @if($item->author) · {{ $item->author }} @endif</p>
+            </div>
+            <a href="{{ route('guest.inyandiko.show', $item->slug) }}" class="go">Soma</a>
+          </div>
+        @endforeach
+      </div>
+    @endif
+
+    @if($amatangazo->count())
+      <div class="search-section">
+        <h2>Amatangazo ({{ $amatangazo->count() }})</h2>
+        @foreach($amatangazo as $item)
+          <div class="search-card">
+            <div>
+              <h3>{{ $item->title }}</h3>
+              <p>{{ $item->presenter }}</p>
+            </div>
+            <a href="{{ route('guest.news') }}" class="go">Reba</a>
+          </div>
+        @endforeach
+      </div>
+    @endif
+
+    @if($teachers->count())
+      <div class="search-section">
+        <h2>Abarimu ({{ $teachers->count() }})</h2>
+        @foreach($teachers as $teacher)
+          <div class="search-card">
+            <div>
+              <h3>{{ $teacher->title }} {{ $teacher->firstname }} {{ $teacher->lastname }}</h3>
+              <p>{{ $teacher->darsat_count }} amasomo</p>
+            </div>
+            <a href="{{ route('guest.teacher-darsa', $teacher->id) }}" class="go">Reba</a>
+          </div>
+        @endforeach
+      </div>
+    @endif
+
+  @endif
 
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+const searchInput = document.getElementById('searchInput');
+const liveSuggest = document.getElementById('liveSuggest');
+let debounceTimer;
 
-    const searchInput   = document.getElementById("searchInput");
-    const searchResults = document.getElementById("searchResults");
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  const term = searchInput.value.trim();
 
-    // Search data
-    const data = [
-        "Amasomo ya Islam",
-        "Qur'an",
-        "Hadith",
-        "Videos za Amasomo",
-        "Ibitabo by'Islam",
-        "Audio Lectures",
-        "Twandikire",
-        "Sheikh MUNYANEZA ISMAIL ABUU OMAR",
-        "Sheikh IRADUKUNDA ABOUBAKAR ABUU ABDILRAHMAN",
-        "Sheikh NDAHAYO KHALID ABUU MUADH"
-    ];
+  if (term.length < 2) {
+    liveSuggest.style.display = 'none';
+    return;
+  }
 
-    // Live Search
-    function liveSearch() {
-
-        const query = searchInput.value.trim().toLowerCase();
-
-        if (query === "") {
-            searchResults.innerHTML = "";
-            return;
+  debounceTimer = setTimeout(() => {
+    fetch(`{{ route('guest.search.suggest') }}?q=${encodeURIComponent(term)}`)
+      .then(r => r.json())
+      .then(items => {
+        if (!items.length) {
+          liveSuggest.style.display = 'none';
+          return;
         }
 
-        const matches = data.filter(item =>
-            item.toLowerCase().includes(query)
-        );
+        liveSuggest.innerHTML = items.map(i =>
+          `<a href="${i.url}">${i.title} <span class="tag">${i.type}</span></a>`
+        ).join('');
+        liveSuggest.style.display = 'block';
+      })
+      .catch(() => { liveSuggest.style.display = 'none'; });
+  }, 250);
+});
 
-        if (matches.length === 0) {
-
-            searchResults.innerHTML = `
-                <p class="p-3 text-red-500">
-                    Nta makuru ari mububiko
-                </p>
-            `;
-
-        } else {
-
-            searchResults.innerHTML = matches.map(item => `
-                <p class="p-3 border-b hover:bg-gray-100 cursor-pointer">
-                    ${item}
-                </p>
-            `).join("");
-
-        }
-    }
-
-    searchInput.addEventListener("input", liveSearch);
-
-    // Click result
-    searchResults.addEventListener("click", function(e){
-
-        if(e.target.tagName === "P"){
-            searchInput.value = e.target.innerText;
-            searchResults.innerHTML = "";
-        }
-
-    });
-
+document.addEventListener('click', (e) => {
+  if (!liveSuggest.contains(e.target) && e.target !== searchInput) {
+    liveSuggest.style.display = 'none';
+  }
 });
 </script>
 

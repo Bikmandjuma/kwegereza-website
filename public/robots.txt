@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /owner/
+Disallow: /student/
+Disallow: /login
+Disallow: /chat/
+Disallow: /shakisha/suggest
+Disallow: /guest/ping
+Disallow: /live-visits
+
+Sitemap: /sitemap.xml

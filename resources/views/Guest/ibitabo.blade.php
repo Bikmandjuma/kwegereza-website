@@ -383,11 +383,15 @@ $booksData = $books->map(function ($book) {
 
         'title' => $book->title,
 
-        'author' => 'Admin',
+        'author' => $book->author ?: 'Kwegereza Islam Umuryango',
 
-        'views' => 0,
+        'category' => $book->category ?: '',
 
-        'pdf' => asset('books/'.$book->book),
+        'views' => $book->views ?? 0,
+
+        'downloadable' => (bool) ($book->is_downloadable ?? true),
+
+        'pdf' => $book->bookFileUrl() ?? asset('books/'.$book->book),
 
     ];
 
@@ -583,6 +587,12 @@ async function loadBook(index){
 
     document.getElementById('toolbarDownload').href =
         book.pdf;
+
+    document.getElementById('headerDownload').style.display =
+        book.downloadable === false ? 'none' : '';
+
+    document.getElementById('toolbarDownload').style.display =
+        book.downloadable === false ? 'none' : '';
 
     /*
     |--------------------------------------------------------------------------

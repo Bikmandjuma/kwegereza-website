@@ -124,6 +124,48 @@
 
                 </div>
 
+                <!-- AUTHOR -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Author</label>
+                    <input type="text" name="author" value="{{ old('author') }}"
+                        class="w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-primary dark:bg-dark dark:border-gray-700 dark:text-white">
+                </div>
+
+                <!-- CATEGORY -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Category</label>
+                    <input type="text" name="category" value="{{ old('category') }}" placeholder="e.g. Fiqh, Aqida, Hadith"
+                        class="w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-primary dark:bg-dark dark:border-gray-700 dark:text-white">
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Description</label>
+                    <textarea name="description" rows="3"
+                        class="w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-primary dark:bg-dark dark:border-gray-700 dark:text-white">{{ old('description') }}</textarea>
+                </div>
+
+                <!-- COVER IMAGE -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Cover Image (optional)</label>
+                    <input type="file" name="cover_image" accept="image/*"
+                        class="w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-primary dark:bg-dark dark:border-gray-700 dark:text-white">
+                </div>
+
+                <!-- STATUS -->
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Status</label>
+                    <select name="status" required class="w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-primary dark:bg-dark dark:border-gray-700 dark:text-white">
+                        <option value="published">Publish now</option>
+                        <option value="draft">Save as draft</option>
+                    </select>
+                </div>
+
+                <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    <input type="checkbox" name="is_downloadable" value="1" checked class="rounded text-primary">
+                    Allow guests to download this book
+                </label>
+
             </div>
 
             <!-- FOOTER -->

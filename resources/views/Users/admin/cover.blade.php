@@ -276,6 +276,266 @@
                 
               </div> -->
 
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.faq') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'faq' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.036 0-2.03-.146-2.955-.417L3 21l1.5-4.5C3.55 15.163 3 13.63 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Guest Chat / FAQ</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.courses') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'courses' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553-2.276A1 1 0 0020 13.618V2.382a1 1 0 00-1.447-.894L13 4m0 13V4m0 0L9 7"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Amasomo Agenda</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.quizzes') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'quizzes' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Ibizamini</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.certificates') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'certificates' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Ibyemezo</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.badges') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'badges' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15l-3.5 2 1-4-3-2.6 4-.3L12 6l1.5 4.1 4 .3-3 2.6 1 4z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Ibimenyetso</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.featureFlags') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'feature-flags' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2h2m0-4h10v4H7V4z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Feature Flags</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.events') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'events' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Ibikorwa</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.comments') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'comments' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8-1.036 0-2.03-.146-2.955-.417L3 21l1.5-4.5C3.55 15.163 3 13.63 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Ibitekerezo</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.teacherVerification') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'teacher-verification' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Kwemeza Abarimu</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.support') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'support' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13a3 3 0 01-3 3H8l-4 4V6a3 3 0 013-3h8a3 3 0 013 3v7z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Ubufasha</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.accountDeletions') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'account-deletions' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6m6-9v18"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Gusiba Konti</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.systemMonitor') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'system-monitor' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">System Monitor</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.backups') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'backups' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 1.657 3.582 3 8 3s8-1.343 8-3V7M4 7c0 1.657 3.582 3 8 3s8-1.343 8-3M4 7c0-1.657 3.582-3 8-3s8 1.343 8 3"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Backups</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.students') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'students' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.42A12.083 12.083 0 0121 13.5V19a1 1 0 01-1 1H4a1 1 0 01-1-1v-5.5c0-1.5.5-2.94 1.34-4.08L12 14z"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Abanyeshuri</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.auditLogs') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'audit-logs' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Audit Logs</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.roles') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'roles' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zM4 20a8 8 0 0116 0"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Roles</span>
+                </a>
+              </div>
+
+              <div x-data="{ isActive: false, open: false}">
+                <a
+                  href="{{ route('owner.permissions') }}"
+                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary {{ Request::segment(2) == 'permissions' ? 'bg-primary-100 dark:bg-primary' : '' }}"
+                  role="button"
+                >
+                  <span aria-hidden="true">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v2"/>
+                    </svg>
+                  </span>
+                  <span class="ml-2 text-sm">Permissions</span>
+                </a>
+              </div>
+
               <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
               <div x-data="{ isActive: false, open: false}">
                 <a
@@ -463,6 +723,19 @@
                       />
                     </svg>
                   </div>
+                </button>
+
+                <!-- Online users button -->
+                <button
+                  @click="openOnlineUsersModal()"
+                  class="relative flex items-center gap-1 px-3 py-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
+                  title="Abari kuri line (Online users) — kanda urebe amazina"
+                >
+                  <span class="relative flex w-2.5 h-2.5">
+                    <span class="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"></span>
+                    <span class="relative inline-flex rounded-full w-2.5 h-2.5 bg-green-500"></span>
+                  </span>
+                  <span class="text-sm font-semibold" id="kiu-header-online-count">0</span>
                 </button>
 
                 <!-- Notification button -->
@@ -697,6 +970,18 @@
                         />
                       </svg>
                     </div>
+                  </button>
+
+                  <!-- Online users button -->
+                  <button
+                    @click="openOnlineUsersModal(); $nextTick(() => { isMobileSubMenuOpen = false })"
+                    class="relative flex items-center gap-1 px-3 py-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
+                  >
+                    <span class="relative flex w-2.5 h-2.5">
+                      <span class="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"></span>
+                      <span class="relative inline-flex rounded-full w-2.5 h-2.5 bg-green-500"></span>
+                    </span>
+                    <span class="text-sm font-semibold kiu-header-online-count-mobile">0</span>
                   </button>
 
                   <!-- Notification button -->
@@ -1082,6 +1367,70 @@
         <!-- Panels -->
 
         <!-- Settings Panel -->
+        <!-- Online Users Modal -->
+        <div
+          x-show="isOnlineUsersModalOpen"
+          x-cloak
+          class="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style="background:rgba(9,73,57,.5)"
+          @click="if ($event.target === $event.currentTarget) { isOnlineUsersModalOpen = false }"
+        >
+          <div class="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl dark:bg-darker">
+            <div class="flex items-center justify-between px-6 py-4 border-b dark:border-gray-700">
+              <h3 class="text-lg font-bold text-primary-dark dark:text-light">
+                Abari kuri Line (<span x-text="onlineUsersModalData.total"></span>)
+              </h3>
+              <button @click="isOnlineUsersModalOpen = false" class="text-gray-400 hover:text-gray-600">
+                <i class="text-xl fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="p-4 space-y-2 overflow-y-auto max-h-96">
+              <div x-show="onlineUsersModalLoading" class="p-6 text-sm text-center text-gray-400">
+                <i class="fa-solid fa-spinner fa-spin"></i> Turashaka...
+              </div>
+              <div x-show="!onlineUsersModalLoading && onlineUsersModalError" class="p-6 text-sm font-semibold text-center text-red-600" x-text="onlineUsersModalError"></div>
+              <div x-show="!onlineUsersModalLoading && !onlineUsersModalError && onlineUsersModalData.users.length === 0" class="p-6 text-sm text-center text-gray-400">
+                Nta muntu uri kuri line ubu.
+              </div>
+              <div x-show="!onlineUsersModalLoading && !onlineUsersModalError">
+                <template x-for="user in onlineUsersModalData.users" :key="user.name + user.last_active_ago">
+                  <div class="flex items-center gap-3 p-3 mb-2 rounded-2xl bg-gray-50 dark:bg-dark">
+                    <span class="relative flex w-2 h-2">
+                      <span class="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"></span>
+                      <span class="relative inline-flex w-2 h-2 bg-green-500 rounded-full"></span>
+                    </span>
+                    <div>
+                      <p class="text-sm font-semibold text-primary-dark dark:text-light" x-text="user.name"></p>
+                      <p class="text-xs text-gray-400" x-text="user.last_active_ago"></p>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between px-6 py-4 border-t dark:border-gray-700" x-show="onlineUsersModalData.last_page > 1">
+              <button
+                @click="loadOnlineUsersPage(onlineUsersModalPage - 1)"
+                :disabled="onlineUsersModalPage <= 1"
+                class="px-4 py-2 text-xs font-bold rounded-xl bg-gray-100 dark:bg-dark disabled:opacity-40"
+              >
+                Ibanjirije
+              </button>
+              <span class="text-xs text-gray-400">
+                Paji <span x-text="onlineUsersModalPage"></span> / <span x-text="onlineUsersModalData.last_page"></span>
+              </span>
+              <button
+                @click="loadOnlineUsersPage(onlineUsersModalPage + 1)"
+                :disabled="onlineUsersModalPage >= onlineUsersModalData.last_page"
+                class="px-4 py-2 text-xs font-bold rounded-xl bg-gray-100 dark:bg-dark disabled:opacity-40"
+              >
+                Ibikurikira
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Backdrop -->
         <div
           x-transition:enter="transition duration-300 ease-in-out"
@@ -1659,8 +2008,20 @@
     </div>
 
     <!-- All javascript code in this project for now is just for demo DON'T RELY ON IT  -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
-    <script src="{{ URL::to('/') }}/auth/build/js/script.js"></script>
+    <!-- The old bundled demo-chart script (auth/build/js/script.js) and its
+         Chart.js v2.9.4 dependency have been removed from here. Both were
+         100% throwaway demo code from the original template (script.js's
+         own first line said so) — 4 fake charts plus a setInterval faking
+         random numbers — and it unconditionally called
+         document.getElementById('barChart') etc. with no null check, which
+         was already throwing a console error on every admin page OTHER
+         than the dashboard (since those canvas IDs never existed there).
+         Real charts are now built inline in Users.admin.home.blade.php
+         using actual data from the database, loading Chart.js v4 there
+         directly — keeping the old v2 CDN here too would silently break
+         them, since whichever Chart.js script tag loads last overwrites
+         window.Chart, and this layout's scripts load after the page
+         content's. -->
     <script>
       const setup = () => {
         const getTheme = () => {
@@ -1696,41 +2057,6 @@
           //
         }
 
-        const updateBarChart = (on) => {
-          const data = {
-            data: randomData(),
-            backgroundColor: 'rgb(207, 250, 254)',
-          }
-          if (on) {
-            barChart.data.datasets.push(data)
-            barChart.update()
-          } else {
-            barChart.data.datasets.splice(1)
-            barChart.update()
-          }
-        }
-
-        const updateDoughnutChart = (on) => {
-          const data = random()
-          const color = 'rgb(207, 250, 254)'
-          if (on) {
-            doughnutChart.data.labels.unshift('Seb')
-            doughnutChart.data.datasets[0].data.unshift(data)
-            doughnutChart.data.datasets[0].backgroundColor.unshift(color)
-            doughnutChart.update()
-          } else {
-            doughnutChart.data.labels.splice(0, 1)
-            doughnutChart.data.datasets[0].data.splice(0, 1)
-            doughnutChart.data.datasets[0].backgroundColor.splice(0, 1)
-            doughnutChart.update()
-          }
-        }
-
-        const updateLineChart = () => {
-          lineChart.data.datasets[0].data.reverse()
-          lineChart.update()
-        }
-
         return {
           loading: true,
           isDark: getTheme(),
@@ -1758,6 +2084,30 @@
             this.$nextTick(() => {
               this.$refs.settingsPanel.focus()
             })
+          },
+          isOnlineUsersModalOpen: false,
+          onlineUsersModalPage: 1,
+          onlineUsersModalData: { users: [], current_page: 1, last_page: 1, total: 0 },
+          onlineUsersModalError: null,
+          onlineUsersModalLoading: false,
+          openOnlineUsersModal() {
+            this.isOnlineUsersModalOpen = true
+            this.loadOnlineUsersPage(1)
+          },
+          loadOnlineUsersPage(page) {
+            this.onlineUsersModalLoading = true
+            this.onlineUsersModalError = null
+            fetch(`{{ route('owner.onlineUsers') }}?page=${page}`)
+              .then(r => {
+                if (!r.ok) throw new Error('HTTP ' + r.status)
+                return r.json()
+              })
+              .then(data => { this.onlineUsersModalData = data; this.onlineUsersModalPage = page })
+              .catch(err => {
+                console.error('Failed to load online users:', err)
+                this.onlineUsersModalError = 'Habaye ikosa mu gushaka abari kuri line. Ongera ugerageze.'
+              })
+              .finally(() => { this.onlineUsersModalLoading = false })
           },
           isNotificationsPanelOpen: false,
           openNotificationsPanel() {
@@ -1787,11 +2137,36 @@
               this.$refs.mobileMainMenu.focus()
             })
           },
-          updateBarChart,
-          updateDoughnutChart,
-          updateLineChart,
         }
       }
     </script>
-  </body>
+
+    <script>
+      // Keeps the header's online-users icon accurate on every admin
+      // page, not just the dashboard (which has its own more detailed
+      // refresh already). Defined globally so home.blade.php's dashboard
+      // refresh can also call it directly instead of duplicating this.
+      function kiuUpdateHeaderOnlineCount(count) {
+        const desktopEl = document.getElementById('kiu-header-online-count');
+        if (desktopEl) desktopEl.innerText = count;
+
+        document.querySelectorAll('.kiu-header-online-count-mobile').forEach(el => {
+          el.innerText = count;
+        });
+      }
+
+      function kiuFetchHeaderOnlineCount() {
+        fetch('{{ route("owner.refresh_counts") }}')
+          .then(r => r.json())
+          .then(data => kiuUpdateHeaderOnlineCount(data.onlineUsersCount))
+          .catch(err => console.error('Failed to refresh online count:', err));
+      }
+
+      kiuFetchHeaderOnlineCount();
+      setInterval(kiuFetchHeaderOnlineCount, 15000);
+    </script>
+  
+    @include('partials.quiz-alert-popup')
+@include('partials.push-notification-prompt')
+</body>
 </html>

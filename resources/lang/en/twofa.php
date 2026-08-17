@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'heading' => "Two-Factor Authentication",
+    'setup_step1' => "1. Open Google Authenticator, Authy, or a similar app.",
+    'setup_step2' => "2. Add a new account, choose \"Enter a setup key\" (since there's no QR code here — see why below).",
+    'setup_step3' => "3. Enter this code as the \"Secret Key\":",
+    'setup_step4' => "4. Enter the 6-digit code shown on your phone:",
+    'account_label' => "Account:",
+    'issuer_label'   => "Issuer: Kwegereza Islam Umuryango",
+    'confirm_enable' => "Confirm & Enable 2FA",
+    'no_qr_explanation' => "Why there's no QR code: we chose not to build our own QR code encoder, since it's easy to introduce invisible bugs that affect whether it actually scans — worse than not having one at all. Entering the Secret Key manually is just as simple and works just as reliably.",
+    'status_enabled' => "ENABLED",
+    'enabled_since'  => "2FA has been enabled on your account since",
+    'every_login'    => "Every time you log in, you'll be asked for a code from your Authenticator app.",
+    'password_to_disable' => "Enter your password to disable 2FA:",
+    'disable_confirm' => "Are you sure you want to disable 2FA?",
+    'disable_button'  => "Disable 2FA",
+    'challenge_title' => "2FA Code",
+    'challenge_desc'  => "Enter the 6-digit code from your Authenticator app.",
+    'confirm'         => "Confirm",
+    'lost_phone'      => "Lost your phone? Use one of the recovery codes you were given when you set up 2FA.",
+    'recovery_title'  => "2FA Enabled!",
+    'recovery_warning'=> "Save these codes somewhere safe. They'll help you log in if you lose your phone. We won't show them again!",
+    'print_save'      => "Print / Save",
+    'continue'        => "I've saved them, Continue",
+];

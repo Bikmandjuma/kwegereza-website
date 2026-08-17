@@ -1,308 +1,398 @@
 @extends('Guest.cover')
+
+@section('meta_title', "Amatangazo y'Amasomo – Kwegereza Islam Umuryango")
+@section('meta_description', "Reba amatangazo agezweho ku masomo ya Kwegereza Islam Umuryango — ayo mukanya, asigaye n'ayarangiye.")
+
 @section('content')
 
 <style>
 
-/* PAGE BACKGROUND */
-.section{
-  padding:30px 0;
-  background:#f6f8f7;
+/* ===== Palette sampled directly from the KIU announcement reference image ===== */
+:root{
+  --kiu-green:        #058e48;
+  --kiu-green-deep:    #094939;
+  --kiu-gold-1:       #c8a36c;
+  --kiu-gold-2:       #e2b45f;
+  --kiu-cream:        #f5ebe2;
 }
 
-/* CONTAINER */
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:0 15px;
+.amatangazo-hero{
+  background: linear-gradient(135deg, var(--kiu-green) 0%, var(--kiu-green-deep) 100%);
+  padding: 42px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* TITLE */
-.section-title{
-  text-align:center;
-  margin-bottom:20px;
+.amatangazo-hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06) 0, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06) 0, transparent 40%);
 }
 
-.section-title h2{
-  font-size:22px;
-  color:#0b3d2e;
+.amatangazo-hero h1{
+  position:relative;
+  color:#fff;
   font-weight:800;
+  font-size: clamp(22px, 4vw, 32px);
+  margin-bottom: 8px;
+  letter-spacing: .3px;
 }
 
-.section-title p{
-  color:#666;
-  font-size:14px;
+.amatangazo-hero p{
+  position:relative;
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
 }
 
-/* SEARCH */
-.search-boxx{
+.gold-divider{
+  height: 4px;
+  width: 90px;
+  margin: 14px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--kiu-gold-1), var(--kiu-gold-2));
+  position: relative;
+}
+
+/* GOLD GRADIENT SECTION BEHIND THE CARDS, like the reference image */
+.amatangazo-body{
+  background: linear-gradient(180deg, var(--kiu-gold-1) 0%, var(--kiu-gold-2) 100%);
+  padding: 0 0 50px;
+}
+
+.amatangazo-toolbar{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 26px 16px 10px;
   display:flex;
-  justify-content:center;
-  margin:15px 0;
+  flex-direction: column;
+  align-items:center;
+  gap:14px;
 }
 
-.search-boxx input{
+.amatangazo-search{
   width:100%;
-  max-width:420px;
-  padding:12px 16px;
-  border-radius:30px;
-  border:1px solid #ddd;
-  outline:none;
-  background:white;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
-
-/* TABS */
-.tabs{
-  background:#fff;
-  padding:10px;
-  border-radius:999px;
-  width:fit-content;
-  margin:15px auto;
-  box-shadow:0 2px 10px #eee;
-  display:flex;
-  gap:8px;
-}
-
-.tab{
-  border:none;
-  padding:8px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.3s;
-  background:#f3f3f3;
-  color:#333;
-}
-
-.tab:hover{
-  transform:scale(1.05);
-}
-
-.tab.active{
-  background:#0b6d20;
-  color:white;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-
-/* CARD (MODERN WHITE STYLE) */
-.card{
-  background:#fff;
-  border-radius:14px;
-  padding:18px;
-  box-shadow:0 4px 15px #eee;
-  transition:0.3s;
+  max-width: 420px;
   position:relative;
 }
 
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 6px 18px #e5e5e5;
-}
-
-/* BADGE */
-.badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:700;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.live{ background:#fff; color:#b30000; }
-.upcoming{ background:#fff; color:#b26a00; }
-.done{ background:#fff; color:#0b6d20; }
-
-/* TEXT */
-h3{
-  margin:10px 0 6px;
-  color:#0b3d2e;
-}
-
-p{
+.amatangazo-search input{
+  width:100%;
+  padding: 12px 18px 12px 42px;
+  border-radius: 999px;
+  border: none;
+  outline:none;
+  background: var(--kiu-cream);
+  box-shadow: 0 6px 18px rgba(9,73,57,0.18);
   font-size:14px;
-  color:#555;
+  color: var(--kiu-green-deep);
 }
 
-/* EMPTY */
-.empty{
+.amatangazo-search i{
+  position:absolute; left:16px; top:50%; transform:translateY(-50%);
+  color: var(--kiu-green);
+}
+
+.amatangazo-tabs{
+  display:flex;
+  gap:6px;
+  background: rgba(255,255,255,0.35);
+  padding:6px;
+  border-radius: 999px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.amatangazo-tab{
+  border:none;
+  background:transparent;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight:700;
+  font-size:13px;
+  color: var(--kiu-green-deep);
+  cursor:pointer;
+  transition:.25s;
+}
+
+.amatangazo-tab.active{
+  background: var(--kiu-green-deep);
+  color:#fff;
+  box-shadow: 0 4px 12px rgba(9,73,57,0.35);
+}
+
+.amatangazo-grid{
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 16px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 22px;
+}
+
+/* CARD — cream, matching the reference "IMICO IBONEYE" panel */
+.amatangazo-card{
+  background: var(--kiu-cream);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(9,73,57,0.18);
+  transition: transform .25s, box-shadow .25s;
+  position:relative;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.amatangazo-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(9,73,57,0.25);
+}
+
+.amatangazo-card .thumb{
+  width:100%;
+  height:150px;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:14px;
+  background: linear-gradient(135deg, var(--kiu-green), var(--kiu-green-deep));
+  display:flex; align-items:center; justify-content:center;
+}
+
+.amatangazo-card .thumb img{
+  width:100%; height:100%; object-fit:cover;
+}
+
+.amatangazo-card .thumb i{
+  font-size:34px;
+  color: rgba(255,255,255,0.8);
+}
+
+.amatangazo-badge{
+  display:inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing:.5px;
+  margin-bottom: 10px;
+}
+
+.amatangazo-badge.live{ background:#b30000; color:#fff; }
+.amatangazo-badge.upcoming{ background: var(--kiu-gold-2); color: var(--kiu-green-deep); }
+.amatangazo-badge.done{ background: var(--kiu-green); color:#fff; }
+
+.amatangazo-card h3{
+  color: var(--kiu-green-deep);
+  font-weight: 800;
+  font-size: 17px;
+  margin: 4px 0 6px;
+}
+
+.amatangazo-card p{
+  color: #4a4a4a;
+  font-size: 13.5px;
+  line-height:1.5;
+}
+
+.amatangazo-empty{
+  grid-column: 1 / -1;
   text-align:center;
-  color:#888;
-  margin-top:20px;
-  display:none;
+  background: var(--kiu-cream);
+  border-radius: 20px;
+  padding: 40px 20px;
+  color: var(--kiu-green-deep);
+  font-weight:600;
 }
 
-/* PAGINATION */
-.pagination{
+.amatangazo-pagination{
   display:flex;
   justify-content:center;
   gap:10px;
-  margin:25px 0;
+  margin-top: 30px;
 }
 
-.page-btn{
-  padding:8px 14px;
-  border:1px solid #0b6d20;
-  background:white;
-  color:#0b6d20;
-  border-radius:10px;
+.amatangazo-page-btn{
+  padding: 9px 16px;
+  border: none;
+  background: var(--kiu-cream);
+  color: var(--kiu-green-deep);
+  border-radius: 12px;
   cursor:pointer;
+  font-weight:700;
+  box-shadow: 0 4px 10px rgba(9,73,57,0.15);
 }
 
-.page-btn.active{
-  background:#0b6d20;
-  color:white;
+.amatangazo-page-btn.active{
+  background: var(--kiu-green-deep);
+  color:#fff;
 }
 
-.hide{ display:none !important; }
+.amatangazo-hide{ display:none !important; }
 
 </style>
-<br>
-<div class="section">
 
-  <div class="container">
+<div class="amatangazo-hero">
+  <h1>Amatangazo y'amasomo</h1>
+  <p>Amasomo, live, asigaye n'ayarangiye</p>
+  <div class="gold-divider"></div>
+</div>
 
-    <div class="section-title">
-      <h2>Amatangazo y'amasomo</h2>
-      <p>Amasomo, live, asigaye n’ayarangiye</p>
+<div class="amatangazo-body">
+
+  <div class="amatangazo-toolbar">
+
+    <div class="amatangazo-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Shakisha itangazo...">
     </div>
 
-    <!-- SEARCH -->
-    <div class="search-boxx">
-      <input type="text" id="searchInput" placeholder="Shakisha isomo...">
-    </div>
-
-    <!-- TABS -->
-    <div class="tabs">
-      <button class="tab active" onclick="setTab('all',event)">Yose</button>
-      <button class="tab" onclick="setTab('live',event)">Live</button>
-      <button class="tab" onclick="setTab('upcoming',event)">Asigaye</button>
-      <button class="tab" onclick="setTab('done',event)">Ayarangiye</button>
-    </div>
-
-    <!-- GRID -->
-    <div class="grid">
-
-      <div class="card live">
-        <span class="badge live">LIVE</span>
-        <h3>Hadith</h3>
-        <p>Sheikh ABOUBAKAR</p>
-      </div>
-
-      <div class="card upcoming">
-        <span class="badge upcoming">ASIGAYE</span>
-        <h3>Tawhid</h3>
-        <p>Aqida lesson</p>
-      </div>
-
-      <div class="card upcoming">
-        <span class="badge upcoming">ASIGAYE</span>
-        <h3>Fiqh Salah</h3>
-        <p>Isengesho</p>
-      </div>
-
-      <div class="card done">
-        <span class="badge done">RYARARANGIYE</span>
-        <h3>Qur’an</h3>
-        <p>By Sheikh Ndahayo Halid</p>
-      </div>
-
-      <div class="card done">
-        <span class="badge done">RYARARANGIYE</span>
-        <h3>Shafi’i</h3>
-        <p>Fiqh class</p>
-      </div>
-
-      <div class="empty" id="emptyState">
-        Nta somo ribonetse 😕
-      </div>
-
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="pagination">
-      <button class="page-btn" onclick="changePage(-1)">Prev</button>
-      <button class="page-btn active" id="pageNum">1</button>
-      <button class="page-btn" onclick="changePage(1)">Next</button>
+    <div class="amatangazo-tabs">
+      <button class="amatangazo-tab active" data-tab="all">Yose</button>
+      <button class="amatangazo-tab" data-tab="live">Live</button>
+      <button class="amatangazo-tab" data-tab="upcoming">Asigaye</button>
+      <button class="amatangazo-tab" data-tab="done">Ayarangiye</button>
     </div>
 
   </div>
+
+  <div class="amatangazo-grid" id="amatangazoGrid">
+
+    @forelse($amatangazo as $item)
+
+      <div class="amatangazo-card" data-status="{{ $item->status }}">
+
+        <div class="thumb">
+          @if($item->image)
+            <img src="{{ $item->imageUrl() }}" alt="{{ $item->title }}">
+          @else
+            <i class="fa-solid fa-bullhorn"></i>
+          @endif
+        </div>
+
+        <span class="amatangazo-badge {{ $item->status }}">
+          @if($item->status === 'live') LIVE
+          @elseif($item->status === 'upcoming') ASIGAYE
+          @else RYARANGIYE
+          @endif
+        </span>
+
+        <h3>{{ $item->title }}</h3>
+
+        @if($item->presenter)
+          <p>{{ $item->presenter }}</p>
+        @endif
+
+        @if($item->description)
+          <p>{{ \Illuminate\Support\Str::limit($item->description, 90) }}</p>
+        @endif
+
+        @auth('student')
+          <button
+            type="button"
+            onclick="kiuToggleFavorite('amatangazo', {{ $item->id }}, this)"
+            style="margin-top:8px;background:none;border:none;cursor:pointer;font-size:18px;color:{{ $item->isFavoritedBy(auth('student')->id()) ? '#e11d48' : '#c7c7c7' }};"
+            title="Ongeraho ku bikunzwe">
+            <i class="fa-{{ $item->isFavoritedBy(auth('student')->id()) ? 'solid' : 'regular' }} fa-heart"></i>
+          </button>
+        @endauth
+
+      </div>
+
+    @empty
+
+      <div class="amatangazo-empty">
+        Nta matangazo arahaboneka ubu. Garuka vuba, hazaba hari amatangazo mashya y'amasomo.
+      </div>
+
+    @endforelse
+
+    <div class="amatangazo-empty amatangazo-hide" id="emptyState">
+      Nta somo ribonetse 😕
+    </div>
+
+  </div>
+
+  <div class="amatangazo-pagination" id="paginationBox">
+    <button class="amatangazo-page-btn" onclick="changePage(-1)">‹ Prev</button>
+    <button class="amatangazo-page-btn active" id="pageNum">1</button>
+    <button class="amatangazo-page-btn" onclick="changePage(1)">Next ›</button>
+  </div>
+
 </div>
 
 <script>
 
 let currentTab = "all";
 let currentPage = 1;
-const perPage = 3;
+const perPage = 6;
 
-const cards = document.querySelectorAll(".card");
+const cards = document.querySelectorAll(".amatangazo-card");
 const searchInput = document.getElementById("searchInput");
 const emptyState = document.getElementById("emptyState");
+const paginationBox = document.getElementById("paginationBox");
 
 function getFiltered(){
-  let search = searchInput.value.toLowerCase();
+  const search = searchInput.value.toLowerCase();
 
-  return [...cards].filter(card=>{
-    let matchTab = currentTab === "all" || card.classList.contains(currentTab);
-    let matchSearch = card.innerText.toLowerCase().includes(search);
+  return [...cards].filter(card => {
+    const matchTab = currentTab === "all" || card.dataset.status === currentTab;
+    const matchSearch = card.innerText.toLowerCase().includes(search);
     return matchTab && matchSearch;
   });
 }
 
 function render(){
-  let filtered = getFiltered();
+  const filtered = getFiltered();
+  const maxPage = Math.ceil(filtered.length / perPage) || 1;
 
-  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+  if (currentPage > maxPage) currentPage = maxPage;
+  if (currentPage < 1) currentPage = 1;
 
-  if(currentPage > maxPage) currentPage = maxPage;
-  if(currentPage < 1) currentPage = 1;
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
 
-  let start = (currentPage - 1) * perPage;
-  let end = start + perPage;
+  cards.forEach(c => c.classList.add("amatangazo-hide"));
+  filtered.slice(start, end).forEach(c => c.classList.remove("amatangazo-hide"));
 
-  cards.forEach(c => c.classList.add("hide"));
+  if (emptyState) {
+    emptyState.style.display = filtered.length === 0 ? "block" : "none";
+  }
 
-  filtered.slice(start, end).forEach(c => c.classList.remove("hide"));
+  paginationBox.style.display = filtered.length > perPage ? "flex" : "none";
 
-  emptyState.style.display = filtered.length === 0 ? "block" : "none";
-
-  document.getElementById("pageNum").innerText = currentPage;
+  const pageNumEl = document.getElementById("pageNum");
+  if (pageNumEl) pageNumEl.innerText = currentPage;
 }
 
-function setTab(tab, e){
-  currentTab = tab;
-  currentPage = 1;
-
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  e.target.classList.add("active");
-
-  render();
-}
-
-searchInput.addEventListener("input", ()=>{
-  currentPage = 1;
-  render();
+document.querySelectorAll(".amatangazo-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".amatangazo-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentTab = tab.dataset.tab;
+    currentPage = 1;
+    render();
+  });
 });
 
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    currentPage = 1;
+    render();
+  });
+}
+
 function changePage(dir){
-  let filtered = getFiltered();
-  let maxPage = Math.ceil(filtered.length / perPage) || 1;
+  const filtered = getFiltered();
+  const maxPage = Math.ceil(filtered.length / perPage) || 1;
 
   currentPage += dir;
-
-  if(currentPage < 1) currentPage = 1;
-  if(currentPage > maxPage) currentPage = maxPage;
+  if (currentPage < 1) currentPage = 1;
+  if (currentPage > maxPage) currentPage = maxPage;
 
   render();
 }
 
-render();
+if (cards.length) render();
 
 </script>
 

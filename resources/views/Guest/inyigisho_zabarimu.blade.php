@@ -635,7 +635,17 @@ input[type=range]{
   <div class="profile-info">
     <h2 id="sheikhTitle">
         {{ $teacher->title }} {{ $teacher->firstname }} {{ $teacher->lastname }}
+        @if($teacher->is_verified)
+          <i class="fa-solid fa-circle-check" style="color:#058e48;font-size:15px;" title="Verified"></i>
+        @endif
     </h2>
+
+    @if($teacher->bio)
+      <p style="font-size:13px;color:#555;margin:6px 0;line-height:1.6;max-width:600px;">{{ $teacher->bio }}</p>
+    @endif
+    @if($teacher->credentials)
+      <p style="font-size:12px;color:#888;margin-bottom:10px;"><i class="fa-solid fa-graduation-cap"></i> {{ $teacher->credentials }}</p>
+    @endif
 
     <div class="teacher-types">
         <p><strong>Isomo rya</strong></p>
@@ -675,6 +685,12 @@ input[type=range]{
 
   <div class="lesson-grid" id="lessonGrid">
 
+    @auth('student')
+      @php
+          $kiuProgressByLesson = auth('student')->user()->darsatProgress()->get()->keyBy('darsat_id');
+      @endphp
+    @endauth
+
     @foreach($darsat as $lesson)
       @php $typeSlug = strtolower(str_replace(' ', '-', $lesson->type)); @endphp
       <div class="lesson-card lesson-item"
@@ -682,7 +698,7 @@ input[type=range]{
            data-title="{{ $lesson->title }}"
            data-lesson-type="{{ $lesson->type }}"
            data-media-type="audio"
-           data-src="{{ asset('storage/'.$lesson->audio) }}"
+           data-src="{{ $lesson->audioUrl() }}"
            data-desc="">
 
           <div class="thumb thumb-audio">
@@ -702,6 +718,25 @@ input[type=range]{
               <div class="lesson-meta">
                   <span class="type-tag tag-dynamic">{{ $lesson->type }}</span>
               </div>
+
+              @auth('student')
+                @php
+                    $lessonProgress = $kiuProgressByLesson->get($lesson->id);
+                @endphp
+                <div class="mt-2" onclick="event.stopPropagation()">
+                  @if($lessonProgress && $lessonProgress->status === 'completed')
+                    <span style="font-size:11px;font-weight:700;color:#058e48;">
+                      <i class="fa-solid fa-circle-check"></i> Warangije iri somo
+                    </span>
+                  @else
+                    <button
+                      onclick="kiuMarkDarsatComplete({{ $lesson->id }}, this)"
+                      style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid #058e48;color:#058e48;background:#fff;cursor:pointer;">
+                      Nyandika ko warangije
+                    </button>
+                  @endif
+                </div>
+              @endauth
           </div>
 
       </div>
@@ -1166,5 +1201,32 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+
+@auth('student')
+<script>
+function kiuMarkDarsatComplete(darsatId, btn) {
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  fetch(`/student/darsat/${darsatId}/complete`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      'Accept': 'application/json',
+    },
+  })
+    .then(r => r.json())
+    .then((data) => {
+      btn.outerHTML = '<span style="font-size:11px;font-weight:700;color:#058e48;"><i class="fa-solid fa-circle-check"></i> Warangije iri somo</span>';
+      if (typeof kiuShowBadgeToast === 'function') kiuShowBadgeToast(data.newBadges);
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Nyandika ko warangije';
+    });
+}
+</script>
+@endauth
 
 @endsection
